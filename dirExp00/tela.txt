@@ -1,0 +1,45 @@
+  call abrirArquivosDS ()
+ 
+ PREPROCESSAMENTO
+ call leituraGeracaoCoordenadasDS
+ call leituraGeracaoConectividadesDS
+ call leituraCodigosCondContornoDS(id_BM
+ call leituraCodigosCondContornoDS(idDeslocamento)
+ call leituraValoresCondContornoDS(f_bm,ndof_bm
+ call leituraValoresCondContornoDS(fElasticidade,ndofP,numnp,0,nlvectP,iprtin)
+ call leituraParamNumericosPropFisicaDS()
+ Abertura do arquivo passosPressaoBlocoMacro.dat, old em           19
+ ANtes
+ Após
+ Gravar pressão para           5 passos
+           1
+           2
+           4
+           8
+          12
+  call preprocessadorDS ()
+ 
+ Iniciando o PROCESSAMENTO.: 2 Escalas   ...
+ PASSO           1 TEMPO   86400.000000000000      DT   86400.000000000000     
+ ---------ITERACAO Bloco Macro           1
+ ---------ITERACAO Bloco Macro           2
+ ---------ITERACAO Bloco Macro           3
+ ---------ITERACAO Bloco Macro           4
+ ---------ITERACAO Bloco Macro           5
+ ---------ITERACAO Bloco Macro           6
+ ---------ITERACAO Bloco Macro           7
+ ---------ITERACAO Bloco Macro           8
+ ---------ITERACAO Bloco Macro           9
+ ---------ITERACAO Bloco Macro          10
+ ---------ITERACAO Bloco Macro          11
+ ---------ITERACAO Bloco Macro          12
+ ---------ITERACAO Bloco Macro          13
+ ---------ITERACAO Bloco Macro          14
+ ---------ITERACAO Bloco Macro          15
+           1 ---FIM  ITERACAO Bloco Macro           15 iteracoes
+  ..... montando sistema de equacoes da elasticidade linear
+ em montarEstrutDadosSistEqAlq,   +++ apos call montarEstrutDadosSistEqAlq(
+  +++ apos call dirichletConditions(
+  +++ apos call calcCoefSistAlgElasticidade(
+  calculo dos coeficientes, tempo =    0.0000000000000000     
+ solver GaussSkyline        , elasticidade
