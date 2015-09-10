@@ -2,3 +2,4 @@ git branch --all
 git clone https://github.com/fluidgeo/fluidgeo-simulator.git
 git branch one-way
 git branch --set-upstream origin/one-way one-way
+git pull origin one-way
