@@ -291,13 +291,6 @@
                  gf2 = grav_bm(2)
       if(nsd==3) gf3 = grav_bm(3)
       pss = 0.0
-!       
-      gpx = 0.0d0
-      gpy = 0.0d0
-      do 301 k=1,nen
-	gpx = gpx + shg(1,k,l)*gpl(1,k)
-	gpy = gpy + shg(2,k,l)*gpl(1,k)
-      301 continue
 !
       do 300 j=1,nen
            nj=ndof*j
@@ -309,9 +302,9 @@
 !     
 !.... source terms      
 !
-      ELRESF(nj-1)= ELRESF(nj-1) + RHOMAT*GRAV_BM(1)*djn + gpx*djx*(p_Ref/Lx) !djx*gpl(1,J)*p_Ref/Lx
+      ELRESF(nj-1)= ELRESF(nj-1) + RHOMAT*GRAV_BM(1)*djn
 !
-      ELRESF(nj)  = ELRESF(nj) + RHOMAT*GRAV_BM(2)*djn + gpy*djy*(p_Ref/Ly) !djy*gpl(1,J)*p_Ref/Ly
+      ELRESF(nj)  = ELRESF(nj) + RHOMAT*GRAV_BM(2)*djn
 !
       do 300 i=1,nen
       ni = ndof*i
