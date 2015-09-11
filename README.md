@@ -9,7 +9,7 @@ The use is free, but please pay attention to GNU License before usage. And, of c
 has been developed at LNCC/MCTI (National Laboratory of Scientific Computing, Petrópolis/Brazil).
 
 ## Contacts
-If you want to contact us, you're welcome to do this by here (GitHub) or by our e-mails:
+If you want to contact us, you're welcome to do by here (GitHub) or by our e-mails:
 
 Eduardo Garcia: bidu@lncc.br
 Diego Volpatto: volpatto@lncc.br
