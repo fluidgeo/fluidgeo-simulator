@@ -1,9 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
+# Post-processing program to plot results from fluid dynamics
+# reservoir problem.
+# Author: Diego Volpatto
+
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 from matplotlib import cm
+import sys
+
+filepath = sys.argv[1]
 
 #plt.rcParams['legend.loc'] = 'best'
 #plt.rc('text', usetex=True)
@@ -14,7 +22,9 @@ mes = 30.*86400.
 
 # Perfil de pressão
 
-inDataLegendP = np.loadtxt('./testeDS/passosPressaoBlocoMacro.dat',unpack=True)
+filename = './' + filepath + 'passosPressaoBlocoMacro.dat'
+
+inDataLegendP = np.loadtxt(filename,unpack=True)
 dataLegendP = inDataLegendP[1:]
 pnum = len(dataLegendP)
 Px0 = np.zeros(pnum)
@@ -32,7 +42,7 @@ ax = plt.subplot(111)
 
 for i in range(1,pnum+1):
     #i_mask = 10*i
-    inDataNameP = './testeDS/solP.%d' % i
+    inDataNameP = './' + filepath + ('solP.%d' % i)
     xx, yy, P = np.loadtxt(inDataNameP,unpack=True,usecols=[2,3,4])
     print xx
     print yy
@@ -68,7 +78,7 @@ ax.set_ylabel(r'$p^{*}$',fontsize=18)
 #plt.ylabel('$p^{*}$',fontsize=18,rotation='horizontal')
 #plt.grid(b=True, which='major', color='k', linestyle='--')
 #ax.legend()
-plt.savefig('./testeDS/tmpPressao.pdf')
+plt.savefig('./' + filepath + 'tmpPressao.pdf')
 plt.show()
 
 fig = plt.figure()
@@ -80,7 +90,7 @@ ax = plt.subplot(111)
 
 for i in range(1,pnum+1):
     #i_mask = 11*i
-    inDataNameGradP = './testeDS/gradPx.%d' % i
+    inDataNameGradP = './' + filepath + ('gradPx.%d' % i)
     xx, yy, gradP = np.loadtxt(inDataNameGradP,unpack=True,usecols=[2,3,4])
     print xx
     print yy
@@ -113,7 +123,7 @@ ax.set_ylabel(r"$\nabla^* p^{*}$",fontsize=18)
 #plt.ylabel('$p^{*}$',fontsize=18,rotation='horizontal')
 #plt.grid(b=True, which='major', color='k', linestyle='--')
 #ax.legend()
-plt.savefig('./testeDS/tmpgradPressao.pdf')
+plt.savefig('./' + filepath + 'tmpgradPressao.pdf')
 plt.show()
 
 fig = plt.figure()
@@ -125,7 +135,7 @@ ax = plt.subplot(111)
 
 for i in range(1,pnum+1):
     #i_mask = 14*i
-    inDataNameV = './testeDS/solVelocity_x.%d' % i
+    inDataNameV = './' + filepath + ('solVelocity_x.%d' % i)
     xx, yy, V = np.loadtxt(inDataNameV,unpack=True,usecols=[2,3,4])
     print xx
     print yy
@@ -158,7 +168,7 @@ ax.set_ylabel(r"$u_D\,(m/s)$",fontsize=18)
 #plt.ylabel('$p^{*}$',fontsize=18,rotation='horizontal')
 #plt.grid(b=True, which='major', color='k', linestyle='--')
 #ax.legend()
-plt.savefig('./testeDS/tmpV.pdf')
+plt.savefig('./' + filepath + 'tmpV.pdf')
 plt.show()
 
 fig = plt.figure()
@@ -171,7 +181,7 @@ ax = plt.subplot(111)
 
 for i in range(1,pnum+1):
     #i_mask = 19*i
-    inDataNameJ = './testeDS/nodeFlux_x.%d' % i
+    inDataNameJ = './' + filepath + ('nodeFlux_x.%d' % i)
     xx, yy, J = np.loadtxt(inDataNameJ,unpack=True,usecols=[2,3,4])
     print xx
     print yy
@@ -205,7 +215,7 @@ ax.set_ylabel(r'$J \,\left(\frac{kg}{m^2 s}\right)$',fontsize=18)
 #plt.ylabel('$p^{*}$',fontsize=18,rotation='horizontal')
 #plt.grid(b=True, which='major', color='k', linestyle='--')
 #ax.legend()
-plt.savefig('./testeDS/tmpJ.pdf')
+plt.savefig('./' + filepath + 'tmpJ.pdf')
 plt.show()
 
 fig = plt.figure()
@@ -218,7 +228,7 @@ ax = plt.subplot(111)
 
 for i in range(1,pnum+1):
     #i_mask = 23*i
-    inDataNameResid = './testeDS/residueFlux_x.%d' % i
+    inDataNameResid = './' + filepath + ('residueFlux_x.%d' % i)
     xx, yy, Resid = np.loadtxt(inDataNameResid,unpack=True,usecols=[2,3,4])
     print xx
     print yy
@@ -252,7 +262,7 @@ ax.set_ylabel(u'Resíduo',fontsize=18)
 #plt.ylabel('$p^{*}$',fontsize=18,rotation='horizontal')
 #plt.grid(b=True, which='major', color='k', linestyle='--')
 #ax.legend()
-plt.savefig('./testeDS/tmpResid.pdf')
+plt.savefig('./' + filepath + 'tmpResid.pdf')
 plt.show()
 
 # Produção do bloco
@@ -263,7 +273,7 @@ fig = plt.figure()
 
 ax = plt.subplot(111)
 
-inDataNameJprod = './testeDS/echoProducao.dat'
+inDataNameJprod = './' + filepath + 'echoProducao.dat'
 dt, Jprod = np.loadtxt(inDataNameJprod,unpack=True,usecols=[1,5])
 dt = dt/mes
 ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
@@ -272,7 +282,7 @@ ax.plot(dt,Jprod,'-o',label=u'Produção')
 box = ax.get_position()
 ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-plt.savefig('./testeDS/Prod.pdf')
+plt.savefig('./' + filepath + 'Prod.pdf')
 plt.show()
 
 # RF barra
@@ -283,7 +293,7 @@ fig = plt.figure()
 
 ax = plt.subplot(111)
 
-inDataNameRF_ = './testeDS/echoProducao.dat'
+inDataNameRF_ = './' + filepath + 'echoProducao.dat'
 dt, RF_ = np.loadtxt(inDataNameRF_,unpack=True,usecols=[1,6])
 dt = dt/mes
 ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
@@ -292,7 +302,7 @@ ax.plot(dt,RF_,'-o',label=u'RF')
 box = ax.get_position()
 ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-plt.savefig('./testeDS/RF_.pdf')
+plt.savefig('./' + filepath + 'RF_.pdf')
 plt.show()
 
 # RF
@@ -303,7 +313,7 @@ fig = plt.figure()
 
 ax = plt.subplot(111)
 
-inDataNameRF = './testeDS/echoProducao.dat'
+inDataNameRF = './' + filepath + 'echoProducao.dat'
 dt, RF = np.loadtxt(inDataNameRF,unpack=True,usecols=[1,7])
 dt = dt/mes
 ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
@@ -312,5 +322,5 @@ ax.plot(dt,RF,'-o',label=u'RF')
 box = ax.get_position()
 ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-plt.savefig('./testeDS/RF.pdf')
+plt.savefig('./' + filepath + 'RF.pdf')
 plt.show()
