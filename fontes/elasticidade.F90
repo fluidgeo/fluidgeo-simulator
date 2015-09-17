@@ -361,7 +361,146 @@
 
       return
       end subroutine calcCoefSistAlgElasticidade
+    
       
+
+!**** new **********************************************************************
+!
+!     Essa sub-rotina calcula os sigmas por elemento considerando o estado
+!     plano de tensoes. Funciona apenas para o caso bidimensional.
+!     Diego (Set/2015)
+!
+      subroutine calcStress(stress, d, x,conecNodaisElem, &
+                            numnp, numel, nen, nsd, ndof)
+!
+
+      use mGlobaisEscalares, only: nrowsh_bm, npint_bm	! OK
+      use mGlobaisArranjos,  only: mat_bm, c_bm, grav_bm, celast	! OK
+      use mAlgMatricial,     only: kdbc, addrhs, addlhs	! OK
+      use mfuncoesDeForma,   only: oneshl, oneshg, shlt, shlq3d, shg3d, shgq, shlq	! OK
+      use mMalha,            only: local	! OK
+      use mBlocoMacro,       only: solucao_BM, ndof_bm
+      use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro
+      !use mMalha,         only:  conecNodaisElem
+!       use mPardisoSistema, only: addlhsCSR, ApElasticidade, AiElasticidade
+!       use mHYPRESistema,   only: addnslHYPRE, addrhsHYPRE
+!
+      implicit none
+!                                                                       
+!.... remove above card for single-precision operation               
+!       
+      integer*4, intent(in)  :: numnp, numel, nen, nsd, ndof
+!
+      real*8,  intent(inout) :: stress(nen,numel)
+      real*8,  intent(in)    :: d(ndof, numnp), x(nsd, numnp)
+!       integer*4, intent(in)    :: idiag(neqD),    lm(ndof,nen,numel) 
+      integer*4, intent(in)    :: conecNodaisElem(nen,numel)
+!
+      real*8 :: xl(nsd,nen), dl(ndof,nen)
+      real*8 :: shg(nrowsh_bm,nen,npint_bm), shl(nrowsh_bm,nen,npint_bm)
+      real*8 :: det(npint_bm), w(npint_bm)
+!
+      integer*4 :: nee
+      real*8   :: strain(nen)
+!
+      integer*4:: nel, m, l, i, j, k, ni, nj
+      integer*4, parameter :: um = 1
+!       real*8  :: pi, Kx, Ky, Kz
+      real*8  :: temp1, Area!, gf1, gf2, gf3
+!       real*8  :: pss
+      real*8  :: djx, djy, djz, djn!, dix, diy, diz, gpx, gpy
+      logical :: diag,zerodl,quad,lsym
+      real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
+!       *******************************************
+!       real*8  :: Lx, Ly
+!
+      nee = nen*ndof
+      
+      diag = .false.
+!       pi=4.d00*datan(1.d00)
+      YOUNG = celast(1)
+      POISSON = celast(2)
+      RHOMAT = celast(3)
+!
+      w=0.0
+      shl=0.0
+
+      call   shlq(shl,w,npint_bm,nen)
+	
+      do 500 nel=1,numel
+!
+!      LOCALIZE COORDINATes and Dirichlet b.c.
+!
+      call local(conecNodaisElem(1,nel),x,xl,nen,nsd,nsd)
+      call local(conecNodaisElem(1,nel),d,dl,nen,ndof,ndof)
+!
+      quad = .true.
+      if (nen.eq.4.and.conecNodaisElem(3,nel).eq.conecNodaisElem(4,nel)) quad = .false.
+!
+      call shgq  (xl,det,shl,shg,npint_bm,nel,quad,nen)
+!       write(22,*) npint_bm
+!
+!.... SETUP ELASTICITY TENSOR COEFFICIENTS: PLANE STRAIN 
+!
+      D1=YOUNG/((1.0d0+POISSON)*(1.0d0-2.0d0*POISSON))
+      CMATRIX11 = D1*(1.0d0-POISSON)
+      CMATRIX12=D1*POISSON
+      CMATRIX33=D1*(1.0d0-2.0d0*POISSON)*0.5d0
+!       
+!.... Clear initial strain and stress
+!
+      strain = 0.0d0
+!       stress = 0.0d0
+!       
+!.... Area element
+!
+      Area = 0.0d0
+!
+!.... loop on integration points
+!
+      do 400 l=1,npint_bm
+
+      temp1 = w(l)*det(l)
+      Area = Area + temp1
+
+      do 300 j=1,nen
+!            nj=ndof*j
+                 djx=shg(1,j,l)*temp1
+                 djy=shg(2,j,l)*temp1
+      if(nsd==3) djz=shg(3,j,l)*temp1
+      djn=shg(nrowsh_bm,j,l)*temp1
+
+!     
+!.... compute strains     
+!
+      STRAIN(1) = STRAIN(1)+DJX*DL(1,J)
+      STRAIN(2) = STRAIN(2)+DJY*DL(2,J)
+      STRAIN(3) = STRAIN(3)+DJX*DL(2,J)+DJY*DL(1,J)
+!
+  300 continue
+  400 continue
+!       write(2233,*) strain
+!       stop
+!
+!.... compute mean strain over element
+!
+! 	strain = strain/area
+      do k = 1,nen
+	STRAIN(k)=STRAIN(k)/Area
+      enddo
+!
+!.... compute element volumetric stresses 
+!
+      STRESS(1,NEL)=CMATRIX11*STRAIN(1)+CMATRIX12*STRAIN(2)
+      STRESS(2,NEL)=CMATRIX12*STRAIN(1)+CMATRIX11*STRAIN(2)
+      STRESS(3,NEL)=CMATRIX33*STRAIN(3)
+      
+  500 continue
+	
+!       write(112,*) STRESS
+!       stop
+      return
+      end subroutine calcStress
       
       subroutine alocarMemoriaElasticidade()
       

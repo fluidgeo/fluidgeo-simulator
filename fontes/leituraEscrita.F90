@@ -1726,6 +1726,37 @@
       close(idrx)
 
       END subroutine    
+      
+!*** Diego (Set/2015) ********************************************************************** 
+!    Esta sub-rotina tem como finalidade a escrita dos valores dos stresses calculados
+!    para o caso da elasticidade linear.
+
+      SUBROUTINE PRINTSTRESS(STRESS,X,NUMNP,idx)
+      
+      IMPLICIT NONE
+      
+      REAL*8   STRESS(3,*),X(2,*)
+      INTEGER  NUMNP, N, idx, idsx, idtx
+      CHARACTER*30  idsStr, sigma, tau
+            
+!       Abrindo os arquivos para saída
+
+      write(idsStr,'(i1)') idx
+      
+      idsx = 11*idx
+      sigma = 'sigma.'//idsStr
+      OPEN(UNIT=idsx, FILE= sigma)
+      
+      do N=1,NUMNP
+	WRITE(idsx,210) N, X(1,N), X(2,N), STRESS(1,N), STRESS(2,N), STRESS(3,N)
+      enddo
+      
+ ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 5 floats 8.2 com espaco de 2 entre eles
+ 210  FORMAT(4X,I5,10x,6(1PE15.8,2X))
+
+      close(idsx)
+
+      END subroutine    
 !
 !=================================================================================
 !

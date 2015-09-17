@@ -115,7 +115,7 @@ plt.colorbar()
 
 #ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 plt.savefig('./'+ filepath + 'quiverUgrav.pdf')
-plt.show()
+#plt.show()
 
 # Deslocamentos em y
 
@@ -134,12 +134,12 @@ ax.set_position([0.2*box.x0+box.x0, 0.1*box.y0 + box.y0, box.width * 1.0, box.he
 #ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 ax.legend(loc='best')
 plt.savefig('./' + filepath + 'Uy.pdf')
-plt.show()
+#plt.show()
 
 XX, YY = np.meshgrid(X,Y)
 UU,VV = np.meshgrid(U,V)
 
-print XX
+#print XX
 
 #plt.streamplot(XX, YY, U, V, color=U, linewidth=2, cmap=plt.cm.autumn)
 #plt.colorbar()
@@ -180,4 +180,30 @@ print XX
 #plt.show()
 
 
+fig = plt.figure()
+#ax = fig.gca(projection='3d')
+
+#ax = fig.add_subplot(111, projection='3d')
+
+ax = plt.subplot(111)
+#fig, ax = plt.subplots()
+
+inDataNameSigma = './' + filepath + 'sigma.3'
+X, Y, sigmaX, sigmaY = np.loadtxt(inDataNameSigma,unpack=True,usecols=[1,2,3,4])
+
+#UU, VV = np.meshgrid(U,V)
+#XX, YY = np.meshgrid(X,Y)
+
+sig = np.sqrt(sigmaX**2. + sigmaY**2.)
+
+plt.xlabel(r'$x$',fontsize=18)
+
+plt.ylabel(r'$y$',fontsize=18)
+
+plt.quiver(X,Y,sigmaX,sigmaY, sig,cmap=cm.afmhot_r)
+
+plt.colorbar()
+
+plt.savefig('./'+ filepath + 'quiverSig.pdf')
+#plt.show()
 

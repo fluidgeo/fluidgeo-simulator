@@ -432,16 +432,16 @@
       use mBlocoMacro,       only : DTEMPO_BM, solucao_BM, f_BM, SUM_NUMITER_BM, calcularFluxoMassico2d   
       use mBlocoMacro,       only : passosTempoParaGravarSaida, numPassos, calcularFluxoMassico2
       use mBlocoMacro,       only : PRINTSOL_BM, PRINTFLUXV_BM, PRINTSOL_BM2, calcularFluxoMassico, calcularGradiente_BM   
-      use mMalha,            only : NUMNP_BM, NUMNP_B, NUMEL_BM
-      use mMalha,            only : X_BM
+      use mMalha,            only : NUMNP_BM, NUMNP_B, NUMEL_BM, nen_bm, nsd_bm
+      use mMalha,            only : X_BM, conecNodaisElem_BM
       use mAlgMatricial,     only : NED_BM, ID_BM
       use mAlgMatricial,     only : FTOD 
       use mParametros,       only : p_Ref, p_Poco, gasTotalKg, gasRecuperavelKg, gasProduzidoKg
       use mCoeficientes,     only : calcularQuantidadeGasReservatorio
       use mGlobaisEscalares, only : ndofD, nlvectD
-      use mLeituraEscrita,   only : PRINTDISP
+      use mLeituraEscrita,   only : PRINTDISP, PRINTSTRESS
 !
-      use mElasticidade,        only: montarSistEqAlgElasticidade
+      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStress
       use mElasticidade,        only: deslocamento, fDeslocamento, neqD, nalhsD
       use mElasticidade,        only: alhsD=>alhs, brhsD=>brhs
       use mElasticidade,        only: idDeslocamento, idiagD, lmD
@@ -474,6 +474,7 @@
       logical :: firstD=.true.
       character(LEN=20)  :: optSolver='GaussSkyline'
       real*8 :: t1, t2, t3, t4
+      real*8 :: stressD(nen_bm,numel_bm)
       logical :: simetria
       character(LEN=12) :: label
       integer :: optType = 1
@@ -573,6 +574,10 @@
                  CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
                  CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
                  call PRINTDISP(deslocamento,X_BM,NUMNP_BM, idx)
+                 stressD = 0.0d0
+                 call calcStress(stressD, deslocamento, x_bm, conecNodaisElem_bm, &
+                                     numnp_BM, numel_bm, nen_bm, nsd_bm, ndof_bm)
+                 call PRINTSTRESS(stressD,X_BM,NUMNP_BM, idx)
                  idx = idx + 1
              end if
              
