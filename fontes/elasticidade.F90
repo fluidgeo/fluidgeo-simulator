@@ -221,10 +221,14 @@
       real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
 !       *******************************************
       real*8  :: Lx, Ly
+      
+!       Coeficiente de Biot (Automatizar leitura) Diego(set/2015)
+      real*8 :: alpha_r
 
 !
       Lx    = widthBlocoMacro
       Ly    = tamBlocoMacro 
+      alpha_r = 0.75
 	
       nee = nen*ndof
       
@@ -309,9 +313,9 @@
 !     
 !.... source terms      
 !
-      ELRESF(nj-1)= ELRESF(nj-1) + RHOMAT*GRAV_BM(1)*djn + gpx*djx*(p_Ref/Lx) !djx*gpl(1,J)*p_Ref/Lx
+      ELRESF(nj-1)= ELRESF(nj-1) + RHOMAT*GRAV_BM(1)*djn + alpha_r*gpx*djx*(p_Ref/Lx) !djx*gpl(1,J)*p_Ref/Lx
 !
-      ELRESF(nj)  = ELRESF(nj) + RHOMAT*GRAV_BM(2)*djn + gpy*djy*(p_Ref/Ly) !djy*gpl(1,J)*p_Ref/Ly
+      ELRESF(nj)  = ELRESF(nj) + RHOMAT*GRAV_BM(2)*djn + alpha_r*gpy*djy*(p_Ref/Ly) !djy*gpl(1,J)*p_Ref/Ly
 !
       do 300 i=1,nen
       ni = ndof*i

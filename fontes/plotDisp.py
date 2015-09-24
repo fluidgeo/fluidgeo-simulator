@@ -136,8 +136,8 @@ ax.legend(loc='best')
 plt.savefig('./' + filepath + 'Uy.pdf')
 #plt.show()
 
-XX, YY = np.meshgrid(X,Y)
-UU,VV = np.meshgrid(U,V)
+#XX, YY = np.meshgrid(X,Y)
+#UU,VV = np.meshgrid(U,V)
 
 #print XX
 
@@ -180,30 +180,44 @@ UU,VV = np.meshgrid(U,V)
 #plt.show()
 
 
-fig = plt.figure()
-#ax = fig.gca(projection='3d')
+#fig = plt.figure()
+##ax = fig.gca(projection='3d')
 
-#ax = fig.add_subplot(111, projection='3d')
+##ax = fig.add_subplot(111, projection='3d')
 
-ax = plt.subplot(111)
-#fig, ax = plt.subplots()
+#ax = plt.subplot(111)
+##fig, ax = plt.subplots()
 
-inDataNameSigma = './' + filepath + 'sigma.3'
-X, Y, sigmaX, sigmaY = np.loadtxt(inDataNameSigma,unpack=True,usecols=[1,2,3,4])
+#inDataNameSigma = './' + filepath + 'sigma.3'
+#sigmaX, sigmaY, tau = np.loadtxt(inDataNameSigma,unpack=True,usecols=[1,2,3])
 
-#UU, VV = np.meshgrid(U,V)
-#XX, YY = np.meshgrid(X,Y)
+#it = len(sigmaX)
+#xSig = np.linspace(X.min(),X.max(),it)
+#ySig = np.linspace(Y.min(),Y.max(),it)
 
-sig = np.sqrt(sigmaX**2. + sigmaY**2.)
+#sX = np.zeros((it,it))
+#k = 0
+#for i in range(it):
+	#for j in range(it):
+		#sX[i,j] = sigmaX[k]
+		#k = k + 1 
 
-plt.xlabel(r'$x$',fontsize=18)
+#print sX
 
-plt.ylabel(r'$y$',fontsize=18)
+##UU, VV = np.meshgrid(U,V)
+##XX, YY = np.meshgrid(xSig,ySig)
 
-plt.quiver(X,Y,sigmaX,sigmaY, sig,cmap=cm.afmhot_r)
+#sig = np.sqrt(sigmaX**2. + sigmaY**2.)
 
-plt.colorbar()
+#plt.xlabel(r'$x$',fontsize=18)
 
-plt.savefig('./'+ filepath + 'quiverSig.pdf')
+#plt.ylabel(r'$y$',fontsize=18)
+
+#plt.quiver(xSig,ySig,sigmaX,sigmaY, sig,cmap=cm.afmhot_r)
+
+#plt.colorbar()
+
+#plt.savefig('./'+ filepath + 'quiverSig.pdf')
 #plt.show()
 
+print "Displacement's plots OK"

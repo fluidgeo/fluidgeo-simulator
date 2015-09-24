@@ -577,7 +577,7 @@
                  stressD = 0.0d0
                  call calcStress(stressD, deslocamento, x_bm, conecNodaisElem_bm, &
                                      numnp_BM, numel_bm, nen_bm, nsd_bm, ndof_bm)
-                 call PRINTSTRESS(stressD,X_BM,NUMNP_BM, idx)
+                 call PRINTSTRESS(stressD,X_BM,NUMEL_BM, idx)
                  idx = idx + 1
              end if
              
@@ -659,7 +659,7 @@
       INTEGER     :: NITERMAX_BM, NUMITER_BM, I, J
       LOGICAL     :: flagConvergencia, flagTempoCaract
       
-      NITERMAX_BM = 200  !     Numero maximo de iteracoes para SET NEWTON/PICARD 
+      NITERMAX_BM = 5000  !     Numero maximo de iteracoes para SET NEWTON/PICARD 
       
       flagConvergencia=.FALSE.             
       flagTempoCaract=.FALSE.

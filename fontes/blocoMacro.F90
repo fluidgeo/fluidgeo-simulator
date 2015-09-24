@@ -695,11 +695,19 @@
       REAL*8 :: fonteMassaDeBlocoParaBlocoMacro
       
       integer :: i,j,k,l,nel
+      
+!       One-way parameter. Improve this! Diego (set/2015)
+      real*8 :: beta_r
 ! 
 !.... REMOVE ABOVE CARD FOR SINGLE-PRECISION OPERATION 
 ! 
       LOGICAL DIAG,QUAD,ZERODL
       real*8 :: ELEFFM(NEE_BM,NEE_BM),ELRESF(NEE_BM) ! bidu 20ago 2015
+      
+      beta_r = 5.0d0*10.0**(-6.0d0)*0.1450377*10.0**(-3.0d0)!*10.0**(15.0)	! Diego (set/2015)
+!       beta_r = 0.0
+!       write(*,*) "beta = ", beta_r
+!       stop
 
       shl = 0.0
       if(dimModelo=='1D') then
@@ -788,7 +796,8 @@
             DJX=SHG(1,J,L)*C1
             DJY=SHG(2,J,L)*C1
 
-            ELRESF(NED*J)=ELRESF(NED*J)+DJN*R_UUP*UUP + DTEMPO*fonteMassaDeBlocoParaBlocoMacro*DJN; 
+            ELRESF(NED*J)=ELRESF(NED*J)+DJN*R_UUP*UUP + DTEMPO*fonteMassaDeBlocoParaBlocoMacro*DJN !&
+! 	&		+ beta_r*p_Ref*djn*(UUP/Z_UUP)*UUP	! Diego, 1-way (set/2015) 
          ENDDO        
 !
 !.... ELEMENT STIFFNESS
@@ -805,7 +814,9 @@
                ELEFFM(NED*J,NED*I) = ELEFFM(NED*J,NED*I)                                  &
        &                            + R_UU*DJN*DIN                                        &
        &                            + constK_BM*DTEMPO*p_Ref*UU*M_m/(R_*T*Z_UU) & 
-       &                            * (DIX*DJX/widthBlocoMacro**2+DIY*DJY/tamBlocoMacro**2)/constMu
+       &                            * (DIX*DJX/widthBlocoMacro**2+DIY*DJY/tamBlocoMacro**2)/constMu &
+       &			    + beta_r*p_Ref*djn*M_m*(UU/Z_UU)*(DIN)/(R_*T)	&! Diego, 1-way (set/2015)
+       & 			    - beta_r*p_Ref*djn*M_m*(DIN/Z_UU)*UUP/(R_*T)
        
 	       
 

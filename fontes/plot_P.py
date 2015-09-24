@@ -44,9 +44,9 @@ for i in range(1,pnum+1):
     #i_mask = 10*i
     inDataNameP = './' + filepath + ('solP.%d' % i)
     xx, yy, P = np.loadtxt(inDataNameP,unpack=True,usecols=[2,3,4])
-    print xx
-    print yy
-    print P
+    #print xx
+    #print yy
+    #print P
     #fig = plt.figure()
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
@@ -92,9 +92,9 @@ for i in range(1,pnum+1):
     #i_mask = 11*i
     inDataNameGradP = './' + filepath + ('gradPx.%d' % i)
     xx, yy, gradP = np.loadtxt(inDataNameGradP,unpack=True,usecols=[2,3,4])
-    print xx
-    print yy
-    print gradP
+    #print xx
+    #print yy
+    #print gradP
     #fig = plt.figure()
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
@@ -137,9 +137,9 @@ for i in range(1,pnum+1):
     #i_mask = 14*i
     inDataNameV = './' + filepath + ('solVelocity_x.%d' % i)
     xx, yy, V = np.loadtxt(inDataNameV,unpack=True,usecols=[2,3,4])
-    print xx
-    print yy
-    print V
+    #print xx
+    #print yy
+    #print V
     #fig = plt.figure()
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
@@ -183,9 +183,9 @@ for i in range(1,pnum+1):
     #i_mask = 19*i
     inDataNameJ = './' + filepath + ('nodeFlux_x.%d' % i)
     xx, yy, J = np.loadtxt(inDataNameJ,unpack=True,usecols=[2,3,4])
-    print xx
-    print yy
-    print J
+    #print xx
+    #print yy
+    #print J
     #fig = plt.figure()
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
@@ -230,9 +230,9 @@ for i in range(1,pnum+1):
     #i_mask = 23*i
     inDataNameResid = './' + filepath + ('residueFlux_x.%d' % i)
     xx, yy, Resid = np.loadtxt(inDataNameResid,unpack=True,usecols=[2,3,4])
-    print xx
-    print yy
-    print Resid
+    #print xx
+    #print yy
+    #print Resid
     #fig = plt.figure()
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
@@ -265,62 +265,64 @@ ax.set_ylabel(u'Resíduo',fontsize=18)
 plt.savefig('./' + filepath + 'tmpResid.pdf')
 #plt.show()
 
-# Produção do bloco
-fig = plt.figure()
-#ax = fig.gca(projection='3d')
+## Produção do bloco
+#fig = plt.figure()
+##ax = fig.gca(projection='3d')
 
-#ax = fig.add_subplot(111, projection='3d')
+##ax = fig.add_subplot(111, projection='3d')
 
-ax = plt.subplot(111)
+#ax = plt.subplot(111)
 
-inDataNameJprod = './' + filepath + 'echoProducao.dat'
-dt, Jprod = np.loadtxt(inDataNameJprod,unpack=True,usecols=[1,5])
-dt = dt/mes
-ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
-ax.set_ylabel(r'$Produ \c c \~ a o\, \left(kg\right)$',fontsize=16)
-ax.plot(dt,Jprod,'-o',label=u'Produção')
-box = ax.get_position()
-ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
-ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-plt.savefig('./' + filepath + 'Prod.pdf')
+#inDataNameJprod = './' + filepath + 'echoProducao.dat'
+#dt, Jprod = np.loadtxt(inDataNameJprod,unpack=True,usecols=[1,5])
+#dt = dt/mes
+#ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
+#ax.set_ylabel(r'$Produ \c c \~ a o\, \left(kg\right)$',fontsize=16)
+#ax.plot(dt,Jprod,'-o',label=u'Produção')
+#box = ax.get_position()
+#ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
+#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+#plt.savefig('./' + filepath + 'Prod.pdf')
+##plt.show()
+
+## RF barra
+#fig = plt.figure()
+##ax = fig.gca(projection='3d')
+
+##ax = fig.add_subplot(111, projection='3d')
+
+#ax = plt.subplot(111)
+
+#inDataNameRF_ = './' + filepath + 'echoProducao.dat'
+#dt, RF_ = np.loadtxt(inDataNameRF_,unpack=True,usecols=[1,6])
+#dt = dt/mes
+#ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
+#ax.set_ylabel(r'$RF_{recuper\'avel}$',fontsize=16)
+#ax.plot(dt,RF_,'-o',label=u'RF')
+#box = ax.get_position()
+#ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
+#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+#plt.savefig('./' + filepath + 'RF_.pdf')
+##plt.show()
+
+## RF
+#fig = plt.figure()
+##ax = fig.gca(projection='3d')
+
+##ax = fig.add_subplot(111, projection='3d')
+
+#ax = plt.subplot(111)
+
+#inDataNameRF = './' + filepath + 'echoProducao.dat'
+#dt, RF = np.loadtxt(inDataNameRF,unpack=True,usecols=[1,7])
+#dt = dt/mes
+#ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
+#ax.set_ylabel(r'$RF_{total}$',fontsize=16)
+#ax.plot(dt,RF,'-o',label=u'RF')
+#box = ax.get_position()
+#ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
+#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+#plt.savefig('./' + filepath + 'RF.pdf')
 #plt.show()
 
-# RF barra
-fig = plt.figure()
-#ax = fig.gca(projection='3d')
-
-#ax = fig.add_subplot(111, projection='3d')
-
-ax = plt.subplot(111)
-
-inDataNameRF_ = './' + filepath + 'echoProducao.dat'
-dt, RF_ = np.loadtxt(inDataNameRF_,unpack=True,usecols=[1,6])
-dt = dt/mes
-ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
-ax.set_ylabel(r'$RF_{recuper\'avel}$',fontsize=16)
-ax.plot(dt,RF_,'-o',label=u'RF')
-box = ax.get_position()
-ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
-ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-plt.savefig('./' + filepath + 'RF_.pdf')
-#plt.show()
-
-# RF
-fig = plt.figure()
-#ax = fig.gca(projection='3d')
-
-#ax = fig.add_subplot(111, projection='3d')
-
-ax = plt.subplot(111)
-
-inDataNameRF = './' + filepath + 'echoProducao.dat'
-dt, RF = np.loadtxt(inDataNameRF,unpack=True,usecols=[1,7])
-dt = dt/mes
-ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
-ax.set_ylabel(r'$RF_{total}$',fontsize=16)
-ax.plot(dt,RF,'-o',label=u'RF')
-box = ax.get_position()
-ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
-ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-plt.savefig('./' + filepath + 'RF.pdf')
-#plt.show()
+print "Pressure's plots OK"
