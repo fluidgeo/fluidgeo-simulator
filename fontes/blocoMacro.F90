@@ -659,7 +659,7 @@
 !        AND RIGHT-HAND SIDE VECTOR
 
       use mGlobaisEscalares, only : dimModelo, ntype, numat_BM, npint_BM, nicode_BM, iprtin, nrowsh_BM
-      use mGlobaisArranjos,  only : mat_BM, c_BM, grav_BM, bf_BM
+      use mGlobaisArranjos,  only : mat_BM, c_BM, grav_BM, bf_BM, phi_n
       USE mLeituraEscrita,   only : printd, prntel
       use mMalha,            only : numel_BM, numnp_BM, nsd_BM, nen_BM, genfl, genel, local
       use mMalha,            only : conecNodaisElem_BM, x_BM
@@ -788,8 +788,8 @@
 
          CALL calcularZ_P(UU*p_Ref, Z_UU)         
          CALL calcularZ_P(UUP*p_Ref,Z_UUP)
-         R_UU = phi_BM*M_m/(Z_UU *  R_ * T)
-         R_UUP =phi_BM*M_m/(Z_UUP *  R_ * T) 
+         R_UU = phi_n(nel)*M_m/(Z_UU *  R_ * T)
+         R_UUP =phi_n(nel)*M_m/(Z_UUP *  R_ * T) 
 
          DO J=1,NEN_BM
             DJN=SHG(3,J,L)*C1
@@ -1131,11 +1131,12 @@
 !
      subroutine alocarMemoriaBlocoMacro()
 
-     use mGlobaisArranjos,  only: mat_BM, grav_BM, bf_BM
+     use mGlobaisArranjos,  only: mat_BM, grav_BM, bf_BM, phi_n
      use mGlobaisEscalares, only: ndofD, nlvectD
      use mMalha,            only: nsd_BM, numel_BM, numnp_BM, numLados_BM, nen_BM, numLadosElem_BM, x_BM, xc_BM
      use mMalha,            only: listaDosElemsPorNo_BM, conecNodaisElem_BM
      use mAlgMatricial,     only: id_BM, lm_BM
+     use mParametros,       only: phi_BM
 
      implicit none
 
@@ -1156,6 +1157,7 @@
 
      allocate(flux_BM (2*ndof_BM, numnp_BM)); flux_BM =0.d0
      allocate(solucao_BM (ndof_BM, numnp_BM)); solucao_BM =0.d0
+     allocate(phi_n(numel_BM));        phi_n= phi_BM
      allocate(solucaoNaoLinearAnt_BM(ndof_BM, numnp_BM)); solucaoNaoLinearAnt_BM=0.d0
      allocate(solucaoTmpAnt_BM(ndof_BM, numnp_BM)); solucaoTmpAnt_BM=0.d0
      allocate(BF_BM(nesd_BM, numnp_BM));  BF_BM=0.d0

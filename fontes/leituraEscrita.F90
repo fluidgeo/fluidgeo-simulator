@@ -1725,7 +1725,38 @@
 
       close(idrx)
 
-      END subroutine    
+      END subroutine   
+      
+!*** Diego (Set/2015) ********************************************************************** 
+!    Esta sub-rotina tem como finalidade a escrita dos valores dos stresses calculados
+!    para o caso da elasticidade linear.
+
+      SUBROUTINE PRINTPORO(Porosidade,NUMEL)
+      
+      IMPLICIT NONE
+      
+      REAL*8   Porosidade(*)
+      INTEGER  NUMEL, N, idx, idsx, idtx
+      CHARACTER*30  idsStr, sigma, tau
+            
+!       Abrindo os arquivos para saída
+
+      write(idsStr,'(i1)') idx
+      
+      idsx = 11*idx
+      sigma = 'porosity.'//idsStr
+      OPEN(UNIT=idsx, FILE= sigma)
+      
+      do N=1,NUMEL
+	WRITE(idsx,210) N, Porosidade(N)
+      enddo
+      
+ ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 1 floats 8.2 com espaco de 2 entre eles
+ 210  FORMAT(4X,I5,10x,1(1PE15.8,2X))
+
+      close(idsx)
+
+      END subroutine 
       
 !*** Diego (Set/2015) ********************************************************************** 
 !    Esta sub-rotina tem como finalidade a escrita dos valores dos stresses calculados

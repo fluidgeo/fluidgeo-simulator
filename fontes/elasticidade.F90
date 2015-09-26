@@ -374,17 +374,17 @@
 !     plano de tensoes. Funciona apenas para o caso bidimensional.
 !     Diego (Set/2015)
 !
-      subroutine calcStress(stress, d, x,conecNodaisElem, &
+      subroutine calcStressPoro(stress, d, p, p_ant, x,conecNodaisElem, &
                             numnp, numel, nen, nsd, ndof)
 !
 
       use mGlobaisEscalares, only: nrowsh_bm, npint_bm	! OK
-      use mGlobaisArranjos,  only: mat_bm, c_bm, grav_bm, celast	! OK
+      use mGlobaisArranjos,  only: mat_bm, c_bm, grav_bm, celast, phi_n	! OK
       use mAlgMatricial,     only: kdbc, addrhs, addlhs	! OK
       use mfuncoesDeForma,   only: oneshl, oneshg, shlt, shlq3d, shg3d, shgq, shlq	! OK
       use mMalha,            only: local	! OK
       use mBlocoMacro,       only: solucao_BM, ndof_bm
-      use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro
+      use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro!, phi_n
       !use mMalha,         only:  conecNodaisElem
 !       use mPardisoSistema, only: addlhsCSR, ApElasticidade, AiElasticidade
 !       use mHYPRESistema,   only: addnslHYPRE, addrhsHYPRE
@@ -395,8 +395,8 @@
 !       
       integer*4, intent(in)  :: numnp, numel, nen, nsd, ndof
 !
-      real*8,  intent(inout) :: stress(nen,numel)
-      real*8,  intent(in)    :: d(ndof, numnp), x(nsd, numnp)
+      real*8,  intent(inout) :: stress(nen,numel)!, phi(nel)
+      real*8,  intent(in)    :: d(ndof, numnp), x(nsd, numnp),p(ndof, numnp), p_ant(ndof, numnp)
 !       integer*4, intent(in)    :: idiag(neqD),    lm(ndof,nen,numel) 
       integer*4, intent(in)    :: conecNodaisElem(nen,numel)
 !
@@ -405,7 +405,7 @@
       real*8 :: det(npint_bm), w(npint_bm)
 !
       integer*4 :: nee
-      real*8   :: strain(nen)
+      real*8   :: strain(nen), p_mean, p_mean_ant, trEps, alpha_r, K_bulk, N, phi_n_ant(numel)
 !
       integer*4:: nel, m, l, i, j, k, ni, nj
       integer*4, parameter :: um = 1
@@ -425,6 +425,10 @@
       YOUNG = celast(1)
       POISSON = celast(2)
       RHOMAT = celast(3)
+      alpha_r = 0.75
+      K_bulk = (6894.75729)*2.6d6
+      N = 1441316489.398604
+      phi_n_ant = phi_n
 !
       w=0.0
       shl=0.0
@@ -483,8 +487,7 @@
 !
   300 continue
   400 continue
-!       write(2233,*) strain
-!       stop
+
 !
 !.... compute mean strain over element
 !
@@ -492,6 +495,28 @@
       do k = 1,nen
 	STRAIN(k)=STRAIN(k)/Area
       enddo
+!       write(*,*) "Area = ", Area
+!       stop
+! 
+!.... compute strain's trace mean
+! 
+      trEps = (1.0/3.0)*(strain(1) + strain(2))
+!
+!.... compute mean pressure over element
+! 
+      p_mean = p(1,(nel)) + p(1,(nel+1)) + p(1,(2*nel+1)) + p(1,(2*nel+2))
+      p_mean = (1.0/4.0)*p_mean*p_Ref
+!       write(*,*) "p_mean = ",p_mean
+!       stop
+!
+!.... compute previous mean pressure over element
+! 
+      p_mean_ant = p_ant(1,(nel))+p_ant(1,(nel+1))+p_ant(1,(2*nel+1))+p_ant(1,(2*nel+2))
+      p_mean_ant = (1.0/4.0)*p_mean_ant*p_Ref
+!     
+!.... compute mean porosity over element
+!
+      phi_n(nel) = phi_n_ant(nel) + alpha_r*trEps + (1.0/N)*(p_mean - p_mean_ant)
 !
 !.... compute element volumetric stresses 
 !
@@ -501,11 +526,78 @@
       
   500 continue
 	
-!       write(112,*) STRESS
+!       write(112,*) phi_n
 !       stop
       return
-      end subroutine calcStress
-      
+      end subroutine calcStressPoro
+
+! !**** new **********************************************************************
+! !
+! !     Essa sub-rotina calcula as porosidades por elemento considerando a linearidade
+! !     lagrangeana.
+! !     Diego (Set/2015)
+! !
+!       subroutine calcPorosidade(phi, strain, p, x,conecNodaisElem, &
+!                             numnp, numel, nen, nsd, ndof)
+! !
+! 
+!       use mGlobaisEscalares, only: nrowsh_bm, npint_bm	! OK
+!       use mGlobaisArranjos,  only: mat_bm, c_bm, grav_bm, celast	! OK
+!       use mAlgMatricial,     only: kdbc, addrhs, addlhs	! OK
+!       use mfuncoesDeForma,   only: oneshl, oneshg, shlt, shlq3d, shg3d, shgq, shlq	! OK
+!       use mMalha,            only: local	! OK
+!       use mBlocoMacro,       only: solucao_BM, ndof_bm
+!       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro
+!       !use mMalha,         only:  conecNodaisElem
+! !       use mPardisoSistema, only: addlhsCSR, ApElasticidade, AiElasticidade
+! !       use mHYPRESistema,   only: addnslHYPRE, addrhsHYPRE
+! !
+!       implicit none
+! !                                                                       
+! !.... remove above card for single-precision operation               
+! !       
+!       integer*4, intent(in)  :: numnp, numel, nen, nsd, ndof
+! !
+!       real*8,  intent(in) :: stress(nen,numel)
+!       real*8,  intent(in)    :: x(nsd, numnp), p(nsd, numnp)
+! !       integer*4, intent(in)    :: idiag(neqD),    lm(ndof,nen,numel) 
+!       integer*4, intent(in)    :: conecNodaisElem(nen,numel)
+!       real*8,  intent(inout) :: phi(numel)
+! !
+!       real*8 :: xl(nsd,nen), dl(ndof,nen)
+!       real*8 :: shg(nrowsh_bm,nen,npint_bm), shl(nrowsh_bm,nen,npint_bm)
+!       real*8 :: det(npint_bm), w(npint_bm)
+! !
+!       integer*4 :: nee
+!       real*8   :: strain(nen)
+! !
+!       integer*4:: nel, m, l, i, j, k, ni, nj
+!       integer*4, parameter :: um = 1
+! !       real*8  :: pi, Kx, Ky, Kz
+!       real*8  :: temp1, Area!, gf1, gf2, gf3
+! !       real*8  :: pss
+!       real*8  :: djx, djy, djz, djn!, dix, diy, diz, gpx, gpy
+!       logical :: diag,zerodl,quad,lsym
+!       real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
+! !       *******************************************
+! !       real*8  :: Lx, Ly
+! !
+! 	
+!       do 500 nel=1,numel
+!       
+! !       Computing strain's trace
+! 	
+!       
+!   500 continue
+! 	
+! !       write(112,*) STRESS
+! !       stop
+!       return
+!       end subroutine calcStress      
+
+!       
+!     *********************************************************  
+!       
       subroutine alocarMemoriaElasticidade()
       
 !      Alocacao de memoria da Elasticidade Linear. Diego (Ago/2015)

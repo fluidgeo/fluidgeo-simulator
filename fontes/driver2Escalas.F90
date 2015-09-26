@@ -439,9 +439,10 @@
       use mParametros,       only : p_Ref, p_Poco, gasTotalKg, gasRecuperavelKg, gasProduzidoKg
       use mCoeficientes,     only : calcularQuantidadeGasReservatorio
       use mGlobaisEscalares, only : ndofD, nlvectD
-      use mLeituraEscrita,   only : PRINTDISP, PRINTSTRESS
+      use mGlobaisArranjos,  only : phi_n
+      use mLeituraEscrita,   only : PRINTDISP, PRINTSTRESS, PRINTPORO
 !
-      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStress
+      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro
       use mElasticidade,        only: deslocamento, fDeslocamento, neqD, nalhsD
       use mElasticidade,        only: alhsD=>alhs, brhsD=>brhs
       use mElasticidade,        only: idDeslocamento, idiagD, lmD
@@ -564,6 +565,12 @@
           label='elasticidade linear'
           call solverD() 
           call timing(t4)
+          stressD = 0.0d0
+!                  strainD = 0.0d0
+          call calcStressPoro(stressD, deslocamento,solucao_BM, solucaoTmpAnt, x_bm, conecNodaisElem_bm, &
+                          numnp_BM, numel_bm, nen_bm, nsd_bm, ndof_bm)
+          call printporo(phi_n,numel_bm)
+          stop
 
 !
 !	Fim do calculo da ELASTICIDADE
@@ -574,15 +581,17 @@
                  CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
                  CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
                  call PRINTDISP(deslocamento,X_BM,NUMNP_BM, idx)
-                 stressD = 0.0d0
-                 call calcStress(stressD, deslocamento, x_bm, conecNodaisElem_bm, &
-                                     numnp_BM, numel_bm, nen_bm, nsd_bm, ndof_bm)
+!                  stressD = 0.0d0
+! !                  strainD = 0.0d0
+!                  call calcStress(stressD, deslocamento, x_bm, conecNodaisElem_bm, &
+!                                      numnp_BM, numel_bm, nen_bm, nsd_bm, ndof_bm)
                  call PRINTSTRESS(stressD,X_BM,NUMEL_BM, idx)
                  idx = idx + 1
              end if
              
              solucaoTmpAnt = solucao_BM                     
              write(*,*) 'FIM DO TIME STEP =', NUSTEP
+             stop
              
           END IF    
 !              
