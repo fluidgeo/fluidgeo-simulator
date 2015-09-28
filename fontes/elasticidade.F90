@@ -383,6 +383,7 @@
       use mAlgMatricial,     only: kdbc, addrhs, addlhs	! OK
       use mfuncoesDeForma,   only: oneshl, oneshg, shlt, shlq3d, shg3d, shgq, shlq	! OK
       use mMalha,            only: local	! OK
+      use mMalha,            only: nelx_BM, nely_BM
       use mBlocoMacro,       only: solucao_BM, ndof_bm
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro!, phi_n
       !use mMalha,         only:  conecNodaisElem
@@ -504,14 +505,14 @@
 !
 !.... compute mean pressure over element
 ! 
-      p_mean = p(1,(nel)) + p(1,(nel+1)) + p(1,(2*nel+1)) + p(1,(2*nel+2))
+      p_mean = p(1,(nel)) + p(1,(nel+1)) + p(1,(nel+nelx_BM+1)) + p(1,(nel+nelx_BM+2))
       p_mean = (1.0/4.0)*p_mean*p_Ref
 !       write(*,*) "p_mean = ",p_mean
 !       stop
 !
 !.... compute previous mean pressure over element
 ! 
-      p_mean_ant = p_ant(1,(nel))+p_ant(1,(nel+1))+p_ant(1,(2*nel+1))+p_ant(1,(2*nel+2))
+      p_mean_ant = p_ant(1,(nel))+p_ant(1,(nel+1))+p_ant(1,(nel+nelx_BM+1))+p_ant(1,(nel+nelx_BM+2))
       p_mean_ant = (1.0/4.0)*p_mean_ant*p_Ref
 !     
 !.... compute mean porosity over element
