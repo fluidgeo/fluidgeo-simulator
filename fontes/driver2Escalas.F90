@@ -542,6 +542,8 @@
              SUM_NUMITER_ANT_BM = SUM_NUMITER_BM  
              
              SUM_NUMITER = SUM_NUMITER + NUMITER
+!              call printporo(phi_n,numel_bm)
+!              stop
              
           !
           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CALCULO DA ELASTICIDADE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -569,8 +571,7 @@
 !                  strainD = 0.0d0
           call calcStressPoro(stressD, deslocamento,solucao_BM, solucaoTmpAnt, x_bm, conecNodaisElem_bm, &
                           numnp_BM, numel_bm, nen_bm, nsd_bm, ndof_bm)
-          call printporo(phi_n,numel_bm)
-          stop
+!           stop
 
 !
 !	Fim do calculo da ELASTICIDADE
@@ -586,12 +587,13 @@
 !                  call calcStress(stressD, deslocamento, x_bm, conecNodaisElem_bm, &
 !                                      numnp_BM, numel_bm, nen_bm, nsd_bm, ndof_bm)
                  call PRINTSTRESS(stressD,X_BM,NUMEL_BM, idx)
+                 call printporo(phi_n,numel_bm, idx)
                  idx = idx + 1
              end if
              
              solucaoTmpAnt = solucao_BM                     
              write(*,*) 'FIM DO TIME STEP =', NUSTEP
-             stop
+!              stop
              
           END IF    
 !              

@@ -668,7 +668,7 @@
       use mAlgMatricial,     only : brhs_BM, dlhs_BM
       use mCoeficientes,     only : calcularZ_P
       use mParametros,       only : p_Ref, tamBlocoMacro, widthBlocoMacro, constMu, phi_BM, constK_BM, R_, T
-      use mParametros,       only : fraVol_BM, M_m
+      use mParametros,       only : fraVol_BM, M_m, alpha_r, Kbulk, k_s, beta_r
       
 !
       IMPLICIT NONE
@@ -696,15 +696,16 @@
       
       integer :: i,j,k,l,nel
       
-!       One-way parameter. Improve this! Diego (set/2015)
-      real*8 :: beta_r
+!       One-way parameters. Improve this! Diego (set/2015)
+!       real*8 :: beta_r, k_s
 ! 
 !.... REMOVE ABOVE CARD FOR SINGLE-PRECISION OPERATION 
 ! 
       LOGICAL DIAG,QUAD,ZERODL
       real*8 :: ELEFFM(NEE_BM,NEE_BM),ELRESF(NEE_BM) ! bidu 20ago 2015
       
-      beta_r = 5.0d0*10.0**(-6.0d0)*0.1450377*10.0**(-3.0d0)!*10.0**(15.0)	! Diego (set/2015)
+!       k_s = 25.0d9	! GPa, Tobiloluwa
+!       beta_r = 5.0d0*10.0**(-6.0d0)*0.1450377*10.0**(-3.0d0)!*10.0**(15.0)	! Diego (set/2015)
 !       beta_r = 0.0
 !       write(*,*) "beta = ", beta_r
 !       stop
@@ -772,6 +773,7 @@
 
        tamElem  = X_BM(2,NEL+1)-X_BM(2,NEL);
        fonteMassaDeBlocoParaBlocoMacro = 0
+       beta_r = ((alpha_r-phi_n(nel))/k_s - (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
 
       DO 400 L=1,NPINT_BM
          C1=DET(L)*W(L) 

@@ -77,6 +77,10 @@
 !        REAL*8, allocatable  :: phi_n(:) 
        REAL*8  :: fraVol_BM 
        REAL*8  :: constK_BM
+       REAL*8  :: k_s	! Bulk modulus da matriz shale, Pa (Diego, set/2015)
+       REAL*8  :: beta_r	! Compressibilidade total da rocha (Diego, set/2015)
+       REAL*8  :: Kbulk		! Bulk modulus do bloco macro (Diego, set/2015)
+       REAL*8  :: alpha_r	! Coeficiente de Biot do bloco macro (Diego, set/2015)
     
        REAL*8  :: tamBlocoMacro      ! altura do bloco macro    (F_y = BM_y) 
        REAL*8  :: widthBlocoMacro    ! espessura do bloco macro (BM_x)
@@ -245,6 +249,11 @@
       fraVol_BM   =  1.0d0       ! adim - fracao de volume das fraturas naturais
 !       constK_F   =  1.D-15      ! m^2
       constK_BM   =  1.0D-15    ! m^2
+      k_s = 25.0d9	! GPa, Tobiloluwa (Diego, set/2015)
+!       Kbulk = (6894.75729)*2.6d6	! Shale gas revolution (Diego, set/2015)
+      Kbulk = 5.28d9	! Pa, Skalle (Diego, set/2015)
+      alpha_r = 1.0d0 - Kbulk/k_s
+!       alpha_r = 0.001
 
       tamBlocoMacro          = 10.D0  ! metros - altura bloco macro (BM_y)
       widthBlocoMacro        = 10.D0  ! metros - espessura bloco macro (BM_x)

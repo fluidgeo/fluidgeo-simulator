@@ -1731,7 +1731,7 @@
 !    Esta sub-rotina tem como finalidade a escrita dos valores dos stresses calculados
 !    para o caso da elasticidade linear.
 
-      SUBROUTINE PRINTPORO(Porosidade,NUMEL)
+      SUBROUTINE PRINTPORO(Porosidade,NUMEL, idx)
       
       IMPLICIT NONE
       

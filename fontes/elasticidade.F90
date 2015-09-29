@@ -385,7 +385,8 @@
       use mMalha,            only: local	! OK
       use mMalha,            only: nelx_BM, nely_BM
       use mBlocoMacro,       only: solucao_BM, ndof_bm
-      use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro!, phi_n
+      use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, alpha_r
+      use mParametros,       only: k_s
       !use mMalha,         only:  conecNodaisElem
 !       use mPardisoSistema, only: addlhsCSR, ApElasticidade, AiElasticidade
 !       use mHYPRESistema,   only: addnslHYPRE, addrhsHYPRE
@@ -406,7 +407,7 @@
       real*8 :: det(npint_bm), w(npint_bm)
 !
       integer*4 :: nee
-      real*8   :: strain(nen), p_mean, p_mean_ant, trEps, alpha_r, K_bulk, N, phi_n_ant(numel)
+      real*8   :: strain(nen), p_mean, p_mean_ant, trEps, phi_n_ant(numel)
 !
       integer*4:: nel, m, l, i, j, k, ni, nj
       integer*4, parameter :: um = 1
@@ -417,18 +418,20 @@
       logical :: diag,zerodl,quad,lsym
       real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
 !       *******************************************
-!       real*8  :: Lx, Ly
+      real*8  :: Lx, Ly
 !
       nee = nen*ndof
+      Ly = tamBlocoMacro
+      Lx = widthBlocoMacro
       
       diag = .false.
 !       pi=4.d00*datan(1.d00)
       YOUNG = celast(1)
       POISSON = celast(2)
       RHOMAT = celast(3)
-      alpha_r = 0.75
-      K_bulk = (6894.75729)*2.6d6
-      N = 1441316489.398604
+!       alpha_r = 0.0025
+!       K_bulk = (6894.75729)*2.6d6
+!       N = 1441316489.398604
       phi_n_ant = phi_n
 !
       w=0.0
@@ -494,9 +497,9 @@
 !
 ! 	strain = strain/area
       do k = 1,nen
-	STRAIN(k)=STRAIN(k)/Area
+	STRAIN(k)=STRAIN(k)/(Area*Lx*Ly)
       enddo
-!       write(*,*) "Area = ", Area
+!       write(*,*) "alpha = ", alpha_r
 !       stop
 ! 
 !.... compute strain's trace mean
@@ -517,7 +520,8 @@
 !     
 !.... compute mean porosity over element
 !
-      phi_n(nel) = phi_n_ant(nel) + alpha_r*trEps + (1.0/N)*(p_mean - p_mean_ant)
+      phi_n(nel) = phi_n_ant(nel) + alpha_r*trEps + &
+      &            ((alpha_r-phi_n_ant(nel))/k_s)*(p_mean - p_mean_ant)
 !
 !.... compute element volumetric stresses 
 !
