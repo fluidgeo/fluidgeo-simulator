@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 from matplotlib import cm
 from matplotlib.mlab import griddata
+from matplotlib.collections import EllipseCollection
 import sys
 
 filepath = sys.argv[1]
@@ -44,79 +45,192 @@ clamb = lamb(E,ni)
 cmi = mi(E,ni)
 cgrav = -9.8
 
-fig = plt.figure()
+#fig = plt.figure()
 #ax = fig.gca(projection='3d')
 
 #ax = fig.add_subplot(111, projection='3d')
 
-ax = plt.subplot(111)
+#ax = plt.subplot(111)
 #fig, ax = plt.subplots()
 
+filename = './' + filepath + 'passosPressaoBlocoMacro.dat'
+
+inDataLegendP = np.loadtxt(filename,unpack=True)
+dataLegendP = inDataLegendP[1:]
+pnum = len(dataLegendP)
+
 inDataNameDisp = './' + filepath + 'disp.1'
-X, Y, U, V = np.loadtxt(inDataNameDisp,unpack=True,usecols=[1,2,3,4])
-#inDataNameNodes = './dxgeo01/fnodes.stoc'
-#U, V = np.loadtxt(inDataNameNodes,unpack=True,usecols=[3,4])
-#skip = (slice(None, None, 3), slice(None, None, 3))
-UU, VV = np.meshgrid(U,V)
-XX, YY = np.meshgrid(X,Y)
-#disp = np.sqrt(UU**2. + VV**2.)
-disp = np.sqrt(U**2. + V**2.)
-#print len(disp)
-#im = ax.imshow(disp, extent=[X.min(), X.max(), Y.min(), Y.max()])
-#ax.set_xlabel(r'$x\,(m)$',fontsize=18)
-plt.xlabel(r'$x$',fontsize=18)
-#ax.set_ylabel(r'$y\,(m)$',fontsize=18)
-plt.ylabel(r'$y$',fontsize=18)
-#ax.quiver(X,Y,U,V, disp, cmap='Blues' ,angles='xy', scale_units='xy', scale=1.2)
-#ax.quiver(X,Y,U,V, disp, cmap='Blues' ,angles='xy', scale_units='xy')
-plt.quiver(X,Y,U,V, disp,cmap=cm.afmhot_r)
-#plt.imshow(disp)
-#plt.plot(XX,YY)
-plt.colorbar()
-#plt.streamplot(X,Y,U,V)
+X, Y = np.loadtxt(inDataNameDisp,unpack=True,usecols=[1,2])
 
-#print X[:51]
+itU = 51
+xU = np.linspace(X.min(),X.max(),itU)
+yU = np.linspace(Y.min(),Y.max(),itU)
+xxU, yyU = np.meshgrid(xU, yU)
 
-#print U[0:51]
-
-#Y, X = np.mgrid[-3:3:100j, -3:3:100j]
-#U = -1 - X**2 + Y
-#V = 1 + X - Y**2
-#speed = np.sqrt(U*U + V*V)
-
-##speed = np.sqrt(U*U + V*V)
-
-#plt.streamplot(X, Y, U, V, color=U, linewidth=2, cmap=plt.cm.autumn)
+sxU = np.zeros((itU,itU))
+syU = np.zeros((itU,itU))
+#i = 5
+#fig = plt.figure()
+	#ax = fig.gca(projection='3d')
+	
+	#ax = fig.add_subplot(111, projection='3d')
+	
+#ax = plt.subplot(111)
+#inDataNameDisp = './' + filepath + ('disp.%d' % i)
+#X, Y, U, V = np.loadtxt(inDataNameDisp,unpack=True,usecols=[1,2,3,4])
+	#inDataNameNodes = './dxgeo01/fnodes.stoc'
+	#U, V = np.loadtxt(inDataNameNodes,unpack=True,usecols=[3,4])
+	#skip = (slice(None, None, 3), slice(None, None, 3))
+	#UU, VV = np.meshgrid(U,V)
+	#XX, YY = np.meshgrid(X,Y)
+	#disp = np.sqrt(UU**2. + VV**2.)
+#disp = np.sqrt(U**2. + V**2.)
+	#print len(disp)
+	#im = ax.imshow(disp, extent=[X.min(), X.max(), Y.min(), Y.max()])
+	#ax.set_xlabel(r'$x\,(m)$',fontsize=18)
+#plt.xlabel(r'$x$',fontsize=18)
+	#ax.set_ylabel(r'$y\,(m)$',fontsize=18)
+#plt.ylabel(r'$y$',fontsize=18)
+	#ax.quiver(X,Y,U,V, disp, cmap='Blues' ,angles='xy', scale_units='xy', scale=1.2)
+	#ax.quiver(X,Y,U,V, disp, cmap='Blues' ,angles='xy', scale_units='xy')
+#plt.quiver(X,Y,U,V, disp,cmap=cm.afmhot_r)
+	#plt.imshow(disp)
+	#plt.plot(XX,YY)
 #plt.colorbar()
+	#plt.streamplot(X,Y,U,V)
+	
+	#print X[:51]
+	
+	#print U[0:51]
+	
+	#Y, X = np.mgrid[-3:3:100j, -3:3:100j]
+	#U = -1 - X**2 + Y
+	#V = 1 + X - Y**2
+	#speed = np.sqrt(U*U + V*V)
+	
+	##speed = np.sqrt(U*U + V*V)
+	
+	#plt.streamplot(X, Y, U, V, color=U, linewidth=2, cmap=plt.cm.autumn)
+	#plt.colorbar()
+	
+	#f, (ax1, ax2) = plt.subplots(ncols=2)
+	#ax1.streamplot(X, Y, U, V, density=[0.5, 1])
+	
+	#lw = 5*speed/speed.max()
+	#ax2.streamplot(X, Y, U, V, density=0.6, color='k', linewidth=lw)
+	
+	#plt.show()
+	
+	
+	
+	
+	#plt.colorbar()
+	#plt.pcolor(X, Y, disp, cmap='RdBu', vmin=disp_min, vmax=disp_max)
+	#plt.pcolor(X,Y,disp)
+	#ax.set(aspect=1, title='Quiver Plot')
+	#ax.streamplot(X, Y, U, V, disp)
+	#fig.colorbar(im)
+	
+	#box = ax.get_position()
+	
+	#plt.colorbar(disp)
+	
+	#ax.set_position([0.1*box.x0+box.x0, 0.1*box.y0 + box.y0, box.width * 1.0, box.height])
+	
+	#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+#plt.savefig('./'+ filepath + ('quiverUgrav%d.pdf' % i))
+	#plt.show()
 
-#f, (ax1, ax2) = plt.subplots(ncols=2)
-#ax1.streamplot(X, Y, U, V, density=[0.5, 1])
+for i in range(1,pnum+1):
+	fig = plt.figure()
+	#ax = fig.gca(projection='3d')
 
-#lw = 5*speed/speed.max()
-#ax2.streamplot(X, Y, U, V, density=0.6, color='k', linewidth=lw)
+	#ax = fig.add_subplot(111, projection='3d')
 
-#plt.show()
+	ax = plt.subplot(111)
+	inDataNameDisp = './' + filepath + ('disp.%d' % i)
+	U, V = np.loadtxt(inDataNameDisp,unpack=True,usecols=[3,4])
+	k = 0
+	for ii in range(itU):
+		for jj in range(itU):
+			#print "k = ", k
+			#print ("phi[%d] = " % k), phin[k]
+			sxU[ii,jj] = U[k]
+			syU[ii,jj] = V[k]
+			#print ("sX[%d,%d] = " % (i,j)), sX[i,j]
+			k = k + 1 
+	#print sxU
+	#sys.exit("sxU")
+	disp = np.sqrt(sxU*sxU + syU*syU)
+
+	plt.streamplot(xxU, yyU, sxU, syU, color=disp, linewidth=2, cmap=plt.cm.autumn)
+	plt.colorbar()
+	#inDataNameNodes = './dxgeo01/fnodes.stoc'
+	#U, V = np.loadtxt(inDataNameNodes,unpack=True,usecols=[3,4])
+	#skip = (slice(None, None, 3), slice(None, None, 3))
+	#UU, VV = np.meshgrid(U,V)
+	#XX, YY = np.meshgrid(X,Y)
+	#disp = np.sqrt(UU**2. + VV**2.)
+	disp = np.sqrt(U**2. + V**2.)
+	#print len(disp)
+	#im = ax.imshow(disp, extent=[X.min(), X.max(), Y.min(), Y.max()])
+	#ax.set_xlabel(r'$x\,(m)$',fontsize=18)
+	plt.xlabel(r'$x$',fontsize=18)
+	#ax.set_ylabel(r'$y\,(m)$',fontsize=18)
+	plt.ylabel(r'$y$',fontsize=18)
+	#ax.quiver(X,Y,U,V, disp, cmap='Blues' ,angles='xy', scale_units='xy', scale=1.2)
+	#ax.quiver(X,Y,U,V, disp, cmap='Blues' ,angles='xy', scale_units='xy')
+	
+	#plt.quiver(X,Y,U,V, disp,cmap=cm.afmhot_r)
+	
+	#plt.imshow(disp)
+	#plt.plot(XX,YY)
+	#plt.colorbar()
+	#plt.streamplot(X,Y,U,V)
+
+	#print X[:51]
+
+	#print U[0:51]
+
+	#Y, X = np.mgrid[-3:3:100j, -3:3:100j]
+	#U = -1 - X**2 + Y
+	#V = 1 + X - Y**2
+	#speed = np.sqrt(U*U + V*V)
+
+	##speed = np.sqrt(U*U + V*V)
+
+	#plt.streamplot(X, Y, U, V, color=U, linewidth=2, cmap=plt.cm.autumn)
+	#plt.colorbar()
+
+	#f, (ax1, ax2) = plt.subplots(ncols=2)
+	#ax1.streamplot(X, Y, U, V, density=[0.5, 1])
+
+	#lw = 5*speed/speed.max()
+	#ax2.streamplot(X, Y, U, V, density=0.6, color='k', linewidth=lw)
+
+	#plt.show()
 
 
 
 
-#plt.colorbar()
-#plt.pcolor(X, Y, disp, cmap='RdBu', vmin=disp_min, vmax=disp_max)
-#plt.pcolor(X,Y,disp)
-#ax.set(aspect=1, title='Quiver Plot')
-#ax.streamplot(X, Y, U, V, disp)
-#fig.colorbar(im)
+	#plt.colorbar()
+	#plt.pcolor(X, Y, disp, cmap='RdBu', vmin=disp_min, vmax=disp_max)
+	#plt.pcolor(X,Y,disp)
+	#ax.set(aspect=1, title='Quiver Plot')
+	#ax.streamplot(X, Y, U, V, disp)
+	#fig.colorbar(im)
 
-#box = ax.get_position()
+	#box = ax.get_position()
 
-#plt.colorbar(disp)
+	#plt.colorbar(disp)
 
-#ax.set_position([0.1*box.x0+box.x0, 0.1*box.y0 + box.y0, box.width * 1.0, box.height])
+	#ax.set_position([0.1*box.x0+box.x0, 0.1*box.y0 + box.y0, box.width * 1.0, box.height])
 
-#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-plt.savefig('./'+ filepath + 'quiverUgrav.pdf')
-#plt.show()
-
+	#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+	plt.savefig('./'+ filepath + ('streamUgrav%d.png' % i))
+	#sys.exit("streamlines")
+	#plt.show()
+#sys.exit("streamlines")
 # Deslocamentos em y
 
 fig = plt.figure()
@@ -181,43 +295,109 @@ plt.savefig('./' + filepath + 'Uy.pdf')
 
 
 #fig = plt.figure()
-##ax = fig.gca(projection='3d')
+#ax = fig.gca(projection='3d')
 
-##ax = fig.add_subplot(111, projection='3d')
+#ax = fig.add_subplot(111, projection='3d')
 
 #ax = plt.subplot(111)
-##fig, ax = plt.subplots()
+#fig, ax = plt.subplots()
 
-#inDataNameSigma = './' + filepath + 'sigma.3'
-#sigmaX, sigmaY, tau = np.loadtxt(inDataNameSigma,unpack=True,usecols=[1,2,3])
+inDataNameSigma = './' + filepath + 'porosity.5'
+phin = np.loadtxt(inDataNameSigma,unpack=True,usecols=[1])
 
-#it = len(sigmaX)
-#xSig = np.linspace(X.min(),X.max(),it)
-#ySig = np.linspace(Y.min(),Y.max(),it)
+it = 50
+xSig = np.linspace(X.min(),X.max(),it)
+ySig = np.linspace(Y.min(),Y.max(),it)
 
-#sX = np.zeros((it,it))
-#k = 0
-#for i in range(it):
-	#for j in range(it):
-		#sX[i,j] = sigmaX[k]
-		#k = k + 1 
+XX, YY = np.meshgrid(xSig, ySig)
+XY = np.hstack((XX.ravel()[:,np.newaxis], YY.ravel()[:,np.newaxis]))
+
+sX = np.zeros((it,it))
+k = 0
+for i in range(it):
+	for j in range(it):
+		#print "k = ", k
+		#print ("phi[%d] = " % k), phin[k]
+		sX[i,j] = phin[k]
+		#print ("sX[%d,%d] = " % (i,j)), sX[i,j]
+		k = k + 1 
 
 #print sX
+#sys.exit("Aqui")
 
-##UU, VV = np.meshgrid(U,V)
-##XX, YY = np.meshgrid(xSig,ySig)
 
-#sig = np.sqrt(sigmaX**2. + sigmaY**2.)
 
-#plt.xlabel(r'$x$',fontsize=18)
+#plt.figure()
+#CS = plt.contour(XX, YY, sX, 4)
+#plt.clabel(CS, inline=1, fontsize=10)
+#plt.title('Porosidade')
 
-#plt.ylabel(r'$y$',fontsize=18)
+#plt.figure()
 
-#plt.quiver(xSig,ySig,sigmaX,sigmaY, sig,cmap=cm.afmhot_r)
+#CS = plt.contour(XX, YY, sX, 3,
+                 #colors='k', # negative contours will be dashed by default
+                 #)
+#plt.clabel(CS, fontsize=9, inline=1)
+#plt.title('Porosidade')
+#plt.savefig('./'+ filepath + 'phi_n.pdf')
+#sys.exit("Porosity")
 
+#plt.figure()
+
+#z_min, z_max = np.abs(phin).min(), np.abs(phin).max()
+#plt.pcolor(XX, YY, sX, cmap='RdBu', vmin=z_min, vmax=z_max)
+#plt.title('pcolor')
+##set the limits of the plot to the limits of the data
+#plt.axis([XX.min(), XX.max(), YY.min(), YY.max()])
 #plt.colorbar()
 
-#plt.savefig('./'+ filepath + 'quiverSig.pdf')
+plt.figure()
+
+plt.imshow(sX, interpolation='lanczos', cmap=cm.RdYlGn,
+                origin='lower', extent=[XX.min(),XX.max(),YY.min(),YY.max()],
+                vmax=abs(sX).max(), vmin=abs(sX).min())
+plt.colorbar()
+#plt.set_label(r"$\phi_n$")
+
+plt.savefig('./'+ filepath + 'phi_n5.png')
+sys.exit("Porosity")
+
+
+fig, ax = plt.subplots()
+
+ec = EllipseCollection(
+                        XX,
+                        YY,
+                        sX,
+                        units='x',
+                        offsets=XY,
+                        transOffset=ax.transData)
+ec.set_array((sX).ravel())
+ax.add_collection(ec)
+ax.autoscale_view()
+ax.set_xlabel('X')
+ax.set_ylabel('y')
+cbar = plt.colorbar(ec)
+cbar.set_label('X+Y')
+#plt.show()
+plt.savefig('./'+ filepath + 'phi_n.pdf')
+sys.exit("EllipseCollection")
+#sys.exit("Parei aqui")
+#UU, VV = np.meshgrid(U,V)
+#XX, YY = np.meshgrid(xSig,ySig)
+
+#sig = np.sqrt(sigmaX**2. + sigmaY**2.)
+sig = np.sqrt(phin)
+
+plt.xlabel(r'$x$',fontsize=18)
+
+plt.ylabel(r'$y$',fontsize=18)
+
+plt.quiver(xSig,ySig,sigmaX,sigmaY, sig,cmap=cm.afmhot_r)
+
+plt.colorbar()
+
+plt.savefig('./'+ filepath + 'phi_n.pdf')
 #plt.show()
 
 print "Displacement's plots OK"

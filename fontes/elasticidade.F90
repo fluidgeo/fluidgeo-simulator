@@ -215,7 +215,7 @@
       real*8  :: pi, Kx, Ky, Kz
       real*8  :: temp1, gf1, gf2, gf3
       real*8  :: pss
-      real*8  :: djx, djy, djz, djn, dix, diy, diz, gpx, gpy
+      real*8  :: djx, djy, djz, djn, dix, diy, diz, p, gpx, gpy
       logical :: diag,zerodl,quad,lsym
 !       Variaveis para o estado plano de tensoes (TODO: Automatizar leitura)
       real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
@@ -296,11 +296,15 @@
       if(nsd==3) gf3 = grav_bm(3)
       pss = 0.0
 !       
+!       px = 0.0d0
+      p = 0.0d0
       gpx = 0.0d0
       gpy = 0.0d0
       do 301 k=1,nen
+	p = p + shg(3,k,l)*gpl(1,k)
 	gpx = gpx + shg(1,k,l)*gpl(1,k)
 	gpy = gpy + shg(2,k,l)*gpl(1,k)
+! 	py = py + shg(3,k,l)*gpl(1,k)
       301 continue
 !
       do 300 j=1,nen
@@ -313,23 +317,36 @@
 !     
 !.... source terms      
 !
-      ELRESF(nj-1)= ELRESF(nj-1) + RHOMAT*GRAV_BM(1)*djn + alpha_r*gpx*djx*(p_Ref/Lx) !djx*gpl(1,J)*p_Ref/Lx
+!       ELRESF(nj-1)= ELRESF(nj-1) - alpha_r*p*djx*(p_Ref/Lx) !+ RHOMAT*GRAV_BM(1)*djn !djx*gpl(1,J)*p_Ref/Lx
 !
-      ELRESF(nj)  = ELRESF(nj) + RHOMAT*GRAV_BM(2)*djn + alpha_r*gpy*djy*(p_Ref/Ly) !djy*gpl(1,J)*p_Ref/Ly
+!       ELRESF(nj)  = ELRESF(nj) - alpha_r*p*djy*(p_Ref/Ly) !+ RHOMAT*GRAV_BM(2)*djn !djy*gpl(1,J)*p_Ref/Ly
+
+! 	Formulacao sem div v
 !
+      ELRESF(nj-1)= ELRESF(nj-1) - alpha_r*gpx*djn*(p_Ref/Lx) !+ RHOMAT*GRAV_BM(1)*djn !djx*gpl(1,J)*p_Ref/Lx
+!
+      ELRESF(nj)  = ELRESF(nj) - alpha_r*gpy*djn*(p_Ref/Ly) !+ RHOMAT*GRAV_BM(2)*djn !djy*gpl(1,J)*p_Ref/Ly
       do 300 i=1,nen
       ni = ndof*i
                  dix=shg(1,i,l)
                  diy=shg(2,i,l) 
       if(nsd==3) diz=shg(3,i,l)       
       
-      ELEFFM(ni-1,nj-1)=ELEFFM(ni-1,nj-1)+DIX*(CMATRIX11*DJX)+DIY*(CMATRIX33*DJY)
+      ELEFFM(ni-1,nj-1)=ELEFFM(ni-1,nj-1)+(DIX/Lx**2.0)*(CMATRIX11*DJX)+(DIY/Ly**2.0)*(CMATRIX33*DJY)
 !
-      ELEFFM(ni-1,nj)=ELEFFM(ni-1,nj)+DIX*(CMATRIX12*DJY)+DIY*(CMATRIX33*DJX)
+      ELEFFM(ni-1,nj)=ELEFFM(ni-1,nj)+(DIX/Lx)*(CMATRIX12*(DJY/Ly))+(DIY/Ly)*(CMATRIX33*(DJX/Lx))
 !
-      ELEFFM(ni,nj-1)=ELEFFM(ni,nj-1)+DIY*(CMATRIX12*DJX)+DIX*(CMATRIX33*DJY)
+      ELEFFM(ni,nj-1)=ELEFFM(ni,nj-1)+(DIY/Ly)*(CMATRIX12*(DJX/Lx))+(DIX/Lx)*(CMATRIX33*(DJY/Ly))
 !
-      ELEFFM(ni,nj)=ELEFFM(ni,nj)+DIY*(CMATRIX11*DJY)+DIX*(CMATRIX33*DJX)
+      ELEFFM(ni,nj)=ELEFFM(ni,nj)+(DIY/Ly**2.0)*(CMATRIX11*DJY)+(DIX/Lx**2.0)*(CMATRIX33*DJX)
+      
+!       ELEFFM(ni-1,nj-1)=ELEFFM(ni-1,nj-1)+(DIX/Lx**2.0)*(CMATRIX11*DJX)+(DIY/Ly**2.0)*(CMATRIX33*DJY)
+! !
+!       ELEFFM(ni-1,nj)=ELEFFM(ni-1,nj)+(DIX/Lx)*(CMATRIX12*(DJY/Ly))+(DIY/Ly)*(CMATRIX33*(DJX/Lx))
+! !
+!       ELEFFM(ni,nj-1)=ELEFFM(ni,nj-1)+(DIY/Ly)*(CMATRIX12*(DJX/Lx))+(DIX/Lx)*(CMATRIX33*(DJY/Ly))
+! !
+!       ELEFFM(ni,nj)=ELEFFM(ni,nj)+(DIY/Ly**2.0)*(CMATRIX11*DJY)+(DIX/Lx**2.0)*(CMATRIX33*DJX)
 !
   300 continue
   400 continue  
@@ -386,7 +403,7 @@
       use mMalha,            only: nelx_BM, nely_BM
       use mBlocoMacro,       only: solucao_BM, ndof_bm
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, alpha_r
-      use mParametros,       only: k_s
+      use mParametros,       only: k_s, phi_BM
       !use mMalha,         only:  conecNodaisElem
 !       use mPardisoSistema, only: addlhsCSR, ApElasticidade, AiElasticidade
 !       use mHYPRESistema,   only: addnslHYPRE, addrhsHYPRE
@@ -504,7 +521,7 @@
 ! 
 !.... compute strain's trace mean
 ! 
-      trEps = (1.0/3.0)*(strain(1) + strain(2))
+      trEps = (strain(1) + strain(2))
 !
 !.... compute mean pressure over element
 ! 
@@ -520,8 +537,8 @@
 !     
 !.... compute mean porosity over element
 !
-      phi_n(nel) = phi_n_ant(nel) + alpha_r*trEps + &
-      &            ((alpha_r-phi_n_ant(nel))/k_s)*(p_mean - p_mean_ant)
+      phi_n(nel) = phi_BM + alpha_r*trEps + &
+      &            ((alpha_r-phi_BM)/k_s)*(p_mean - p_Ref)
 !
 !.... compute element volumetric stresses 
 !

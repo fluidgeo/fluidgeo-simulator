@@ -34,23 +34,25 @@
 !
 !**** new **********************************************************************
 !
-      subroutine solverDiretoSkyLine(alhs, brhs, idiag, nalhs, neq,label)
+      subroutine solverDiretoSkyLine(alhs, brhs, idiag, nalhs, neq,label, opt)
 !
          implicit none
 !
-         integer, intent(in)   :: nalhs, neq, idiag(*)
+         integer, intent(in)   :: nalhs, neq, idiag(*), opt
          real*8, intent(inout) :: alhs(*), brhs(*)
          character(len=3) :: label
          real*8 :: t1,t2
-
-         call timing(t1)
+	
+	 if (opt .eq. 1) goto 111
+	 if (opt .eq. 0) goto 222
+111      call timing(t1)
          call factor(alhs,idiag,nalhs,neq)
          call timing(t2)
 #ifdef mostrarTempos
          print*, "solver skyline: ", label, ", tempo de factorization=", t2-t1
 #endif
 
-         call timing(t1)
+222      call timing(t1)
          call back  (alhs,brhs, idiag,neq)
          call timing(t2)
 #ifdef mostrarTempos
@@ -66,11 +68,11 @@
 
          implicit none
 
-         integer*4, intent(in)   :: nalhs, neq
+         integer*4, intent(in)   :: nalhs, neq!, opt
          integer*4, intent(in)   :: ndof, numnp
          integer*4, intent(in)   :: idiag(neq), id(ndof, numnp)
          real*8, intent(inout) :: alhs(nalhs), brhs(neq)
-
+         
          call factor(alhs,idiag,nalhs,neq)
 
          call back  (alhs,brhs,idiag,neq)

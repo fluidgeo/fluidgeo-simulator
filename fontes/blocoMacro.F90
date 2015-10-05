@@ -773,7 +773,7 @@
 
        tamElem  = X_BM(2,NEL+1)-X_BM(2,NEL);
        fonteMassaDeBlocoParaBlocoMacro = 0
-       beta_r = ((alpha_r-phi_n(nel))/k_s - (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
+       beta_r = ((alpha_r-phi_BM)/k_s - (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
 
       DO 400 L=1,NPINT_BM
          C1=DET(L)*W(L) 
@@ -790,8 +790,8 @@
 
          CALL calcularZ_P(UU*p_Ref, Z_UU)         
          CALL calcularZ_P(UUP*p_Ref,Z_UUP)
-         R_UU = phi_n(nel)*M_m/(Z_UU *  R_ * T)
-         R_UUP =phi_n(nel)*M_m/(Z_UUP *  R_ * T) 
+         R_UU = phi_BM*M_m/(Z_UU *  R_ * T)
+         R_UUP= phi_BM*M_m/(Z_UUP *  R_ * T) 
 
          DO J=1,NEN_BM
             DJN=SHG(3,J,L)*C1
@@ -816,12 +816,12 @@
                ELEFFM(NED*J,NED*I) = ELEFFM(NED*J,NED*I)                                  &
        &                            + R_UU*DJN*DIN                                        &
        &                            + constK_BM*DTEMPO*p_Ref*UU*M_m/(R_*T*Z_UU) & 
-       &                            * (DIX*DJX/widthBlocoMacro**2+DIY*DJY/tamBlocoMacro**2)/constMu &
+       &                            * (DIX*DJX/widthBlocoMacro**2.0+DIY*DJY/tamBlocoMacro**2.0)/constMu &
        &			    + beta_r*p_Ref*djn*M_m*(UU/Z_UU)*(DIN)/(R_*T)	&! Diego, 1-way (set/2015)
        & 			    - beta_r*p_Ref*djn*M_m*(DIN/Z_UU)*UUP/(R_*T)
        
-	       
 
+       
 !             write(*,*) "======================="
 !             write(*,*) "phi", phi_F
 !             write(*,*) "K",   constK_F

@@ -1779,11 +1779,15 @@
       OPEN(UNIT=idsx, FILE= sigma)
       
       do N=1,NUMEL
+        ! Metodologia de arredontamento temporário. Diego (out/2015)
+        if (dabs(STRESS(1,N)) .le. 1.0d-30) STRESS(1,N) = 0.0d0
+        if (dabs(STRESS(2,N)) .le. 1.0d-30) STRESS(2,N) = 0.0d0
+        if (dabs(STRESS(3,N)) .le. 1.0d-30) STRESS(3,N) = 0.0d0
 	WRITE(idsx,210) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
       enddo
       
- ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 5 floats 8.2 com espaco de 2 entre eles
- 210  FORMAT(4X,I5,10x,4(1PE15.8,2X))
+ ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 3 floats 8.2 com espaco de 4 entre eles
+ 210  FORMAT(4X,I5,10x,3(E15.8,2X))
 
       close(idsx)
 

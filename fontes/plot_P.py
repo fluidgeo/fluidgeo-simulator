@@ -52,9 +52,9 @@ for i in range(1,pnum+1):
     #ax = fig.add_subplot(111, projection='3d')
     
     if dataLegendP[i-1] == 1.:
-        leg = (u"%d mês" % dataLegendP[i-1])
+        leg = (u"%d dia" % dataLegendP[i-1])
     else:
-        leg = ("%d meses" % dataLegendP[i-1])
+        leg = ("%d dias" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,P,'o',label=leg)
     ax.plot(xx,P,'-o',label=leg)
@@ -99,9 +99,9 @@ for i in range(1,pnum+1):
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
     if dataLegendP[i-1] == 1.:
-        leg = (u"%d mês" % dataLegendP[i-1])
+        leg = (u"%d dia" % dataLegendP[i-1])
     else:
-        leg = ("%d meses" % dataLegendP[i-1])
+        leg = ("%d dias" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,gradP,'o',label=leg)
     ax.plot(xx,gradP,'-o',label=leg)
@@ -144,9 +144,9 @@ for i in range(1,pnum+1):
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
     if dataLegendP[i-1] == 1.:
-        leg = (u"%d mês" % dataLegendP[i-1])
+        leg = (u"%d dia" % dataLegendP[i-1])
     else:
-        leg = ("%d meses" % dataLegendP[i-1])
+        leg = ("%d dias" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,V,'o',label=leg)
     ax.plot(xx,V,'-o',label=leg)
@@ -190,9 +190,9 @@ for i in range(1,pnum+1):
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
     if dataLegendP[i-1] == 1.:
-        leg = (u"%d mês" % dataLegendP[i-1])
+        leg = (u"%d dia" % dataLegendP[i-1])
     else:
-        leg = ("%d meses" % dataLegendP[i-1])
+        leg = ("%d dias" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,J,'.',label=leg)
     #ax.plot(xx,yy,J,'o',label=leg)
@@ -237,9 +237,9 @@ for i in range(1,pnum+1):
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
     if dataLegendP[i-1] == 1.:
-        leg = (u"%d mês" % dataLegendP[i-1])
+        leg = (u"%d dia" % dataLegendP[i-1])
     else:
-        leg = ("%d meses" % dataLegendP[i-1])
+        leg = ("%d dias" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,J,'.',label=leg)
     #ax.plot(xx,yy,J,'o',label=leg)
@@ -276,7 +276,7 @@ plt.savefig('./' + filepath + 'tmpResid.pdf')
 #inDataNameJprod = './' + filepath + 'echoProducao.dat'
 #dt, Jprod = np.loadtxt(inDataNameJprod,unpack=True,usecols=[1,5])
 #dt = dt/mes
-#ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
+#ax.set_xlabel(r'$t\,(dias)$',fontsize=18)
 #ax.set_ylabel(r'$Produ \c c \~ a o\, \left(kg\right)$',fontsize=16)
 #ax.plot(dt,Jprod,'-o',label=u'Produção')
 #box = ax.get_position()
@@ -296,7 +296,7 @@ plt.savefig('./' + filepath + 'tmpResid.pdf')
 #inDataNameRF_ = './' + filepath + 'echoProducao.dat'
 #dt, RF_ = np.loadtxt(inDataNameRF_,unpack=True,usecols=[1,6])
 #dt = dt/mes
-#ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
+#ax.set_xlabel(r'$t\,(dias)$',fontsize=18)
 #ax.set_ylabel(r'$RF_{recuper\'avel}$',fontsize=16)
 #ax.plot(dt,RF_,'-o',label=u'RF')
 #box = ax.get_position()
@@ -316,7 +316,7 @@ plt.savefig('./' + filepath + 'tmpResid.pdf')
 #inDataNameRF = './' + filepath + 'echoProducao.dat'
 #dt, RF = np.loadtxt(inDataNameRF,unpack=True,usecols=[1,7])
 #dt = dt/mes
-#ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
+#ax.set_xlabel(r'$t\,(dias)$',fontsize=18)
 #ax.set_ylabel(r'$RF_{total}$',fontsize=16)
 #ax.plot(dt,RF,'-o',label=u'RF')
 #box = ax.get_position()
