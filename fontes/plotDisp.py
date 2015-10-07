@@ -171,7 +171,7 @@ for i in range(1,pnum+1):
 	#UU, VV = np.meshgrid(U,V)
 	#XX, YY = np.meshgrid(X,Y)
 	#disp = np.sqrt(UU**2. + VV**2.)
-	disp = np.sqrt(U**2. + V**2.)
+	#disp = np.sqrt(U**2. + V**2.)
 	#print len(disp)
 	#im = ax.imshow(disp, extent=[X.min(), X.max(), Y.min(), Y.max()])
 	#ax.set_xlabel(r'$x\,(m)$',fontsize=18)
@@ -360,6 +360,7 @@ plt.colorbar()
 #plt.set_label(r"$\phi_n$")
 
 plt.savefig('./'+ filepath + 'phi_n5.png')
+plt.show()
 sys.exit("Porosity")
 
 

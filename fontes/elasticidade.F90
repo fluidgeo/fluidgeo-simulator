@@ -34,7 +34,7 @@
 !       Alterada por Diego para comportar o caso da elasticidade e as iteracoes no tempo.
 !       (Ago/2015)
       subroutine montarSistEqAlgElasticidade(optsolver, opttype, u, f, alhs, brhs, &
-                         id, lm, idiag, numnp, ndof, nlvect, nalhs, neq)
+                         id, lm, idiag, numnp, ndof, nlvect, nalhs, neq, label)
 !
       use mAlgMatricial, only: load, dirichletConditions
       use mMalha,        only: x_bm, conecNodaisElem_BM, numel_bm, nen_bm, nsd_bm
@@ -44,6 +44,7 @@
       implicit none
 
       character(len=10), intent(in) :: optSolver
+      character(len=12), intent(in) :: label
       integer*4, intent(in) :: ndof, neq, numnp, nlvect, optType
       real*8  :: u(ndof, numnp)
       real*8  :: f(ndof, numnp, nlvect)
@@ -66,19 +67,20 @@
       100 print*, " ..... montando sistema de equacoes da elasticidade linear"
 
       call montarEstrutDadosSistEqAlq(optSolver, u, f, alhs, brhs, id, lm, idiag, &
-                                      numnp, ndof, nlvect, nalhs, neq)
+                                      numnp, ndof, nlvect, nalhs, neq, label)
       200 write(*,*) " +++ apos call montarEstrutDadosSistEqAlq("
 !       write(222,*) "+++ optType = ", optType, "nlvect = ", nlvect
       if (nlvect.gt.0) call load                (id,f,brhs,ndof,numnp,nlvect)
     
       if (nlvect.gt.0) call dirichletConditions (id,u,f,ndof,numnp,nlvect)
       write(*,*) " +++ apos call dirichletConditions("
+!       if (optType .eq. 0) goto 300
 !       stop
 ! 
-      300 call timing(t1)
+      call timing(t1)
 !       stop
       call calcCoefSistAlgElasticidade (u, x_bm, alhs, brhs, idiag, lm, conecNodaisElem_bm, &
-                                     numnp, numel_bm, nen_bm, nsd_bm, ndof, nalhs, neq )
+                                     numnp, numel_bm, nen_bm, nsd_bm, ndof, nalhs, neq, label)
       write(*,*) " +++ apos call calcCoefSistAlgElasticidade("
       call timing(t2)
       write(*,*) " calculo dos coeficientes, tempo = ", t2 - t1
@@ -90,7 +92,7 @@
 !**** new **********************************************************************
 !
       subroutine montarEstrutDadosSistEqAlq(optSolver, u, f, alhs, brhs, id, lm, idiag, &
-                                      numnp, ndof, nlvect, nalhs, neq)
+                                      numnp, ndof, nlvect, nalhs, neq, label)
 !
       use mGlobaisEscalares, only: ndofD!, ndofF
       use mMalha,            only: x_bm, conecNodaisElem_BM, numel_bm, nen_bm, nsd_bm
@@ -113,6 +115,7 @@
       implicit none
       integer*4                :: numnp, ndof, nlvect, neq
       integer*4, intent(inout) :: nalhs
+      character(len=12), intent(in) :: label
       real*8                   :: u(ndof, numnp), f(ndof, numnp, nlvect)
       real*8,  pointer         :: alhs(:), brhs(:)
       integer*4, pointer       :: lm(:,:,:), idiag(:)
@@ -131,7 +134,8 @@
 #ifdef withGaussSkyline
       call colht(idiag,lm,ndof,nen_bm,numel_bm,neq)
       call diag(idiag,neq,nalhs) ! only to cholesky+skyline solver 
-      if(.not.associated(alhs)) allocate(alhs(nalhs)); alhs=0.0
+      if(.not.associated(alhs)) allocate(alhs(nalhs)); 
+      if (label .eq. 'factor' .or. label .eq. 'full') alhs=0.0;
 #endif 
 
 #ifdef withCSR
@@ -178,7 +182,7 @@
 !**** new **********************************************************************
 !
       subroutine calcCoefSistAlgElasticidade(d, x, alhs, brhs, idiag, lm, conecNodaisElem, &
-                                     numnp, numel, nen, nsd, ndof, nalhs, neq )
+                                     numnp, numel, nen, nsd, ndof, nalhs, neq, label )
 !
 
       use mGlobaisEscalares, only: nrowsh_bm, npint_bm	! OK
@@ -200,6 +204,7 @@
 !
       real*8,  intent(inout) :: alhs(nalhsD),   brhs(neqD)
       real*8,  intent(in)    :: d(ndof, numnp), x(nsd, numnp)
+      character(LEN=12), intent(in) :: label
       integer*4, intent(in)    :: idiag(neqD),    lm(ndof,nen,numel) 
       integer*4, intent(in)    :: conecNodaisElem(nen,numel)
 !
@@ -326,19 +331,21 @@
       ELRESF(nj-1)= ELRESF(nj-1) - alpha_r*gpx*djn*(p_Ref/Lx) !+ RHOMAT*GRAV_BM(1)*djn !djx*gpl(1,J)*p_Ref/Lx
 !
       ELRESF(nj)  = ELRESF(nj) - alpha_r*gpy*djn*(p_Ref/Ly) !+ RHOMAT*GRAV_BM(2)*djn !djy*gpl(1,J)*p_Ref/Ly
+!       
       do 300 i=1,nen
+      if (label .eq. 'full' .or. label .eq. 'factor') then
       ni = ndof*i
                  dix=shg(1,i,l)
                  diy=shg(2,i,l) 
       if(nsd==3) diz=shg(3,i,l)       
       
-      ELEFFM(ni-1,nj-1)=ELEFFM(ni-1,nj-1)+(DIX/Lx**2.0)*(CMATRIX11*DJX)+(DIY/Ly**2.0)*(CMATRIX33*DJY)
+      ELEFFM(ni-1,nj-1)=ELEFFM(ni-1,nj-1)+(DIX/Lx**2.0d0)*(CMATRIX11*DJX)+(DIY/Ly**2.0d0)*(CMATRIX33*DJY)
 !
       ELEFFM(ni-1,nj)=ELEFFM(ni-1,nj)+(DIX/Lx)*(CMATRIX12*(DJY/Ly))+(DIY/Ly)*(CMATRIX33*(DJX/Lx))
 !
       ELEFFM(ni,nj-1)=ELEFFM(ni,nj-1)+(DIY/Ly)*(CMATRIX12*(DJX/Lx))+(DIX/Lx)*(CMATRIX33*(DJY/Ly))
 !
-      ELEFFM(ni,nj)=ELEFFM(ni,nj)+(DIY/Ly**2.0)*(CMATRIX11*DJY)+(DIX/Lx**2.0)*(CMATRIX33*DJX)
+      ELEFFM(ni,nj)=ELEFFM(ni,nj)+(DIY/Ly**2.0d0)*(CMATRIX11*DJY)+(DIX/Lx**2.0d0)*(CMATRIX33*DJX)
       
 !       ELEFFM(ni-1,nj-1)=ELEFFM(ni-1,nj-1)+(DIX/Lx**2.0)*(CMATRIX11*DJX)+(DIY/Ly**2.0)*(CMATRIX33*DJY)
 ! !
@@ -348,6 +355,9 @@
 ! !
 !       ELEFFM(ni,nj)=ELEFFM(ni,nj)+(DIY/Ly**2.0)*(CMATRIX11*DJY)+(DIX/Lx**2.0)*(CMATRIX33*DJX)
 !
+      else 
+	continue
+      endif
   300 continue
   400 continue  
 !
@@ -368,7 +378,7 @@
 #endif
 #ifdef withGaussSkyline
 !       call addlhs(alhs,eleffm,idiag,lm(1,1,nel),nee,diag,lsym) 
-      call addlhs(alhs,eleffm,idiag,lm(1,1,nel),nee,diag,lsym) 
+      if (label .eq. 'full' .or. label .eq. 'factor') call addlhs(alhs,eleffm,idiag,lm(1,1,nel),nee,diag,lsym) 
 #endif
 #ifdef withHYPRE
 ! !       call addnslHYPRE(A_HYPRE, eleffm, lm(1,1,nel), nee, lsym) 
@@ -391,7 +401,7 @@
 !     plano de tensoes. Funciona apenas para o caso bidimensional.
 !     Diego (Set/2015)
 !
-      subroutine calcStressPoro(stress, d, p, p_ant, x,conecNodaisElem, &
+      subroutine calcStressPoro(stress, d, p, x,conecNodaisElem, &
                             numnp, numel, nen, nsd, ndof)
 !
 
@@ -415,7 +425,7 @@
       integer*4, intent(in)  :: numnp, numel, nen, nsd, ndof
 !
       real*8,  intent(inout) :: stress(nen,numel)!, phi(nel)
-      real*8,  intent(in)    :: d(ndof, numnp), x(nsd, numnp),p(ndof, numnp), p_ant(ndof, numnp)
+      real*8,  intent(in)    :: d(ndof, numnp), x(nsd, numnp),p(ndof, numnp)!, p_ant(ndof, numnp)
 !       integer*4, intent(in)    :: idiag(neqD),    lm(ndof,nen,numel) 
       integer*4, intent(in)    :: conecNodaisElem(nen,numel)
 !
@@ -502,9 +512,9 @@
 !     
 !.... compute strains     
 !
-      STRAIN(1) = STRAIN(1)+DJX*DL(1,J)
-      STRAIN(2) = STRAIN(2)+DJY*DL(2,J)
-      STRAIN(3) = STRAIN(3)+DJX*DL(2,J)+DJY*DL(1,J)
+      STRAIN(1) = STRAIN(1)+DJX*DL(1,J)*(1.0/Lx)
+      STRAIN(2) = STRAIN(2)+DJY*DL(2,J)*(1.0/Ly)
+      STRAIN(3) = STRAIN(3)+DJX*DL(2,J)*(1.0/Lx)+DJY*DL(1,J)*(1.0/Ly)
 !
   300 continue
   400 continue
@@ -529,11 +539,11 @@
       p_mean = (1.0/4.0)*p_mean*p_Ref
 !       write(*,*) "p_mean = ",p_mean
 !       stop
-!
-!.... compute previous mean pressure over element
-! 
-      p_mean_ant = p_ant(1,(nel))+p_ant(1,(nel+1))+p_ant(1,(nel+nelx_BM+1))+p_ant(1,(nel+nelx_BM+2))
-      p_mean_ant = (1.0/4.0)*p_mean_ant*p_Ref
+! !
+! !.... compute previous mean pressure over element
+! ! 
+!       p_mean_ant = p_ant(1,(nel))+p_ant(1,(nel+1))+p_ant(1,(nel+nelx_BM+1))+p_ant(1,(nel+nelx_BM+2))
+!       p_mean_ant = (1.0/4.0)*p_mean_ant*p_Ref
 !     
 !.... compute mean porosity over element
 !
@@ -616,6 +626,91 @@
 ! !       stop
 !       return
 !       end subroutine calcStress      
+
+!*** Diego (Set/2015) ********************************************************************** 
+!    Esta sub-rotina tem como finalidade checar o equilibrio entre as tensoes e pressoes
+!    nos elementos do interior do dominio. Diego (out/2015)
+
+      SUBROUTINE CHECKEQ(STRESS,P,X,NUMEL,TEMPO,idx)
+      
+      use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, alpha_r
+      use mMalha,            only: nelx_BM, nely_BM
+      
+      REAL*8, intent(in) ::  STRESS(3,*),P(1,*),X(2,*), TEMPO
+      INTEGER  NUMEL, N, N_ydown,N_yup,N_xleft,N_xright,idx,idsx,idtx,I,J
+      CHARACTER*30  idsStr, sigma, tau
+      REAL*8 :: residS, residP, p_mean_tmp, Lx, Ly
+      REAL*8 :: sig_down,sig_up,sig_left,sig_right
+      REAL*8 :: p_down,p_up,p_left,p_right
+      REAL*8 :: p_mean(numel), resid((NUMEL-2)*(NUMEL-2))
+      
+      Lx    = widthBlocoMacro
+      Ly    = tamBlocoMacro    
+            
+!       Abrindo os arquivos para saída
+
+      write(idsStr,'(i1)') idx
+      
+      idsx = 11*idx
+      sigma = 'residE.'//idsStr
+      OPEN(UNIT=idsx, FILE= sigma)
+      
+!       Computing mean pressure per element
+      do N=1,NUMEL
+	p_mean_tmp = p(1,(N)) + p(1,(N+1)) + p(1,(N+nelx_BM+1)) + p(1,(N+nelx_BM+2))
+        p_mean(N) = (1.0/4.0)*p_mean_tmp*p_Ref
+      enddo
+!       stop
+      
+!       Computation check of element's momentum balance
+      DO I=2,nely_BM - 1
+          DO J=2,nelx_BM - 1
+            write(787,*) "(i,j) = ", I,J
+!             Element localization
+            N = J+(I-1)*(nely_BM + 1)
+            N_xleft = N - 1 
+            N_xright = N + 1
+            N_ydown = J+(I-2)*(nely_BM + 1)
+            N_yup = J+(I)*(nely_BM + 1)
+
+!             Stress N,S,E,W terms
+            sig_left = (STRESS(1,N_xleft)+(STRESS(3,N_xleft)))
+            sig_right = (STRESS(1,N_xright)+(STRESS(3,N_xright)))
+            sig_down = (STRESS(1,N_ydown)+(STRESS(3,N_ydown)))
+            sig_up = (STRESS(1,N_yup)+(STRESS(3,N_yup)))
+            
+!             Stress finite difference computation at element
+            residS = (sig_right - sig_left)/(2.d0*Lx*(X(1,N_xright)-X(1,N_xleft))) &
+            &	   + (sig_up - sig_down)/(2.d0*Ly*(X(2,N_yup)-X(2,N_ydown)))
+            
+!             Mean pressure N,S,E,W terms
+            p_left = (p_mean(N_xleft))
+            p_right = (p_mean(N_xright))
+            p_down = (p_mean(N_ydown))
+            p_up = (p_mean(N_yup))
+            
+!             Mean pressure finite difference computation at element
+            residP = alpha_r*((p_right - p_left)/(2.0d0*Lx*(X(1,N_xright)-X(1,N_xleft))) &
+            &	   + (p_up - p_down)/(2.0d0*Ly*(X(2,N_yup)-X(2,N_ydown))))
+            
+!             Residue's computation at element
+            resid(N) = residS - residP
+            write(667,*) residS, residP
+          ENDDO
+      ENDDO
+      
+      DO I=2,nelx_BM
+          DO J=2,nely_BM
+            N = I+(J-1)*(nelx_BM + 1)
+            WRITE(idsx,222) N, TEMPO, X(1,N), X(2,N), resid(N)
+          ENDDO
+      ENDDO
+      
+ 222  FORMAT(4X,I5,10x,4(1PE15.8,2X))
+
+      close(idsx)
+      write(*,*) "OK CHECKEQ"
+      END subroutine 
 
 !       
 !     *********************************************************  

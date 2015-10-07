@@ -1757,7 +1757,7 @@
       close(idsx)
 
       END subroutine 
-      
+
 !*** Diego (Set/2015) ********************************************************************** 
 !    Esta sub-rotina tem como finalidade a escrita dos valores dos stresses calculados
 !    para o caso da elasticidade linear.

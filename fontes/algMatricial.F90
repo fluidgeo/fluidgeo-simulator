@@ -64,17 +64,16 @@
 !
 !**** new **********************************************************************
 !
-       subroutine solverGaussSkyline(alhs, brhs, idiag, id, nalhs, neq, ndof, numnp)
+       subroutine solverGaussSkyline(opt,alhs, brhs, idiag, id, nalhs, neq, ndof, numnp)
 
          implicit none
 
-         integer*4, intent(in)   :: nalhs, neq!, opt
+         integer*4, intent(in)   :: nalhs, neq, opt
          integer*4, intent(in)   :: ndof, numnp
          integer*4, intent(in)   :: idiag(neq), id(ndof, numnp)
          real*8, intent(inout) :: alhs(nalhs), brhs(neq)
          
-         call factor(alhs,idiag,nalhs,neq)
-
+         if (opt .eq. 1) call factor(alhs,idiag,nalhs,neq)
          call back  (alhs,brhs,idiag,neq)
 
       end subroutine solverGaussSkyline      

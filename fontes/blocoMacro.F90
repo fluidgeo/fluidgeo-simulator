@@ -592,8 +592,9 @@
       REAL*8   solucao(NDOF_BM,*), solucaoant(NDOF_BM,*), TEMPO, flux(2,*), X(2,*), DT
       INTEGER  NUSTEP, NUMNP, I, N, J, idxf, idyf, idx, idxr, idxe
 
-      REAL *8  Lx, Ly, Z(NUMNP_BM), pStar(NUMNP_BM), flMassico(NSD_BM,NUMNP_BM), residJ, &
-     &         gradP(NSD_BM,NUMNP_BM),pStar_ant(NUMNP_BM),residt,Zant(NUMNP_BM),resid(NUMNP_BM),erro(NUMNP_BM)
+      REAL*8  Lx, Ly, Z(NUMNP_BM), pStar(NUMNP_BM), flMassico(NSD_BM,NUMNP_BM), residJ, &
+     &         gradP(NSD_BM,NUMNP_BM),pStar_ant(NUMNP_BM),residt,Zant(NUMNP_BM),resid(NUMNP_BM),&
+     &	       erro(NUMNP_BM)
      CHARACTER*30  idxStr, nodeFlux_x, residueFlux_x
       
       Lx    = widthBlocoMacro
@@ -630,8 +631,8 @@
       DO I=1,nely_BM + 1
           DO J=2,nelx_BM
             N = J+(I-1)*(nely_BM + 1)
-            residJ = (flMassico(1,N+1) - flMassico(1,N-1))/(Lx*(X(1,N+1)-X(1,N-1))) ! Ver o espaçamento da malha depois
-            residt = ((phi_BM*p_ref*M_m)/(R_*T*DT))*((pStar(N)/Z(N)) - (pStar_ant(N)/Zant(N)))
+            residJ = (flMassico(1,N+1) - flMassico(1,N-1))/(2.0d0*Lx*(X(1,N+1)-X(1,N-1))) ! Ver o espaçamento da malha depois
+            residt = ((phi_BM*p_ref*M_m)/(R_*T*DT))*((pStar(N)/Z(N))-(pStar_ant(N)/Zant(N)))
             resid(N) = residt + residJ
           ENDDO
       ENDDO

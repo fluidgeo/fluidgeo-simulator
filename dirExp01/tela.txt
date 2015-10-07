@@ -41,8 +41,9 @@
  em montarEstrutDadosSistEqAlq,   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =           1
  PASSO           2 TEMPO   172800.00000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -63,8 +64,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =           2
  PASSO           3 TEMPO   259200.00000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -84,8 +86,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =           3
  PASSO           4 TEMPO   345600.00000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -105,8 +108,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =           4
  PASSO           5 TEMPO   432000.00000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -125,8 +129,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =           5
  PASSO           6 TEMPO   518400.00000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -145,8 +150,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =           6
  PASSO           7 TEMPO   604800.00000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -164,8 +170,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =           7
  PASSO           8 TEMPO   691200.00000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -183,8 +190,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =           8
  PASSO           9 TEMPO   777600.00000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -201,8 +209,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =           9
  PASSO          10 TEMPO   864000.00000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -219,8 +228,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          10
  PASSO          11 TEMPO   950400.00000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -236,8 +246,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          11
  PASSO          12 TEMPO   1036800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -253,8 +264,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          12
  PASSO          13 TEMPO   1123200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -270,8 +282,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          13
  PASSO          14 TEMPO   1209600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -286,8 +299,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          14
  PASSO          15 TEMPO   1296000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -302,8 +316,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          15
  PASSO          16 TEMPO   1382400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -317,8 +332,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          16
  PASSO          17 TEMPO   1468800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -332,8 +348,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          17
  PASSO          18 TEMPO   1555200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -346,8 +363,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          18
  PASSO          19 TEMPO   1641600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -360,8 +378,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          19
  PASSO          20 TEMPO   1728000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -374,8 +393,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          20
  PASSO          21 TEMPO   1814400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -387,8 +407,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          21
  PASSO          22 TEMPO   1900800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -400,8 +421,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          22
  PASSO          23 TEMPO   1987200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -412,8 +434,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          23
  PASSO          24 TEMPO   2073600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -424,8 +447,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          24
  PASSO          25 TEMPO   2160000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -435,8 +459,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          25
  PASSO          26 TEMPO   2246400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -446,8 +471,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          26
  PASSO          27 TEMPO   2332800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -457,8 +483,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          27
  PASSO          28 TEMPO   2419200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -467,8 +494,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          28
  PASSO          29 TEMPO   2505600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -477,8 +505,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          29
  PASSO          30 TEMPO   2592000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -486,8 +515,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          30
  PASSO          31 TEMPO   2678400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -495,8 +525,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          31
  PASSO          32 TEMPO   2764800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -504,8 +535,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          32
  PASSO          33 TEMPO   2851200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -513,8 +545,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          33
  PASSO          34 TEMPO   2937600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -522,8 +555,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          34
  PASSO          35 TEMPO   3024000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -531,8 +565,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          35
  PASSO          36 TEMPO   3110400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -540,8 +575,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          36
  PASSO          37 TEMPO   3196800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -549,8 +585,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          37
  PASSO          38 TEMPO   3283200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -558,8 +595,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          38
  PASSO          39 TEMPO   3369600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -567,8 +605,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          39
  PASSO          40 TEMPO   3456000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -576,8 +615,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          40
  PASSO          41 TEMPO   3542400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -585,8 +625,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          41
  PASSO          42 TEMPO   3628800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -594,8 +635,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          42
  PASSO          43 TEMPO   3715200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -603,8 +645,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          43
  PASSO          44 TEMPO   3801600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -612,8 +655,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          44
  PASSO          45 TEMPO   3888000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -621,8 +665,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          45
  PASSO          46 TEMPO   3974400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -630,8 +675,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          46
  PASSO          47 TEMPO   4060800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -639,8 +685,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          47
  PASSO          48 TEMPO   4147200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -648,8 +695,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          48
  PASSO          49 TEMPO   4233600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -657,8 +705,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          49
  PASSO          50 TEMPO   4320000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -666,8 +715,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          50
  PASSO          51 TEMPO   4406400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -675,8 +725,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          51
  PASSO          52 TEMPO   4492800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -684,8 +735,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          52
  PASSO          53 TEMPO   4579200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -693,8 +745,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          53
  PASSO          54 TEMPO   4665600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -702,8 +755,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          54
  PASSO          55 TEMPO   4752000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -711,8 +765,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          55
  PASSO          56 TEMPO   4838400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -720,8 +775,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          56
  PASSO          57 TEMPO   4924800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -729,8 +785,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          57
  PASSO          58 TEMPO   5011200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -738,8 +795,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          58
  PASSO          59 TEMPO   5097600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -747,8 +805,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          59
  PASSO          60 TEMPO   5184000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -756,8 +815,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          60
  PASSO          61 TEMPO   5270400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -765,8 +825,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          61
  PASSO          62 TEMPO   5356800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -774,8 +835,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          62
  PASSO          63 TEMPO   5443200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -783,8 +845,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          63
  PASSO          64 TEMPO   5529600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -792,8 +855,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          64
  PASSO          65 TEMPO   5616000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -801,8 +865,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          65
  PASSO          66 TEMPO   5702400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -810,8 +875,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          66
  PASSO          67 TEMPO   5788800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -819,8 +885,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          67
  PASSO          68 TEMPO   5875200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -828,8 +895,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          68
  PASSO          69 TEMPO   5961600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -837,8 +905,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          69
  PASSO          70 TEMPO   6048000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -846,8 +915,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          70
  PASSO          71 TEMPO   6134400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -855,8 +925,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          71
  PASSO          72 TEMPO   6220800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -864,8 +935,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          72
  PASSO          73 TEMPO   6307200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -873,8 +945,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          73
  PASSO          74 TEMPO   6393600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -882,8 +955,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          74
  PASSO          75 TEMPO   6480000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -891,8 +965,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          75
  PASSO          76 TEMPO   6566400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -900,8 +975,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          76
  PASSO          77 TEMPO   6652800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -909,8 +985,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          77
  PASSO          78 TEMPO   6739200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -918,8 +995,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          78
  PASSO          79 TEMPO   6825600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -927,8 +1005,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          79
  PASSO          80 TEMPO   6912000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -936,8 +1015,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          80
  PASSO          81 TEMPO   6998400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -945,8 +1025,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          81
  PASSO          82 TEMPO   7084800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -954,8 +1035,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          82
  PASSO          83 TEMPO   7171200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -963,8 +1045,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          83
  PASSO          84 TEMPO   7257600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -972,8 +1055,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          84
  PASSO          85 TEMPO   7344000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -981,8 +1065,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          85
  PASSO          86 TEMPO   7430400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -990,8 +1075,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          86
  PASSO          87 TEMPO   7516800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -999,8 +1085,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          87
  PASSO          88 TEMPO   7603200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1008,8 +1095,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          88
  PASSO          89 TEMPO   7689600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1017,8 +1105,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          89
  PASSO          90 TEMPO   7776000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1026,8 +1115,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          90
  PASSO          91 TEMPO   7862400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1035,8 +1125,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          91
  PASSO          92 TEMPO   7948800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1044,8 +1135,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          92
  PASSO          93 TEMPO   8035200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1053,8 +1145,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          93
  PASSO          94 TEMPO   8121600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1062,8 +1155,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          94
  PASSO          95 TEMPO   8208000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1071,8 +1165,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          95
  PASSO          96 TEMPO   8294400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1080,8 +1175,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          96
  PASSO          97 TEMPO   8380800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1089,8 +1185,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          97
  PASSO          98 TEMPO   8467200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1098,8 +1195,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          98
  PASSO          99 TEMPO   8553600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1107,8 +1205,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =          99
  PASSO         100 TEMPO   8640000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1116,8 +1215,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         100
  PASSO         101 TEMPO   8726400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1125,8 +1225,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         101
  PASSO         102 TEMPO   8812800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1134,8 +1235,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         102
  PASSO         103 TEMPO   8899200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1143,8 +1245,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         103
  PASSO         104 TEMPO   8985600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1152,8 +1255,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         104
  PASSO         105 TEMPO   9072000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1161,8 +1265,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         105
  PASSO         106 TEMPO   9158400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1170,8 +1275,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         106
  PASSO         107 TEMPO   9244800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1179,8 +1285,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         107
  PASSO         108 TEMPO   9331200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1188,8 +1295,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         108
  PASSO         109 TEMPO   9417600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1197,8 +1305,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         109
  PASSO         110 TEMPO   9504000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1206,8 +1315,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         110
  PASSO         111 TEMPO   9590400.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1215,8 +1325,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         111
  PASSO         112 TEMPO   9676800.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1224,8 +1335,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         112
  PASSO         113 TEMPO   9763200.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1233,8 +1345,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         113
  PASSO         114 TEMPO   9849600.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1242,8 +1355,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         114
  PASSO         115 TEMPO   9936000.0000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1251,8 +1365,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         115
  PASSO         116 TEMPO   10022400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1260,8 +1375,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         116
  PASSO         117 TEMPO   10108800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1269,8 +1385,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         117
  PASSO         118 TEMPO   10195200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1278,8 +1395,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         118
  PASSO         119 TEMPO   10281600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1287,8 +1405,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         119
  PASSO         120 TEMPO   10368000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1296,8 +1415,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         120
  PASSO         121 TEMPO   10454400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1305,8 +1425,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         121
  PASSO         122 TEMPO   10540800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1314,8 +1435,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         122
  PASSO         123 TEMPO   10627200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1323,8 +1445,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         123
  PASSO         124 TEMPO   10713600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1332,8 +1455,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         124
  PASSO         125 TEMPO   10800000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1341,8 +1465,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         125
  PASSO         126 TEMPO   10886400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1350,8 +1475,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         126
  PASSO         127 TEMPO   10972800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1359,8 +1485,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         127
  PASSO         128 TEMPO   11059200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1368,8 +1495,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         128
  PASSO         129 TEMPO   11145600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1377,8 +1505,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         129
  PASSO         130 TEMPO   11232000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1386,8 +1515,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         130
  PASSO         131 TEMPO   11318400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1395,8 +1525,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         131
  PASSO         132 TEMPO   11404800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1404,8 +1535,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         132
  PASSO         133 TEMPO   11491200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1413,8 +1545,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         133
  PASSO         134 TEMPO   11577600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1422,8 +1555,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         134
  PASSO         135 TEMPO   11664000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1431,8 +1565,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         135
  PASSO         136 TEMPO   11750400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1440,8 +1575,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         136
  PASSO         137 TEMPO   11836800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1449,8 +1585,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         137
  PASSO         138 TEMPO   11923200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1458,8 +1595,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         138
  PASSO         139 TEMPO   12009600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1467,8 +1605,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         139
  PASSO         140 TEMPO   12096000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1476,8 +1615,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         140
  PASSO         141 TEMPO   12182400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1485,8 +1625,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         141
  PASSO         142 TEMPO   12268800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1494,8 +1635,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         142
  PASSO         143 TEMPO   12355200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1503,8 +1645,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         143
  PASSO         144 TEMPO   12441600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1512,8 +1655,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         144
  PASSO         145 TEMPO   12528000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1521,8 +1665,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         145
  PASSO         146 TEMPO   12614400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1530,8 +1675,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         146
  PASSO         147 TEMPO   12700800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1539,8 +1685,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         147
  PASSO         148 TEMPO   12787200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1548,8 +1695,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         148
  PASSO         149 TEMPO   12873600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1557,8 +1705,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         149
  PASSO         150 TEMPO   12960000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1566,8 +1715,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         150
  PASSO         151 TEMPO   13046400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1575,8 +1725,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         151
  PASSO         152 TEMPO   13132800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1584,8 +1735,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         152
  PASSO         153 TEMPO   13219200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1593,8 +1745,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         153
  PASSO         154 TEMPO   13305600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1602,8 +1755,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         154
  PASSO         155 TEMPO   13392000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1611,8 +1765,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         155
  PASSO         156 TEMPO   13478400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1620,8 +1775,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         156
  PASSO         157 TEMPO   13564800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1629,8 +1785,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         157
  PASSO         158 TEMPO   13651200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1638,8 +1795,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         158
  PASSO         159 TEMPO   13737600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1647,8 +1805,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         159
  PASSO         160 TEMPO   13824000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1656,8 +1815,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         160
  PASSO         161 TEMPO   13910400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1665,8 +1825,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         161
  PASSO         162 TEMPO   13996800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1674,8 +1835,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         162
  PASSO         163 TEMPO   14083200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1683,8 +1845,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         163
  PASSO         164 TEMPO   14169600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1692,8 +1855,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         164
  PASSO         165 TEMPO   14256000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1701,8 +1865,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         165
  PASSO         166 TEMPO   14342400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1710,8 +1875,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         166
  PASSO         167 TEMPO   14428800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1719,8 +1885,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         167
  PASSO         168 TEMPO   14515200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1728,8 +1895,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         168
  PASSO         169 TEMPO   14601600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1737,8 +1905,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         169
  PASSO         170 TEMPO   14688000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1746,8 +1915,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         170
  PASSO         171 TEMPO   14774400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1755,8 +1925,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         171
  PASSO         172 TEMPO   14860800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1764,8 +1935,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         172
  PASSO         173 TEMPO   14947200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1773,8 +1945,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         173
  PASSO         174 TEMPO   15033600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1782,8 +1955,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         174
  PASSO         175 TEMPO   15120000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1791,8 +1965,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         175
  PASSO         176 TEMPO   15206400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1800,8 +1975,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         176
  PASSO         177 TEMPO   15292800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1809,8 +1985,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         177
  PASSO         178 TEMPO   15379200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1818,8 +1995,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         178
  PASSO         179 TEMPO   15465600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1827,8 +2005,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         179
  PASSO         180 TEMPO   15552000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1836,8 +2015,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         180
  PASSO         181 TEMPO   15638400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1845,8 +2025,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         181
  PASSO         182 TEMPO   15724800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1854,8 +2035,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         182
  PASSO         183 TEMPO   15811200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1863,8 +2045,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         183
  PASSO         184 TEMPO   15897600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1872,8 +2055,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         184
  PASSO         185 TEMPO   15984000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1881,8 +2065,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         185
  PASSO         186 TEMPO   16070400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1890,8 +2075,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         186
  PASSO         187 TEMPO   16156800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1899,8 +2085,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         187
  PASSO         188 TEMPO   16243200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1908,8 +2095,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         188
  PASSO         189 TEMPO   16329600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1917,8 +2105,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         189
  PASSO         190 TEMPO   16416000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1926,8 +2115,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         190
  PASSO         191 TEMPO   16502400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1935,8 +2125,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         191
  PASSO         192 TEMPO   16588800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1944,8 +2135,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         192
  PASSO         193 TEMPO   16675200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1953,8 +2145,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         193
  PASSO         194 TEMPO   16761600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1962,8 +2155,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         194
  PASSO         195 TEMPO   16848000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1971,8 +2165,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         195
  PASSO         196 TEMPO   16934400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1980,8 +2175,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         196
  PASSO         197 TEMPO   17020800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1989,8 +2185,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         197
  PASSO         198 TEMPO   17107200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -1998,8 +2195,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         198
  PASSO         199 TEMPO   17193600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2007,8 +2205,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         199
  PASSO         200 TEMPO   17280000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2016,8 +2215,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         200
  PASSO         201 TEMPO   17366400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2025,8 +2225,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         201
  PASSO         202 TEMPO   17452800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2034,8 +2235,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         202
  PASSO         203 TEMPO   17539200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2043,8 +2245,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         203
  PASSO         204 TEMPO   17625600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2052,8 +2255,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         204
  PASSO         205 TEMPO   17712000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2061,8 +2265,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         205
  PASSO         206 TEMPO   17798400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2070,8 +2275,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         206
  PASSO         207 TEMPO   17884800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2079,8 +2285,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         207
  PASSO         208 TEMPO   17971200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2088,8 +2295,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         208
  PASSO         209 TEMPO   18057600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2097,8 +2305,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         209
  PASSO         210 TEMPO   18144000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2106,8 +2315,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         210
  PASSO         211 TEMPO   18230400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2115,8 +2325,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         211
  PASSO         212 TEMPO   18316800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2124,8 +2335,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         212
  PASSO         213 TEMPO   18403200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2133,8 +2345,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         213
  PASSO         214 TEMPO   18489600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2142,8 +2355,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         214
  PASSO         215 TEMPO   18576000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2151,8 +2365,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         215
  PASSO         216 TEMPO   18662400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2160,8 +2375,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         216
  PASSO         217 TEMPO   18748800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2169,8 +2385,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         217
  PASSO         218 TEMPO   18835200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2178,8 +2395,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         218
  PASSO         219 TEMPO   18921600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2187,8 +2405,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         219
  PASSO         220 TEMPO   19008000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2196,8 +2415,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         220
  PASSO         221 TEMPO   19094400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2205,8 +2425,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         221
  PASSO         222 TEMPO   19180800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2214,8 +2435,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         222
  PASSO         223 TEMPO   19267200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2223,8 +2445,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         223
  PASSO         224 TEMPO   19353600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2232,8 +2455,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         224
  PASSO         225 TEMPO   19440000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2241,8 +2465,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         225
  PASSO         226 TEMPO   19526400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2250,8 +2475,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         226
  PASSO         227 TEMPO   19612800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2259,8 +2485,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         227
  PASSO         228 TEMPO   19699200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2268,8 +2495,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         228
  PASSO         229 TEMPO   19785600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2277,8 +2505,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         229
  PASSO         230 TEMPO   19872000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2286,8 +2515,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         230
  PASSO         231 TEMPO   19958400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2295,8 +2525,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         231
  PASSO         232 TEMPO   20044800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2304,8 +2535,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         232
  PASSO         233 TEMPO   20131200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2313,8 +2545,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         233
  PASSO         234 TEMPO   20217600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2322,8 +2555,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         234
  PASSO         235 TEMPO   20304000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2331,8 +2565,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         235
  PASSO         236 TEMPO   20390400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2340,8 +2575,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         236
  PASSO         237 TEMPO   20476800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2349,8 +2585,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         237
  PASSO         238 TEMPO   20563200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2358,8 +2595,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         238
  PASSO         239 TEMPO   20649600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2367,8 +2605,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         239
  PASSO         240 TEMPO   20736000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2376,8 +2615,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         240
  PASSO         241 TEMPO   20822400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2385,8 +2625,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         241
  PASSO         242 TEMPO   20908800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2394,8 +2635,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         242
  PASSO         243 TEMPO   20995200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2403,8 +2645,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         243
  PASSO         244 TEMPO   21081600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2412,8 +2655,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         244
  PASSO         245 TEMPO   21168000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2421,8 +2665,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         245
  PASSO         246 TEMPO   21254400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2430,8 +2675,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         246
  PASSO         247 TEMPO   21340800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2439,8 +2685,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         247
  PASSO         248 TEMPO   21427200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2448,8 +2695,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         248
  PASSO         249 TEMPO   21513600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2457,8 +2705,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         249
  PASSO         250 TEMPO   21600000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2466,8 +2715,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         250
  PASSO         251 TEMPO   21686400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2475,8 +2725,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         251
  PASSO         252 TEMPO   21772800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2484,8 +2735,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         252
  PASSO         253 TEMPO   21859200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2493,8 +2745,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         253
  PASSO         254 TEMPO   21945600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2502,8 +2755,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         254
  PASSO         255 TEMPO   22032000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2511,8 +2765,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         255
  PASSO         256 TEMPO   22118400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2520,8 +2775,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         256
  PASSO         257 TEMPO   22204800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2529,8 +2785,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         257
  PASSO         258 TEMPO   22291200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2538,8 +2795,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         258
  PASSO         259 TEMPO   22377600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2549,6 +2807,7 @@
   +++ apos call calcCoefSistAlgElasticidade(
   calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         259
  PASSO         260 TEMPO   22464000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2556,8 +2815,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         260
  PASSO         261 TEMPO   22550400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2565,8 +2825,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         261
  PASSO         262 TEMPO   22636800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2574,8 +2835,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         262
  PASSO         263 TEMPO   22723200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2583,8 +2845,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         263
  PASSO         264 TEMPO   22809600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2592,8 +2855,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         264
  PASSO         265 TEMPO   22896000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2601,8 +2865,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         265
  PASSO         266 TEMPO   22982400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2610,8 +2875,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         266
  PASSO         267 TEMPO   23068800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2619,8 +2885,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         267
  PASSO         268 TEMPO   23155200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2628,8 +2895,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         268
  PASSO         269 TEMPO   23241600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2637,8 +2905,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         269
  PASSO         270 TEMPO   23328000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2646,8 +2915,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         270
  PASSO         271 TEMPO   23414400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2655,8 +2925,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         271
  PASSO         272 TEMPO   23500800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2664,8 +2935,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         272
  PASSO         273 TEMPO   23587200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2673,8 +2945,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         273
  PASSO         274 TEMPO   23673600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2682,8 +2955,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         274
  PASSO         275 TEMPO   23760000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2691,8 +2965,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         275
  PASSO         276 TEMPO   23846400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2700,8 +2975,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         276
  PASSO         277 TEMPO   23932800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2709,8 +2985,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         277
  PASSO         278 TEMPO   24019200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2718,8 +2995,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         278
  PASSO         279 TEMPO   24105600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2727,8 +3005,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         279
  PASSO         280 TEMPO   24192000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2736,8 +3015,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         280
  PASSO         281 TEMPO   24278400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2745,8 +3025,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         281
  PASSO         282 TEMPO   24364800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2754,8 +3035,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         282
  PASSO         283 TEMPO   24451200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2763,8 +3045,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         283
  PASSO         284 TEMPO   24537600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2772,8 +3055,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         284
  PASSO         285 TEMPO   24624000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2781,8 +3065,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         285
  PASSO         286 TEMPO   24710400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2790,8 +3075,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         286
  PASSO         287 TEMPO   24796800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2799,8 +3085,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         287
  PASSO         288 TEMPO   24883200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2808,8 +3095,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         288
  PASSO         289 TEMPO   24969600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2817,8 +3105,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         289
  PASSO         290 TEMPO   25056000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2826,8 +3115,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         290
  PASSO         291 TEMPO   25142400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2835,8 +3125,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         291
  PASSO         292 TEMPO   25228800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2844,8 +3135,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         292
  PASSO         293 TEMPO   25315200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2853,8 +3145,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         293
  PASSO         294 TEMPO   25401600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2862,8 +3155,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         294
  PASSO         295 TEMPO   25488000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2871,8 +3165,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         295
  PASSO         296 TEMPO   25574400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2880,8 +3175,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         296
  PASSO         297 TEMPO   25660800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2889,8 +3185,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         297
  PASSO         298 TEMPO   25747200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2898,8 +3195,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         298
  PASSO         299 TEMPO   25833600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2907,8 +3205,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         299
  PASSO         300 TEMPO   25920000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2916,8 +3215,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         300
  PASSO         301 TEMPO   26006400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2925,8 +3225,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         301
  PASSO         302 TEMPO   26092800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2934,8 +3235,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         302
  PASSO         303 TEMPO   26179200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2943,8 +3245,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         303
  PASSO         304 TEMPO   26265600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2952,8 +3255,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    6.8359375000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         304
  PASSO         305 TEMPO   26352000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2961,8 +3265,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         305
  PASSO         306 TEMPO   26438400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2970,8 +3275,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         306
  PASSO         307 TEMPO   26524800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2979,8 +3285,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         307
  PASSO         308 TEMPO   26611200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2988,8 +3295,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         308
  PASSO         309 TEMPO   26697600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -2997,8 +3305,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         309
  PASSO         310 TEMPO   26784000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3006,8 +3315,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         310
  PASSO         311 TEMPO   26870400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3015,8 +3325,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         311
  PASSO         312 TEMPO   26956800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3024,8 +3335,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         312
  PASSO         313 TEMPO   27043200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3033,8 +3345,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         313
  PASSO         314 TEMPO   27129600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3042,8 +3355,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         314
  PASSO         315 TEMPO   27216000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3051,8 +3365,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         315
  PASSO         316 TEMPO   27302400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3060,8 +3375,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         316
  PASSO         317 TEMPO   27388800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3069,8 +3385,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         317
  PASSO         318 TEMPO   27475200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3078,8 +3395,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         318
  PASSO         319 TEMPO   27561600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3087,8 +3405,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         319
  PASSO         320 TEMPO   27648000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3096,8 +3415,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         320
  PASSO         321 TEMPO   27734400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3105,8 +3425,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         321
  PASSO         322 TEMPO   27820800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3114,8 +3435,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         322
  PASSO         323 TEMPO   27907200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3123,8 +3445,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         323
  PASSO         324 TEMPO   27993600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3132,8 +3455,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         324
  PASSO         325 TEMPO   28080000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3141,8 +3465,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         325
  PASSO         326 TEMPO   28166400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3150,8 +3475,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         326
  PASSO         327 TEMPO   28252800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3159,8 +3485,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         327
  PASSO         328 TEMPO   28339200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3168,8 +3495,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         328
  PASSO         329 TEMPO   28425600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3177,8 +3505,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         329
  PASSO         330 TEMPO   28512000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3186,8 +3515,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         330
  PASSO         331 TEMPO   28598400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3195,8 +3525,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         331
  PASSO         332 TEMPO   28684800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3204,8 +3535,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         332
  PASSO         333 TEMPO   28771200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3213,8 +3545,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         333
  PASSO         334 TEMPO   28857600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3222,8 +3555,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         334
  PASSO         335 TEMPO   28944000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3231,8 +3565,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         335
  PASSO         336 TEMPO   29030400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3240,8 +3575,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         336
  PASSO         337 TEMPO   29116800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3249,8 +3585,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         337
  PASSO         338 TEMPO   29203200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3258,8 +3595,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         338
  PASSO         339 TEMPO   29289600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3267,8 +3605,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         339
  PASSO         340 TEMPO   29376000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3276,8 +3615,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         340
  PASSO         341 TEMPO   29462400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3285,8 +3625,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         341
  PASSO         342 TEMPO   29548800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3294,8 +3635,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         342
  PASSO         343 TEMPO   29635200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3303,8 +3645,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         343
  PASSO         344 TEMPO   29721600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3312,8 +3655,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         344
  PASSO         345 TEMPO   29808000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3321,8 +3665,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         345
  PASSO         346 TEMPO   29894400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3330,8 +3675,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         346
  PASSO         347 TEMPO   29980800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3339,8 +3685,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         347
  PASSO         348 TEMPO   30067200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3348,8 +3695,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         348
  PASSO         349 TEMPO   30153600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3357,8 +3705,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         349
  PASSO         350 TEMPO   30240000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3366,8 +3715,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         350
  PASSO         351 TEMPO   30326400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3375,8 +3725,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         351
  PASSO         352 TEMPO   30412800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3384,8 +3735,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         352
  PASSO         353 TEMPO   30499200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3393,8 +3745,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         353
  PASSO         354 TEMPO   30585600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3402,8 +3755,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         354
  PASSO         355 TEMPO   30672000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3411,8 +3765,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         355
  PASSO         356 TEMPO   30758400.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3420,8 +3775,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         356
  PASSO         357 TEMPO   30844800.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3429,8 +3785,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         357
  PASSO         358 TEMPO   30931200.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3438,8 +3795,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         358
  PASSO         359 TEMPO   31017600.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3447,8 +3805,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    4.8828125000000000E-003
+  calculo dos coeficientes, tempo =    7.8125000000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         359
  PASSO         360 TEMPO   31104000.000000000      DT   86400.000000000000     
  ---------ITERACAO Bloco Macro           1
@@ -3456,8 +3815,9 @@
   +++ apos call montarEstrutDadosSistEqAlq(
   +++ apos call dirichletConditions(
   +++ apos call calcCoefSistAlgElasticidade(
-  calculo dos coeficientes, tempo =    5.8593750000000000E-003
+  calculo dos coeficientes, tempo =    3.9062500000000000E-003
  solver GaussSkyline        , elasticidade
+ etapa full        
  FIM DO TIME STEP =         360
   
 ---> Pressão no reservatório:           8.00000E+06(Pa)
