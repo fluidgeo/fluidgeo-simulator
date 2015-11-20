@@ -5,6 +5,7 @@
 !         Eduardo Garcia, Tuane Lopes e Patrícia Pereira
 !         bidu@lncc.br, tuane@lncc.br, 
 !         Modificacoes para incluir fraturas naturais: Aline Rocha
+!         Modificacoes e adicoes para incluir acoplamento hidro-geomecanico: Diego Volpatto
 !         LNCC/MCT+
 !     ************************************************************
 !     *                                                          *
@@ -20,15 +21,15 @@
 	
 	      use mGlobaisEscalares, only : exec
 	      use mLeituraEscrita,   only : fecharArquivos, abrirArquivosDS
-	      use mLeituraEscrita,   only : fecharArquivosDS
+	      use mLeituraEscrita,   only : fecharArquivosDS, abrirArquivo
 ! 	      use mBloco,            only : iinBloco  =>iin, iechoBloco  =>iecho
 ! 	      use mBloco,            only : preprocessadorBloco !, processadorBloco 
-! 	      use mBlocoMacro,       only : iinBlocoMacro=>iin, iechoBlocoMacro=>iecho, iechoPressao, iechoProducao
+	      use mBlocoMacro,       only : iinBlocoMacro=>iin, iechoBlocoMacro=>iecho, iechoPressao, iechoProducao
 	      use mBlocoMacro,       only : preprocessadorBlocoMacro
 ! 	      use mBlocoMacro,       only : preprocessamentoBlocoMacro
 	      use mCoeficientes,     only : inicializarCoeficientes_FormP
 	      use mParametros,       only : inicializarParametros
-!               use mCoeficientes,     only : iechoQuantidadeGas
+              use mCoeficientes,     only : iechoQuantidadeGas
 	!
 	      implicit none
 	      
@@ -80,20 +81,18 @@
 		else
 		call preprocessadorBlocoMacro(); print*, " call preprocessador ()"
 		endif
-! 		write(*,*) "BlocoMacro..."; call preprocessadorBlocoMacro()
-!               write(*,*) "Bloco..."  ;    call preprocessadorBloco()
 	!
 	!.... solution phase
 	!
 	      if(exec==1) then
 		   print*, ""
- 		   write(*,*) "Iniciando o PROCESSAMENTO.: 2 Escalas   ...";  call processador2Escalas()
+ 		   write(*,*) "Iniciando o PROCESSAMENTO.: 2 Escalas   ...";  call processadorFluidgeo()
  	      endif
 	!
 	      call fecharArquivos()
 	      if(comDS) then
 		call fecharArquivosDS();! print*, " call fecharArquivosDS ()"
-		else
+	      else
 		call fecharArquivos();! print*, " call fecharArquivos ()"
 	      endif
 	 
@@ -197,9 +196,6 @@
 !....    set memory pointers for static data arrays,&
 !        and call associated input routines
 !
-!       NDOF_BM=1	! Entrar com essa info no input
-!       ndofF=nsd
-!
 !       call alocarMemoria()	! Antigo, pro código pc com leitura do DS (Diego, ago/2015)
       
       call inicializarParametrosBlocoMacro()
@@ -251,20 +247,6 @@
         call leituraValoresCondContornoDS(keyword_name, fDeslocamento, ndofD, NUMNP_BM, 1_4, nlvectD, iprtin)
       end if
 
-!.... input nodal force and prescribed kinematic boundary-value data
-!       keyword_name = "codigos_cond_contorno_fluxo_pc"
-!        write(*,*) "call leituraCodigosCondContornoDS(idFluxo,"
-!      call leituraCodigosCondContorno(idFluxo,  ndofF,numnp,neqF,iin, iecho, iprtin)
-!        call leituraCodigosCondContornoDS(keyword_name, idFluxo, ndofF, numnp, neqF, iecho, iprtin)
-
-!       if (nlvectF.gt.0)  then
-!       keyword_name = "valores_cond_contorno_fluxo_pc"
-!        write(*,*) 'call leituraValoresCondContornoDS(fFluxo,ndofF,numnp,0,nlvectF,iprtin)'
-!      call leituraValoresCondContorno(fFluxo,ndofF,numnp,0,nlvectF,iprtin)
-!        call leituraValoresCondContornoDS(keyword_name, fFluxo, ndofF, numnp, 1_4, nlvectF, iprtin)
-!       end if
-
-
 !.... input element data
      write (*,*) "call leituraParamNumericosPropFisicaDS()"
      call leituraParamNumericosPropFisicaDS(NALHS_BM, NEQ_BM)
@@ -311,22 +293,6 @@
            numPassos = 0
       endif
      
-     !      TODO: ADAPTAR ISSO AQUI AO FORMATO NOVO (Diego, jul/2015)
-!      inquire(file="passosPressaoHidro.dat", exist=exist)
-!       if (exist) then
-!           iinPassosPressaoHidro = abrirArquivo("passosPressaoHidro.dat", 19, 'old' ) 
-!           read(iinPassosPressaoHidro, '(i10)'), numPassos          
-! !           write(*,*) "Gravar pressão para", numPassos, "passos"
-!           allocate(passosTempoParaGravarSaida(numPassos))
-!           DO I = 1, numPassos 
-!               read(iinPassosPressaoHidro,'(i20)') passosTempoParaGravarSaida(I)
-! !               write(*,*) passosTempoParaGravarSaida(I)
-!           ENDDO  
-!           close(iinPassosPressaoHidro)          
-!       else
-!            numPassos = 0
-!       endif
-
     end subroutine preprocessamentoDS
     
     !> Efetua a leitura completa dos dados da etapa de setup.
@@ -407,10 +373,6 @@
         keyword_name = "nelz_BM"
         call readIntegerKeywordValue(keyword_name, nelz_BM, 0_4)
         !print*, "nlvectP_pc: ", nlvectP
-        !Reads nlvectF
-!         keyword_name = "nlvectF_pc"
-!         call readIntegerKeywordValue(keyword_name, nlvectF, 0_4)
-        !print*, "nlvectF_pc: ", nlvectF
         
         nesd_BM = 2            ! +++ quem é este e pq não é lido de arquivo de entrada?
 
@@ -426,23 +388,23 @@
 
 !**** new **********************************************************************
 !	
-      subroutine processador2Escalas()
+      subroutine processadorFluidgeo()
 
       use mBlocoMacro,       only : NITER_BM, NDOF_BM, NLVECT_BM, flux_BM      
       use mBlocoMacro,       only : DTEMPO_BM, solucao_BM, f_BM, SUM_NUMITER_BM, calcularFluxoMassico2d   
       use mBlocoMacro,       only : passosTempoParaGravarSaida, numPassos, calcularFluxoMassico2
       use mBlocoMacro,       only : PRINTSOL_BM, PRINTFLUXV_BM, PRINTSOL_BM2, calcularFluxoMassico, calcularGradiente_BM   
-      use mMalha,            only : NUMNP_BM, NUMNP_B, NUMEL_BM, nen_bm, nsd_bm
+      use mMalha,            only : NUMNP_BM, NUMNP_B, NUMEL_BM, nen_bm, nsd_bm, nelx_BM, nely_BM
       use mMalha,            only : X_BM, conecNodaisElem_BM
       use mAlgMatricial,     only : NED_BM, ID_BM
       use mAlgMatricial,     only : FTOD 
-      use mParametros,       only : p_Ref, p_Poco, gasTotalKg, gasRecuperavelKg, gasProduzidoKg
+      use mParametros,       only : p_Ref, p_Poco, gasTotalKg, gasRecuperavelKg, gasProduzidoKg, phi_BM
       use mCoeficientes,     only : calcularQuantidadeGasReservatorio
       use mGlobaisEscalares, only : ndofD, nlvectD
-      use mGlobaisArranjos,  only : phi_n
+      use mGlobaisArranjos,  only : phi_n, phi_n0
       use mLeituraEscrita,   only : PRINTDISP, PRINTSTRESS, PRINTPORO
 !
-      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro
+      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro, CHECKEQ!, calcStressPoro2
       use mElasticidade,        only: deslocamento, fDeslocamento, neqD, nalhsD
       use mElasticidade,        only: alhsD=>alhs, brhsD=>brhs
       use mElasticidade,        only: idDeslocamento, idiagD, lmD
@@ -475,10 +437,21 @@
       logical :: firstD=.true.
       character(LEN=20)  :: optSolver='GaussSkyline'
       real*8 :: t1, t2, t3, t4
-      real*8 :: stressD(nen_bm,numel_bm)
-      logical :: simetria
-      character(LEN=12) :: label
+      real*8 :: stressD(nen_bm,numel_bm), gradpElem(nsd_BM,NUMEL_BM)
+      logical :: simetria, tflag, onlydisp
+      character(LEN=12) :: label, etapa
       integer :: optType = 1
+      integer :: optType_BM = 1
+      
+      onlydisp = .false.
+      
+!       Heterogeneidade randomica na porosidade. Diego (Nov/2015)
+      
+!       call init_random_seed()
+      call random_number(phi_n0)
+      phi_n0 = (phi_n0*(0.25d0-0.15d0)) + 0.15d0
+      phi_n = phi_n0
+      call printporo(phi_n0,numel_bm, 0)
       
       maiorFonte = -10d-9;
       numBlocos = NUMNP_BM;
@@ -504,7 +477,7 @@
       SUM_NUMITER_BM = 0;
       SUM_NUMITER_ANT_BM = 0;
       
-      CALL     colocarCondInicial(solucao_BM, NDOF_BM, NUMNP_BM,  1*1.d0);  ! solucao_BM = 1.0d0
+      CALL     colocarCondInicial(solucao_BM, NDOF_BM, NUMNP_BM,  1*p_Ref);  ! solucao_BM = 1.0d0
 
       IF (NLVECT_BM.GT.0) CALL FTOD(id_BM,solucao_BM,f_BM,NDOF_BM,NUMNP_BM,NLVECT_BM)
       
@@ -518,9 +491,16 @@
        DO NUSTEP=1,NITER
        
           SUM_NUMITER_ANT_BM = SUM_NUMITER_BM
+          if ( (numPassos .EQ. 0) .OR. (passosTempoParaGravarSaida(idx) .EQ. NUSTEP) ) then
+                 tflag = .true.
+          else
+		 tflag = .false.
+          end if
              
           TEMPO=TEMPO+DTEMPO;                    
           write(*,*) 'PASSO', NUSTEP, 'TEMPO', TEMPO, 'DT', DTEMPO  
+          
+          if (onlydisp .eqv. .true.) goto 550
           
           flagConvergencia = .FALSE. 
           NUMITER          = 0
@@ -542,24 +522,25 @@
              SUM_NUMITER_ANT_BM = SUM_NUMITER_BM  
              
              SUM_NUMITER = SUM_NUMITER + NUMITER
-!              call printporo(phi_n,numel_bm)
-!              stop
-             
+
           !
           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CALCULO DA ELASTICIDADE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	  !
-	  call timing(t1)
-          if(firstD) then 
+550	  call timing(t1)
+	  deslocamento = 0.0
+          if(firstD) then
+                etapa = 'full'
 		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
-					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD)
+					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
 		firstD=.false.
 		optType = 0
 	  else
 ! 		CLEAR necessario para nao carregar a solucao anterior dos deslocamentos nas solucoes
 ! 		seguintes. Diego (Ago/2015)
-		deslocamento = 0.0
+! 		deslocamento = 0.0
+                etapa = 'back'
 		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
-					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD)
+					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
 	  endif
 
 	  call timing(t2)
@@ -568,35 +549,29 @@
           call solverD() 
           call timing(t4)
           stressD = 0.0d0
-!                  strainD = 0.0d0
-          call calcStressPoro(stressD, deslocamento,solucao_BM, solucaoTmpAnt, x_bm, conecNodaisElem_bm, &
-                          numnp_BM, numel_bm, nen_bm, nsd_bm, ndof_bm)
-!           stop
-
+          
+          call calcStressPoro(stressD, deslocamento,solucao_BM, flux_BM, x_bm, conecNodaisElem_bm, &
+          &                   numnp_BM, numel_bm, nen_bm, nsd_bm, ndofD, tflag, idx)
 !
 !	Fim do calculo da ELASTICIDADE
 !
              
              if ( (numPassos .EQ. 0) .OR. (passosTempoParaGravarSaida(idx) .EQ. NUSTEP) ) then
+! 		 Rotinas de impressao
                  CALL PRINTSOL_BM2(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
                  CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
                  CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
-                 call PRINTDISP(deslocamento,X_BM,NUMNP_BM, idx)
-!                  stressD = 0.0d0
-! !                  strainD = 0.0d0
-!                  call calcStress(stressD, deslocamento, x_bm, conecNodaisElem_bm, &
-!                                      numnp_BM, numel_bm, nen_bm, nsd_bm, ndof_bm)
-                 call PRINTSTRESS(stressD,X_BM,NUMEL_BM, idx)
+                 call PRINTDISP(deslocamento,X_BM,NUMNP_BM,nelx_BM,nely_BM,idx)
+                 call PRINTSTRESS(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx)
                  call printporo(phi_n,numel_bm, idx)
                  idx = idx + 1
              end if
              
              solucaoTmpAnt = solucao_BM                     
              write(*,*) 'FIM DO TIME STEP =', NUSTEP
-!              stop
              
           END IF    
-!              
+
       ENDDO 
 
       write(*,*) " "
@@ -605,7 +580,7 @@
       write(*,150) "---> Quantidade de gás total:       ", gasTotalKg, "(kg)"
       write(*,150) "---> Quantidade de gás recuperável: ", gasRecuperavelKg, "(kg)"
       write(*,150) "---> Quantidade de gás produzido:   ", gasProduzidoKg, "(kg)"
-      write(*,150) "---> Valor da pressão no último nó: ", solucao_BM(1,NUMNP_BM)*p_Ref, "(Pa)"
+      write(*,150) "---> Valor da pressão no último nó: ", solucao_BM(1,NUMNP_BM), "(Pa)"
       write(*,150) "---> Tempo de simulação             ", TEMPO/ano, "(anos)"
       write(*,100) "---> Fator de recuperação (sobre gás total):       ", gasProduzidoKg/gasTotalKg
       write(*,100) "---> Fator de recuperação (sobre gás recuperável): ", gasProduzidoKg/gasRecuperavelKg      
@@ -620,30 +595,34 @@
       subroutine solverD() 
       use mMalha,            only: NUMEL_BM, nen_BM
       use mElasticidade, only:rows, solver_id, precond_id
-      use mAlgMatricial, only: solverGaussSkyline, btod 
+      use mAlgMatricial, only: solverGaussSkyline, btod, factor, back
 
       REAL*8,  allocatable :: initialGuessP(:)
-
 
       integer * 4 ::  num_iterations, localMyID = 0, printSol = 2
       real*8 ::  final_res_norm, elapsedT, tol
 
-      integer*4 :: nee
-      nee = nDofD * nen_BM
       
       write(*,*) 'solver ', optSolver ,', ',  label
-      if (optSolver=='GaussSkyline') then
-          call solverGaussSkyline(alhsD, brhsD, idiagD, idDeslocamento, nalhsD, neqD, nDofD, numnp_BM)
+      write(*,*) 'etapa ', etapa
+
+!       etapa = 'factor'
+      if (etapa .eq. 'full' .or. etapa .eq. 'factor') then
+	call factor(alhsD, idiagD, nalhsD, neqD)
+      endif
+!       etapa = 'back'
+      if (etapa .eq. 'full' .or. etapa .eq. 'back') then
+	call back(alhsD, brhsD, idiagD, neqD)
       endif
       
       call btod(idDeslocamento,deslocamento, brhsD,ndofD,numnp_bm)
 
       brhsD = 0.0 ! ladoB
-      alhsD = 0.0
+!       alhsD = 0.0
      
       end subroutine solverD
 
-      end subroutine processador2Escalas
+      end subroutine processadorFluidgeo
     
 !
 !**** new **********************************************************************
@@ -697,8 +676,9 @@
          IF (NLVECT_BM.GT.0) CALL FTOD(id_BM,solucao_BM,      f_BM,        NDOF_BM,NUMNP_BM,NLVECT_BM)        
          !! +++ acho que aqui solucao_F ja deveria ter o valor da cc correta, nao sendo necessario fazer FTOD. Checar, but it does not matter
 
+         
          CALL montarSistema_BM(NED_BM,  NDOF_BM, fluxoMassicoDeBlocoParaBlocoMacro, DT)  ! ASSEMBLE STIFNESS MATRIX
-
+         
          CALL factns          (ALHS_BM, DLHS_BM,    idiag_BM,neq_BM)            ! FACTORIZATION OF THE STIFFNES MATRIX
 
          call backns          (ALHS_BM, DLHS_BM,    BRHS_BM, idiag_BM,neq_BM)     ! BACK SUBSTITUTION
