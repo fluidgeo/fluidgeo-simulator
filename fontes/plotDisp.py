@@ -62,7 +62,7 @@ pnum = len(dataLegendP)
 inDataNameDisp = './' + filepath + 'disp.1'
 X, Y = np.loadtxt(inDataNameDisp,unpack=True,usecols=[1,2])
 
-itU = 51
+itU = 201
 xU = np.linspace(X.min(),X.max(),itU)
 yU = np.linspace(Y.min(),Y.max(),itU)
 xxU, yyU = np.meshgrid(xU, yU)
@@ -138,7 +138,7 @@ syU = np.zeros((itU,itU))
 	#ax.set_position([0.1*box.x0+box.x0, 0.1*box.y0 + box.y0, box.width * 1.0, box.height])
 	
 	#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-#plt.savefig('./'+ filepath + ('quiverUgrav%d.pdf' % i))
+#plt.savefig('./'+ filepath + ('quiverUgrav%d.png' % i))
 	#plt.show()
 
 for i in range(1,pnum+1):
@@ -247,7 +247,7 @@ box = ax.get_position()
 ax.set_position([0.2*box.x0+box.x0, 0.1*box.y0 + box.y0, box.width * 1.0, box.height])
 #ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 ax.legend(loc='best')
-plt.savefig('./' + filepath + 'Uy.pdf')
+plt.savefig('./' + filepath + 'Uy.png')
 #plt.show()
 
 #XX, YY = np.meshgrid(X,Y)
@@ -290,7 +290,7 @@ plt.savefig('./' + filepath + 'Uy.pdf')
 #ax.set_position([0.2*box.x0+box.x0, 0.1*box.y0 + box.y0, box.width * 1.0, box.height])
 ##ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 #ax.legend(loc='best')
-#plt.savefig('Sigmay.pdf')
+#plt.savefig('Sigmay.png')
 #plt.show()
 
 
@@ -302,103 +302,107 @@ plt.savefig('./' + filepath + 'Uy.pdf')
 #ax = plt.subplot(111)
 #fig, ax = plt.subplots()
 
-inDataNameSigma = './' + filepath + 'porosity.5'
-phin = np.loadtxt(inDataNameSigma,unpack=True,usecols=[1])
+#inDataNameSigma = './' + filepath + 'porosity.1'
+#phin = np.loadtxt(inDataNameSigma,unpack=True,usecols=[1])
 
-it = 50
+it = itU - 1
 xSig = np.linspace(X.min(),X.max(),it)
 ySig = np.linspace(Y.min(),Y.max(),it)
 
 XX, YY = np.meshgrid(xSig, ySig)
 XY = np.hstack((XX.ravel()[:,np.newaxis], YY.ravel()[:,np.newaxis]))
 
-sX = np.zeros((it,it))
-k = 0
-for i in range(it):
-	for j in range(it):
-		#print "k = ", k
-		#print ("phi[%d] = " % k), phin[k]
-		sX[i,j] = phin[k]
-		#print ("sX[%d,%d] = " % (i,j)), sX[i,j]
-		k = k + 1 
+for m in range(1,pnum+1):
+	inDataNamePhi = './' + filepath + ('porosity.%d' % m)
+	phin = np.loadtxt(inDataNamePhi,unpack=True,usecols=[1])
+	sX = np.zeros((it,it))
+	k = 0
+	for i in range(it):
+		for j in range(it):
+			#print "k = ", k
+			#print ("phi[%d] = " % k), phin[k]
+			sX[i,j] = phin[k]
+			#print ("sX[%d,%d] = " % (i,j)), sX[i,j]
+			k = k + 1 
 
-#print sX
-#sys.exit("Aqui")
-
-
-
-#plt.figure()
-#CS = plt.contour(XX, YY, sX, 4)
-#plt.clabel(CS, inline=1, fontsize=10)
-#plt.title('Porosidade')
-
-#plt.figure()
-
-#CS = plt.contour(XX, YY, sX, 3,
-                 #colors='k', # negative contours will be dashed by default
-                 #)
-#plt.clabel(CS, fontsize=9, inline=1)
-#plt.title('Porosidade')
-#plt.savefig('./'+ filepath + 'phi_n.pdf')
-#sys.exit("Porosity")
-
-#plt.figure()
-
-#z_min, z_max = np.abs(phin).min(), np.abs(phin).max()
-#plt.pcolor(XX, YY, sX, cmap='RdBu', vmin=z_min, vmax=z_max)
-#plt.title('pcolor')
-##set the limits of the plot to the limits of the data
-#plt.axis([XX.min(), XX.max(), YY.min(), YY.max()])
-#plt.colorbar()
-
-plt.figure()
-
-plt.imshow(sX, interpolation='lanczos', cmap=cm.RdYlGn,
-                origin='lower', extent=[XX.min(),XX.max(),YY.min(),YY.max()],
-                vmax=abs(sX).max(), vmin=abs(sX).min())
-plt.colorbar()
-#plt.set_label(r"$\phi_n$")
-
-plt.savefig('./'+ filepath + 'phi_n5.png')
-plt.show()
-sys.exit("Porosity")
+	#print sX
+	#sys.exit("Aqui")
 
 
-fig, ax = plt.subplots()
 
-ec = EllipseCollection(
-                        XX,
-                        YY,
-                        sX,
-                        units='x',
-                        offsets=XY,
-                        transOffset=ax.transData)
-ec.set_array((sX).ravel())
-ax.add_collection(ec)
-ax.autoscale_view()
-ax.set_xlabel('X')
-ax.set_ylabel('y')
-cbar = plt.colorbar(ec)
-cbar.set_label('X+Y')
-#plt.show()
-plt.savefig('./'+ filepath + 'phi_n.pdf')
-sys.exit("EllipseCollection")
-#sys.exit("Parei aqui")
-#UU, VV = np.meshgrid(U,V)
-#XX, YY = np.meshgrid(xSig,ySig)
+	#plt.figure()
+	#CS = plt.contour(XX, YY, sX, 20)
+	#plt.clabel(CS, inline=1, fontsize=10)
+	#plt.title('Porosidade')
 
-#sig = np.sqrt(sigmaX**2. + sigmaY**2.)
-sig = np.sqrt(phin)
+	#plt.figure()
 
-plt.xlabel(r'$x$',fontsize=18)
+	#CS = plt.contour(XX, YY, sX, 3,
+			#colors='k', # negative contours will be dashed by default
+			#)
+	#plt.clabel(CS, fontsize=9, inline=1)
+	#plt.title('Porosidade')
+	#plt.savefig('./'+ filepath + 'phi_n1.png')
+	#sys.exit("Porosity")
 
-plt.ylabel(r'$y$',fontsize=18)
+	plt.figure()
 
-plt.quiver(xSig,ySig,sigmaX,sigmaY, sig,cmap=cm.afmhot_r)
+	if (m == 1): 
+		z_min, z_max = np.abs(phin).min(), np.abs(phin).max()
+	plt.pcolor(XX, YY, sX, cmap='RdBu', vmin=z_min, vmax=z_max)
+	plt.title('Porosidade')
+	#set the limits of the plot to the limits of the data
+	plt.axis([XX.min(), XX.max(), YY.min(), YY.max()])
+	plt.colorbar()
 
-plt.colorbar()
+	#plt.figure()
 
-plt.savefig('./'+ filepath + 'phi_n.pdf')
-#plt.show()
+	#plt.imshow(sX, interpolation='lanczos', cmap=cm.RdYlGn,
+			#origin='lower', extent=[XX.min(),XX.max(),YY.min(),YY.max()],
+			#vmax=abs(sX).max(), vmin=abs(sX).min())
+	#plt.colorbar()
+	#plt.set_label(r"$\phi_n$")
 
+	plt.savefig('./'+ filepath + ('phi_n%d.png' % m))
+	#plt.show()
+	#sys.exit("Porosity")
+
+'''
+	fig, ax = plt.subplots()
+
+	ec = EllipseCollection(
+				XX,
+				YY,
+				sX,
+				units='x',
+				offsets=XY,
+				transOffset=ax.transData)
+	ec.set_array((sX).ravel())
+	ax.add_collection(ec)
+	ax.autoscale_view()
+	ax.set_xlabel('X')
+	ax.set_ylabel('y')
+	cbar = plt.colorbar(ec)
+	cbar.set_label('X+Y')
+	#plt.show()
+	plt.savefig('./'+ filepath + 'phi_n1.png')
+	sys.exit("EllipseCollection")
+	#sys.exit("Parei aqui")
+	#UU, VV = np.meshgrid(U,V)
+	#XX, YY = np.meshgrid(xSig,ySig)
+
+	#sig = np.sqrt(sigmaX**2. + sigmaY**2.)
+	sig = np.sqrt(phin)
+
+	plt.xlabel(r'$x$',fontsize=18)
+
+	plt.ylabel(r'$y$',fontsize=18)
+
+	plt.quiver(xSig,ySig,sigmaX,sigmaY, sig,cmap=cm.afmhot_r)
+
+	plt.colorbar()
+
+	plt.savefig('./'+ filepath + 'phi_n.png')
+	#plt.show()
+'''
 print "Displacement's plots OK"

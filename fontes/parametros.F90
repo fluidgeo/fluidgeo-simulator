@@ -86,7 +86,7 @@
        REAL*8  :: widthBlocoMacro    ! espessura do bloco macro (BM_x)
        REAL*8  :: dimZ_FB            ! dimensão z da fratura hidraulica e do bloco macro (F_z, BM_z)
        REAL*8  :: areaContatoFratPoco ! area de contato entre a fratura e o poço, usada para calcular a produção de gas
-       REAL*8  :: areaContatoBlocoMacroFratura ! are de contato entre o bloco macro e a fratura hidráulica, usada para calcular a produção de gás
+       REAL*8  :: areaContatoBlocoMacroFratura ! area de contato entre o bloco macro e a fratura hidráulica, usada para calcular a produção de gás
        REAL*8  :: gasTotalKg_BM
        REAL*8  :: gasRecuperavelKg_BM
 
@@ -113,10 +113,11 @@
        constMu   = 1.2d-5; ! Pa.s       
        M_m       = 16.01D-3   ! kg/mol 
 
-       p_Reservatorio = 8.d6;             ! Pa
+       p_Reservatorio = 6.32d7;           ! Pa -> Barnett
+!        p_Reservatorio = 8.72d7;		  ! Pa -> Eagle Ford
        p_Ref          = p_Reservatorio;   ! Pa 
        p_Poco         = 5.d5;             ! Pa      
-       condContAdim   = p_Poco/p_Ref;     
+       condContAdim   = p_Poco!/p_Ref;     
        
        dimZ_FB       = 1.d0 !m
                     
@@ -245,17 +246,19 @@
       CHARACTER*200 :: linhaAux
       INTEGER       :: I
                 
-      phi_BM      =  0.25d0        ! adim - porosidade das fraturas naturais
+      phi_BM      =  0.2d0        ! adim - porosidade das fraturas naturais
       fraVol_BM   =  1.0d0       ! adim - fracao de volume das fraturas naturais
 !       constK_F   =  1.D-15      ! m^2
-      constK_BM   =  1.0D-15    ! m^2
-      k_s = 25.0d9	! GPa, Tobiloluwa (Diego, set/2015)
+      constK_BM   =  1.0D-18    ! m^2
+!       constK_BM   =  1.0D-18    ! m^2
+      k_s = 25.0d9	! Pa, Tobiloluwa (Diego, set/2015)
 !       Kbulk = (6894.75729)*2.6d6	! Shale gas revolution (Diego, set/2015)
       Kbulk = 5.28d9	! Pa, Skalle (Diego, set/2015)
       alpha_r = 1.0d0 - Kbulk/k_s
+!       alpha_r = 1.0d0
 !       alpha_r = 0.001
 
-      tamBlocoMacro          = 10.D0  ! metros - altura bloco macro (BM_y)
+      tamBlocoMacro          = 50.d0  ! metros - altura bloco macro (BM_y)
       widthBlocoMacro        = 10.D0  ! metros - espessura bloco macro (BM_x)
 !       areaContatoFratPoco = widthBlocoMacro * dimZ_FB;
       areaContatoFratPoco = 0;

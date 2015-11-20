@@ -58,27 +58,21 @@
       
       if (optType .eq. 1) goto 100
 !       A montagem da estrutura se torna dispensavel em iteracoes maiores que 1. Diego (Ago/2015)
-      if (optType .eq. 0) then
-! 	elasticidade = 0.0
-! 	fElasticidade = 0.0
-	goto 200
-      end if
+      if (optType .eq. 0) goto 200
 !
       100 print*, " ..... montando sistema de equacoes da elasticidade linear"
 
       call montarEstrutDadosSistEqAlq(optSolver, u, f, alhs, brhs, id, lm, idiag, &
                                       numnp, ndof, nlvect, nalhs, neq, label)
       200 write(*,*) " +++ apos call montarEstrutDadosSistEqAlq("
-!       write(222,*) "+++ optType = ", optType, "nlvect = ", nlvect
       if (nlvect.gt.0) call load                (id,f,brhs,ndof,numnp,nlvect)
     
       if (nlvect.gt.0) call dirichletConditions (id,u,f,ndof,numnp,nlvect)
       write(*,*) " +++ apos call dirichletConditions("
-!       if (optType .eq. 0) goto 300
-!       stop
+
 ! 
       call timing(t1)
-!       stop
+      if (label .eq. 'factor' .or. label .eq. 'full') alhs=0.0;
       call calcCoefSistAlgElasticidade (u, x_bm, alhs, brhs, idiag, lm, conecNodaisElem_bm, &
                                      numnp, numel_bm, nen_bm, nsd_bm, ndof, nalhs, neq, label)
       write(*,*) " +++ apos call calcCoefSistAlgElasticidade("
@@ -135,7 +129,7 @@
       call colht(idiag,lm,ndof,nen_bm,numel_bm,neq)
       call diag(idiag,neq,nalhs) ! only to cholesky+skyline solver 
       if(.not.associated(alhs)) allocate(alhs(nalhs)); 
-      if (label .eq. 'factor' .or. label .eq. 'full') alhs=0.0;
+!       if (label .eq. 'factor' .or. label .eq. 'full') alhs=0.0;
 #endif 
 
 #ifdef withCSR
@@ -191,7 +185,7 @@
       use mfuncoesDeForma,   only: oneshl, oneshg, shlt, shlq3d, shg3d, shgq, shlq	! OK
       use mMalha,            only: local	! OK
       use mBlocoMacro,       only: solucao_BM, ndof_bm
-      use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro
+      use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, alpha_r
       !use mMalha,         only:  conecNodaisElem
 !       use mPardisoSistema, only: addlhsCSR, ApElasticidade, AiElasticidade
 !       use mHYPRESistema,   only: addnslHYPRE, addrhsHYPRE
@@ -226,14 +220,6 @@
       real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
 !       *******************************************
       real*8  :: Lx, Ly
-      
-!       Coeficiente de Biot (Automatizar leitura) Diego(set/2015)
-      real*8 :: alpha_r
-
-!
-      Lx    = widthBlocoMacro
-      Ly    = tamBlocoMacro 
-      alpha_r = 0.75
 	
       nee = nen*ndof
       
@@ -301,15 +287,11 @@
       if(nsd==3) gf3 = grav_bm(3)
       pss = 0.0
 !       
-!       px = 0.0d0
       p = 0.0d0
       gpx = 0.0d0
       gpy = 0.0d0
       do 301 k=1,nen
 	p = p + shg(3,k,l)*gpl(1,k)
-	gpx = gpx + shg(1,k,l)*gpl(1,k)
-	gpy = gpy + shg(2,k,l)*gpl(1,k)
-! 	py = py + shg(3,k,l)*gpl(1,k)
       301 continue
 !
       do 300 j=1,nen
@@ -322,15 +304,8 @@
 !     
 !.... source terms      
 !
-!       ELRESF(nj-1)= ELRESF(nj-1) - alpha_r*p*djx*(p_Ref/Lx) !+ RHOMAT*GRAV_BM(1)*djn !djx*gpl(1,J)*p_Ref/Lx
-!
-!       ELRESF(nj)  = ELRESF(nj) - alpha_r*p*djy*(p_Ref/Ly) !+ RHOMAT*GRAV_BM(2)*djn !djy*gpl(1,J)*p_Ref/Ly
-
-! 	Formulacao sem div v
-!
-      ELRESF(nj-1)= ELRESF(nj-1) - alpha_r*gpx*djn*(p_Ref/Lx) !+ RHOMAT*GRAV_BM(1)*djn !djx*gpl(1,J)*p_Ref/Lx
-!
-      ELRESF(nj)  = ELRESF(nj) - alpha_r*gpy*djn*(p_Ref/Ly) !+ RHOMAT*GRAV_BM(2)*djn !djy*gpl(1,J)*p_Ref/Ly
+      ELRESF(nj-1)= ELRESF(nj-1) + alpha_r*p*djx!+ RHOMAT*GRAV_BM(1)*djn
+      ELRESF(nj)  = ELRESF(nj) + alpha_r*p*djy!+ RHOMAT*GRAV_BM(2)*djn 
 !       
       do 300 i=1,nen
       if (label .eq. 'full' .or. label .eq. 'factor') then
@@ -339,22 +314,11 @@
                  diy=shg(2,i,l) 
       if(nsd==3) diz=shg(3,i,l)       
       
-      ELEFFM(ni-1,nj-1)=ELEFFM(ni-1,nj-1)+(DIX/Lx**2.0d0)*(CMATRIX11*DJX)+(DIY/Ly**2.0d0)*(CMATRIX33*DJY)
-!
-      ELEFFM(ni-1,nj)=ELEFFM(ni-1,nj)+(DIX/Lx)*(CMATRIX12*(DJY/Ly))+(DIY/Ly)*(CMATRIX33*(DJX/Lx))
-!
-      ELEFFM(ni,nj-1)=ELEFFM(ni,nj-1)+(DIY/Ly)*(CMATRIX12*(DJX/Lx))+(DIX/Lx)*(CMATRIX33*(DJY/Ly))
-!
-      ELEFFM(ni,nj)=ELEFFM(ni,nj)+(DIY/Ly**2.0d0)*(CMATRIX11*DJY)+(DIX/Lx**2.0d0)*(CMATRIX33*DJX)
+      ELEFFM(ni-1,nj-1)=ELEFFM(ni-1,nj-1)+(DIX)*(CMATRIX11*DJX)+(DIY)*(CMATRIX33*DJY)
+      ELEFFM(ni-1,nj)=ELEFFM(ni-1,nj)+(DIX)*(CMATRIX12*(DJY))+(DIY)*(CMATRIX33*(DJX))
+      ELEFFM(ni,nj-1)=ELEFFM(ni,nj-1)+(DIY)*(CMATRIX12*(DJX))+(DIX)*(CMATRIX33*(DJY))
+      ELEFFM(ni,nj)=ELEFFM(ni,nj)+(DIY)*(CMATRIX11*DJY)+(DIX)*(CMATRIX33*DJX)
       
-!       ELEFFM(ni-1,nj-1)=ELEFFM(ni-1,nj-1)+(DIX/Lx**2.0)*(CMATRIX11*DJX)+(DIY/Ly**2.0)*(CMATRIX33*DJY)
-! !
-!       ELEFFM(ni-1,nj)=ELEFFM(ni-1,nj)+(DIX/Lx)*(CMATRIX12*(DJY/Ly))+(DIY/Ly)*(CMATRIX33*(DJX/Lx))
-! !
-!       ELEFFM(ni,nj-1)=ELEFFM(ni,nj-1)+(DIY/Ly)*(CMATRIX12*(DJX/Lx))+(DIX/Lx)*(CMATRIX33*(DJY/Ly))
-! !
-!       ELEFFM(ni,nj)=ELEFFM(ni,nj)+(DIY/Ly**2.0)*(CMATRIX11*DJY)+(DIX/Lx**2.0)*(CMATRIX33*DJX)
-!
       else 
 	continue
       endif
@@ -401,16 +365,16 @@
 !     plano de tensoes. Funciona apenas para o caso bidimensional.
 !     Diego (Set/2015)
 !
-      subroutine calcStressPoro(stress, d, p, x,conecNodaisElem, &
-                            numnp, numel, nen, nsd, ndof)
+      subroutine calcStressPoro(stress, d, p, gp, x,conecNodaisElem, &
+                            numnp, numel, nen, nsd, ndof, tflag, idx)
 !
 
       use mGlobaisEscalares, only: nrowsh_bm, npint_bm	! OK
-      use mGlobaisArranjos,  only: mat_bm, c_bm, grav_bm, celast, phi_n	! OK
+      use mGlobaisArranjos,  only: mat_bm, c_bm, grav_bm, celast, phi_n, phi_n0	! OK
       use mAlgMatricial,     only: kdbc, addrhs, addlhs	! OK
       use mfuncoesDeForma,   only: oneshl, oneshg, shlt, shlq3d, shg3d, shgq, shlq	! OK
       use mMalha,            only: local	! OK
-      use mMalha,            only: nelx_BM, nely_BM
+      use mMalha,            only: nelx_BM, nely_BM, nen_bm
       use mBlocoMacro,       only: solucao_BM, ndof_bm
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, alpha_r
       use mParametros,       only: k_s, phi_BM
@@ -423,44 +387,40 @@
 !.... remove above card for single-precision operation               
 !       
       integer*4, intent(in)  :: numnp, numel, nen, nsd, ndof
+      logical,   intent(in)  :: tflag 
 !
       real*8,  intent(inout) :: stress(nen,numel)!, phi(nel)
       real*8,  intent(in)    :: d(ndof, numnp), x(nsd, numnp),p(ndof, numnp)!, p_ant(ndof, numnp)
 !       integer*4, intent(in)    :: idiag(neqD),    lm(ndof,nen,numel) 
       integer*4, intent(in)    :: conecNodaisElem(nen,numel)
 !
-      real*8 :: xl(nsd,nen), dl(ndof,nen)
+      real*8 :: xl(nsd,nen), dl(ndof,nen), pl(1,nen), gp(nsd,numnp), gpl(ndof,nen), gp_mean(nsd,numel)
       real*8 :: shg(nrowsh_bm,nen,npint_bm), shl(nrowsh_bm,nen,npint_bm)
       real*8 :: det(npint_bm), w(npint_bm)
 !
-      integer*4 :: nee
-      real*8   :: strain(nen), p_mean, p_mean_ant, trEps, phi_n_ant(numel)
+      integer*4 :: nee, idsx, idx, idsr
+      real*8   :: strain(nen), p_mean(numel), p_mean_ant, trEps, residbc(nelx_BM)
+      real*8   :: denStress_x, denStress_y, valueError_x, valueError_y, denGrad_x, denGrad_y
+      REAL*8 :: residS_x, residS_y, sig_down,sig_up,sig_left,sig_right, valueError(nsd,numel)
+      CHARACTER*30  idsStr, sigma, rsigma
 !
-      integer*4:: nel, m, l, i, j, k, ni, nj
+      integer*4:: nel, m, l, i, j, k, ni, nj, n, N_ydown,N_yup,N_xleft,N_xright
       integer*4, parameter :: um = 1
 !       real*8  :: pi, Kx, Ky, Kz
       real*8  :: temp1, Area!, gf1, gf2, gf3
 !       real*8  :: pss
-      real*8  :: djx, djy, djz, djn!, dix, diy, diz, gpx, gpy
+      real*8  :: djx, djy, djz, djn, gpx, gpy, p_mean_tmp, sigma_bc!, gpl
       logical :: diag,zerodl,quad,lsym
       real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
 !       *******************************************
       real*8  :: Lx, Ly
 !
       nee = nen*ndof
-      Ly = tamBlocoMacro
-      Lx = widthBlocoMacro
-      
+
       diag = .false.
-!       pi=4.d00*datan(1.d00)
       YOUNG = celast(1)
       POISSON = celast(2)
       RHOMAT = celast(3)
-!       alpha_r = 0.0025
-!       K_bulk = (6894.75729)*2.6d6
-!       N = 1441316489.398604
-      phi_n_ant = phi_n
-!
       w=0.0
       shl=0.0
 
@@ -472,24 +432,24 @@
 !
       call local(conecNodaisElem(1,nel),x,xl,nen,nsd,nsd)
       call local(conecNodaisElem(1,nel),d,dl,nen,ndof,ndof)
+      call local(conecNodaisElem(1,nel),p,pl,nen,ndof_bm,ndof_bm)
+      call local(conecNodaisElem(1,nel),gp,gpl,nen,2*ndof_bm,2*ndof_bm)
 !
       quad = .true.
       if (nen.eq.4.and.conecNodaisElem(3,nel).eq.conecNodaisElem(4,nel)) quad = .false.
 !
       call shgq  (xl,det,shl,shg,npint_bm,nel,quad,nen)
-!       write(22,*) npint_bm
 !
 !.... SETUP ELASTICITY TENSOR COEFFICIENTS: PLANE STRAIN 
 !
       D1=YOUNG/((1.0d0+POISSON)*(1.0d0-2.0d0*POISSON))
-      CMATRIX11 = D1*(1.0d0-POISSON)
+      CMATRIX11=D1*(1.0d0-POISSON)
       CMATRIX12=D1*POISSON
       CMATRIX33=D1*(1.0d0-2.0d0*POISSON)*0.5d0
 !       
-!.... Clear initial strain and stress
+!.... Clear initial strain and grad p
 !
       strain = 0.0d0
-!       stress = 0.0d0
 !       
 !.... Area element
 !
@@ -508,13 +468,12 @@
                  djy=shg(2,j,l)*temp1
       if(nsd==3) djz=shg(3,j,l)*temp1
       djn=shg(nrowsh_bm,j,l)*temp1
-
 !     
 !.... compute strains     
 !
-      STRAIN(1) = STRAIN(1)+DJX*DL(1,J)*(1.0/Lx)
-      STRAIN(2) = STRAIN(2)+DJY*DL(2,J)*(1.0/Ly)
-      STRAIN(3) = STRAIN(3)+DJX*DL(2,J)*(1.0/Lx)+DJY*DL(1,J)*(1.0/Ly)
+      STRAIN(1) = STRAIN(1)+DJX*DL(1,J)
+      STRAIN(2) = STRAIN(2)+DJY*DL(2,J)
+      STRAIN(3) = STRAIN(3)+DJX*DL(2,J)+DJY*DL(1,J)
 !
   300 continue
   400 continue
@@ -522,33 +481,22 @@
 !
 !.... compute mean strain over element
 !
-! 	strain = strain/area
-      do k = 1,nen
-	STRAIN(k)=STRAIN(k)/(Area*Lx*Ly)
-      enddo
-!       write(*,*) "alpha = ", alpha_r
-!       stop
+      strain = strain/area
 ! 
-!.... compute strain's trace mean
+!.... compute strain's trace
 ! 
       trEps = (strain(1) + strain(2))
 !
 !.... compute mean pressure over element
 ! 
-      p_mean = p(1,(nel)) + p(1,(nel+1)) + p(1,(nel+nelx_BM+1)) + p(1,(nel+nelx_BM+2))
-      p_mean = (1.0/4.0)*p_mean*p_Ref
-!       write(*,*) "p_mean = ",p_mean
-!       stop
-! !
-! !.... compute previous mean pressure over element
-! ! 
-!       p_mean_ant = p_ant(1,(nel))+p_ant(1,(nel+1))+p_ant(1,(nel+nelx_BM+1))+p_ant(1,(nel+nelx_BM+2))
-!       p_mean_ant = (1.0/4.0)*p_mean_ant*p_Ref
+      p_mean(nel) = sum(pl)/nen!*p_Ref
+      gp_mean(1,nel) = sum(gpl(1,:))/nen!*p_Ref
+      gp_mean(2,nel) = sum(gpl(2,:))/nen!*p_Ref
 !     
 !.... compute mean porosity over element
 !
-      phi_n(nel) = phi_BM + alpha_r*trEps + &
-      &            ((alpha_r-phi_BM)/k_s)*(p_mean - p_Ref)
+      phi_n(nel) = phi_n0(nel) + alpha_r*trEps + &
+      &            ((alpha_r-phi_n0(nel))/k_s)*(p_mean(nel) - p_Ref)
 !
 !.... compute element volumetric stresses 
 !
@@ -557,117 +505,38 @@
       STRESS(3,NEL)=CMATRIX33*STRAIN(3)
       
   500 continue
-	
-!       write(112,*) phi_n
-!       stop
-      return
-      end subroutine calcStressPoro
-
-! !**** new **********************************************************************
-! !
-! !     Essa sub-rotina calcula as porosidades por elemento considerando a linearidade
-! !     lagrangeana.
-! !     Diego (Set/2015)
-! !
-!       subroutine calcPorosidade(phi, strain, p, x,conecNodaisElem, &
-!                             numnp, numel, nen, nsd, ndof)
-! !
-! 
-!       use mGlobaisEscalares, only: nrowsh_bm, npint_bm	! OK
-!       use mGlobaisArranjos,  only: mat_bm, c_bm, grav_bm, celast	! OK
-!       use mAlgMatricial,     only: kdbc, addrhs, addlhs	! OK
-!       use mfuncoesDeForma,   only: oneshl, oneshg, shlt, shlq3d, shg3d, shgq, shlq	! OK
-!       use mMalha,            only: local	! OK
-!       use mBlocoMacro,       only: solucao_BM, ndof_bm
-!       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro
-!       !use mMalha,         only:  conecNodaisElem
-! !       use mPardisoSistema, only: addlhsCSR, ApElasticidade, AiElasticidade
-! !       use mHYPRESistema,   only: addnslHYPRE, addrhsHYPRE
-! !
-!       implicit none
-! !                                                                       
-! !.... remove above card for single-precision operation               
-! !       
-!       integer*4, intent(in)  :: numnp, numel, nen, nsd, ndof
-! !
-!       real*8,  intent(in) :: stress(nen,numel)
-!       real*8,  intent(in)    :: x(nsd, numnp), p(nsd, numnp)
-! !       integer*4, intent(in)    :: idiag(neqD),    lm(ndof,nen,numel) 
-!       integer*4, intent(in)    :: conecNodaisElem(nen,numel)
-!       real*8,  intent(inout) :: phi(numel)
-! !
-!       real*8 :: xl(nsd,nen), dl(ndof,nen)
-!       real*8 :: shg(nrowsh_bm,nen,npint_bm), shl(nrowsh_bm,nen,npint_bm)
-!       real*8 :: det(npint_bm), w(npint_bm)
-! !
-!       integer*4 :: nee
-!       real*8   :: strain(nen)
-! !
-!       integer*4:: nel, m, l, i, j, k, ni, nj
-!       integer*4, parameter :: um = 1
-! !       real*8  :: pi, Kx, Ky, Kz
-!       real*8  :: temp1, Area!, gf1, gf2, gf3
-! !       real*8  :: pss
-!       real*8  :: djx, djy, djz, djn!, dix, diy, diz, gpx, gpy
-!       logical :: diag,zerodl,quad,lsym
-!       real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
-! !       *******************************************
-! !       real*8  :: Lx, Ly
-! !
-! 	
-!       do 500 nel=1,numel
-!       
-! !       Computing strain's trace
-! 	
-!       
-!   500 continue
-! 	
-! !       write(112,*) STRESS
-! !       stop
-!       return
-!       end subroutine calcStress      
-
-!*** Diego (Set/2015) ********************************************************************** 
-!    Esta sub-rotina tem como finalidade checar o equilibrio entre as tensoes e pressoes
-!    nos elementos do interior do dominio. Diego (out/2015)
-
-      SUBROUTINE CHECKEQ(STRESS,P,X,NUMEL,TEMPO,idx)
-      
-      use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, alpha_r
-      use mMalha,            only: nelx_BM, nely_BM
-      
-      REAL*8, intent(in) ::  STRESS(3,*),P(1,*),X(2,*), TEMPO
-      INTEGER  NUMEL, N, N_ydown,N_yup,N_xleft,N_xright,idx,idsx,idtx,I,J
-      CHARACTER*30  idsStr, sigma, tau
-      REAL*8 :: residS, residP, p_mean_tmp, Lx, Ly
-      REAL*8 :: sig_down,sig_up,sig_left,sig_right
-      REAL*8 :: p_down,p_up,p_left,p_right
-      REAL*8 :: p_mean(numel), resid((NUMEL-2)*(NUMEL-2))
-      
-      Lx    = widthBlocoMacro
-      Ly    = tamBlocoMacro    
-            
+  
 !       Abrindo os arquivos para saída
 
-      write(idsStr,'(i1)') idx
-      
-      idsx = 11*idx
-      sigma = 'residE.'//idsStr
-      OPEN(UNIT=idsx, FILE= sigma)
-      
-!       Computing mean pressure per element
-      do N=1,NUMEL
-	p_mean_tmp = p(1,(N)) + p(1,(N+1)) + p(1,(N+nelx_BM+1)) + p(1,(N+nelx_BM+2))
-        p_mean(N) = (1.0/4.0)*p_mean_tmp*p_Ref
-      enddo
-!       stop
-      
+  write(idsStr,'(i1)') idx
+
+  idsx = 11*idx
+  sigma = 'sigy.'//idsStr
+  OPEN(UNIT=idsx, FILE= sigma)
+  
+  idsr = 12*idx
+  rsigma = 'eqdiv.'//idsStr
+  OPEN(UNIT=idsr, FILE= rsigma)
+ 
+  OPEN(UNIT=(13*idx), FILE= 'eqdivL.'//idsStr)
+  OPEN(UNIT=(17*idx), FILE= 'eqdivC.'//idsStr)
+  OPEN(UNIT=(19*idx), FILE= 'eqdivR.'//idsStr)
+  OPEN(UNIT=(201), FILE= 'sigmasL.'//idsStr)
+  OPEN(UNIT=(202), FILE= 'sigmasR.'//idsStr)
+  OPEN(UNIT=(203), FILE= 'sigmasC.'//idsStr)
+
+  if (tflag .eqv. .true.) then
+	residbc = 0.0
+	DO J=1,nelx_BM
+	!             Element localization
+		N = J+(nely_BM-1)*(nely_BM)
+	        write(idsx, 223) N, ((STRESS(2,N) + STRESS(3,N)) - alpha_r*p_mean(N))
+	ENDDO
 !       Computation check of element's momentum balance
-      DO I=2,nely_BM - 1
+      DO I=1,nely_BM - 2
           DO J=2,nelx_BM - 1
-            write(787,*) "(i,j) = ", I,J
 !             Element localization
-            N = J+(I-1)*(nely_BM + 1)
+            N = J+(I)*(nely_BM)
             N_xleft = N - 1 
             N_xright = N + 1
             N_ydown = J+(I-2)*(nely_BM + 1)
@@ -676,42 +545,65 @@
 !             Stress N,S,E,W terms
             sig_left = (STRESS(1,N_xleft)+(STRESS(3,N_xleft)))
             sig_right = (STRESS(1,N_xright)+(STRESS(3,N_xright)))
-            sig_down = (STRESS(1,N_ydown)+(STRESS(3,N_ydown)))
-            sig_up = (STRESS(1,N_yup)+(STRESS(3,N_yup)))
+            sig_down = (STRESS(2,N_ydown)+(STRESS(3,N_ydown)))
+            sig_up = (STRESS(2,N_yup)+(STRESS(3,N_yup)))
             
 !             Stress finite difference computation at element
-            residS = (sig_right - sig_left)/(2.d0*Lx*(X(1,N_xright)-X(1,N_xleft))) &
-            &	   + (sig_up - sig_down)/(2.d0*Ly*(X(2,N_yup)-X(2,N_ydown)))
+            residS_x = (sig_right - sig_left)/((X(1,N_xright)-X(1,N_xleft)))
+            residS_y = (sig_up - sig_down)/((X(2,N_yup)-X(2,N_ydown)))
             
-!             Mean pressure N,S,E,W terms
-            p_left = (p_mean(N_xleft))
-            p_right = (p_mean(N_xright))
-            p_down = (p_mean(N_ydown))
-            p_up = (p_mean(N_yup))
-            
-!             Mean pressure finite difference computation at element
-            residP = alpha_r*((p_right - p_left)/(2.0d0*Lx*(X(1,N_xright)-X(1,N_xleft))) &
-            &	   + (p_up - p_down)/(2.0d0*Ly*(X(2,N_yup)-X(2,N_ydown))))
-            
-!             Residue's computation at element
-            resid(N) = residS - residP
-            write(667,*) residS, residP
+	    denStress_x = dabs(STRESS(1,N) + STRESS(3,N))
+	    denStress_y = dabs(STRESS(2,N) + STRESS(3,N))
+	    denGrad_x = dabs(alpha_r*gp_mean(1,N))
+	    denGrad_y = dabs(alpha_r*gp_mean(2,N))
+	    valueError(1,N) = dabs(residS_x - alpha_r*gp_mean(1,N))/denStress_x
+	    valueError(2,N) = dabs(residS_y - alpha_r*gp_mean(2,N))/denStress_y
+            write(idsr,224) N, valueError(1,N), valueError(2,N) 
           ENDDO
       ENDDO
       
-      DO I=2,nelx_BM
-          DO J=2,nely_BM
-            N = I+(J-1)*(nelx_BM + 1)
-            WRITE(idsx,222) N, TEMPO, X(1,N), X(2,N), resid(N)
+      DO I=2,nelx_BM, (nelx_BM - 3)/2
+          DO J=2,nely_BM - 1
+            N = I+(J-1)*(nelx_BM)
+            if (I .eq. 2) then
+		WRITE((13*idx),225) N, X(1,N), X(2,N), valueError(1,N), valueError(2,N)
+	    else if (I .eq. (nelx_BM-2)) then
+	        WRITE((19*idx),225) N, X(1,N), X(2,N), valueError(1,N), valueError(2,N)
+	    else if (I .eq. ((nelx_BM)/2)) then
+	        WRITE((17*idx),225) N, X(1,N), X(2,N), valueError(1,N), valueError(2,N)
+            endif
           ENDDO
-      ENDDO
-      
- 222  FORMAT(4X,I5,10x,4(1PE15.8,2X))
-
-      close(idsx)
-      write(*,*) "OK CHECKEQ"
-      END subroutine 
-
+      ENDDO  
+      DO I=1,nelx_BM, (nelx_BM - 1)/2
+          DO J=1,nely_BM
+            N = I+(J-1)*(nelx_BM)
+            if (I .eq. 1) then
+		write(201,226) N, STRESS(1,N), STRESS(2,N)
+	    else if (I .eq. (nelx_BM-1)) then
+	        write(202,226) N, STRESS(1,N), STRESS(2,N)
+	    else if (I .eq. ((nelx_BM)/2)) then
+	        write(203,226) N, STRESS(1,N), STRESS(2,N)
+            endif
+          ENDDO
+      ENDDO 
+  endif
+  
+  close(idsx)
+  close(idsr)
+  close(995)
+  close(201)
+  close(202)
+  close(203)
+  close((13*idx))
+  close((17*idx))
+  close((19*idx))
+ 
+  223  FORMAT(4X,I5,10x,1(1PE15.8,2X))
+  224  FORMAT(4X,I5,10x,2(1PE15.8,2X))
+  225  FORMAT(4X,I5,10x,4(1PE15.8,2X))
+  226  FORMAT(4X,I5,10x,2(1PE15.8,2X))
+      return
+      end subroutine calcStressPoro
 !       
 !     *********************************************************  
 !       

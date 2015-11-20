@@ -36,7 +36,7 @@ Px0 = np.zeros(pnum)
 fig = plt.figure()
 #ax = fig.gca(projection='3d')
 
-#ax = fig.add_subplot(111, projection='3d')
+#ax = fig.adsd_subplot(111, projection='3d')
 
 ax = plt.subplot(111)
 
@@ -52,9 +52,9 @@ for i in range(1,pnum+1):
     #ax = fig.add_subplot(111, projection='3d')
     
     if dataLegendP[i-1] == 1.:
-        leg = (u"%d dia" % dataLegendP[i-1])
+        leg = (u"%d mês" % dataLegendP[i-1])
     else:
-        leg = ("%d dias" % dataLegendP[i-1])
+        leg = ("%d meses" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,P,'o',label=leg)
     ax.plot(xx,P,'-o',label=leg)
@@ -65,20 +65,21 @@ for i in range(1,pnum+1):
     #plt.show()
     #plt.pcolor(xx,yy,P)
     #ax.contour(xx, yy, P)
-    #plt.savefig('./teste/tmpPressao%d.pdf' % i_mask)
+    #plt.savefig('./teste/tmpPressao%d.png' % i_mask)
 
 box = ax.get_position()
 ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-ax.set_xlabel(r'$x^{*}$',fontsize=18)
+ax.set_xlabel(r'$x$',fontsize=18)
 #ax.set_ylabel('$y^{*}$',fontsize=18)
-ax.set_ylabel(r'$p^{*}$',fontsize=18)
+ax.set_ylabel(r'$p$',fontsize=18)
+ax.grid(True)
 
 #plt.xlabel('$x^{*}$',fontsize=18)
 #plt.ylabel('$p^{*}$',fontsize=18,rotation='horizontal')
 #plt.grid(b=True, which='major', color='k', linestyle='--')
 #ax.legend()
-plt.savefig('./' + filepath + 'tmpPressao.pdf')
+plt.savefig('./' + filepath + 'tmpPressao.png')
 #plt.show()
 
 fig = plt.figure()
@@ -99,9 +100,9 @@ for i in range(1,pnum+1):
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
     if dataLegendP[i-1] == 1.:
-        leg = (u"%d dia" % dataLegendP[i-1])
+        leg = (u"%d mês" % dataLegendP[i-1])
     else:
-        leg = ("%d dias" % dataLegendP[i-1])
+        leg = ("%d meses" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,gradP,'o',label=leg)
     ax.plot(xx,gradP,'-o',label=leg)
@@ -111,19 +112,20 @@ for i in range(1,pnum+1):
     #plt.show()
     #plt.pcolor(xx,yy,P)
     #ax.contour(xx, yy, P)
-    #plt.savefig('./teste/tmpPressao%d.pdf' % i_mask)
+    #plt.savefig('./teste/tmpPressao%d.png' % i_mask)
 
 box = ax.get_position()
 ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-ax.set_xlabel(r'$x^{*}$',fontsize=18)
+ax.set_xlabel(r'$x$',fontsize=18)
 #ax.set_ylabel('$y^{*}$',fontsize=18)
-ax.set_ylabel(r"$\nabla^* p^{*}$",fontsize=18)
+ax.set_ylabel(r"$\nabla p$",fontsize=18)
 #plt.xlabel('$x^{*}$',fontsize=18)
 #plt.ylabel('$p^{*}$',fontsize=18,rotation='horizontal')
 #plt.grid(b=True, which='major', color='k', linestyle='--')
 #ax.legend()
-plt.savefig('./' + filepath + 'tmpgradPressao.pdf')
+plt.grid(True)
+plt.savefig('./' + filepath + 'tmpgradPressao.png')
 #plt.show()
 
 fig = plt.figure()
@@ -144,9 +146,9 @@ for i in range(1,pnum+1):
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
     if dataLegendP[i-1] == 1.:
-        leg = (u"%d dia" % dataLegendP[i-1])
+        leg = (u"%d mês" % dataLegendP[i-1])
     else:
-        leg = ("%d dias" % dataLegendP[i-1])
+        leg = ("%d meses" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,V,'o',label=leg)
     ax.plot(xx,V,'-o',label=leg)
@@ -156,19 +158,21 @@ for i in range(1,pnum+1):
     #plt.show()
     #plt.pcolor(xx,yy,P)
     #ax.contour(xx, yy, P)
-    #plt.savefig('./teste/tmpPressao%d.pdf' % i_mask)
+    #plt.savefig('./teste/tmpPressao%d.png' % i_mask)
 
 box = ax.get_position()
-ax.set_position([0.3*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
+ax.set_position([0.45*box.x0+box.x0, box.y0, box.width * 0.7, box.height])
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-ax.set_xlabel(r'$x^{*}$',fontsize=18)
+#ax.legend(loc='best')
+ax.set_xlabel(r'$x$',fontsize=18)
 #ax.set_ylabel('$y^{*}$',fontsize=18)
 ax.set_ylabel(r"$u_D\,(m/s)$",fontsize=18)
 #plt.xlabel('$x^{*}$',fontsize=18)
 #plt.ylabel('$p^{*}$',fontsize=18,rotation='horizontal')
 #plt.grid(b=True, which='major', color='k', linestyle='--')
 #ax.legend()
-plt.savefig('./' + filepath + 'tmpV.pdf')
+plt.grid(True)
+plt.savefig('./' + filepath + 'tmpV.png')
 #plt.show()
 
 fig = plt.figure()
@@ -190,9 +194,9 @@ for i in range(1,pnum+1):
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
     if dataLegendP[i-1] == 1.:
-        leg = (u"%d dia" % dataLegendP[i-1])
+        leg = (u"%d mês" % dataLegendP[i-1])
     else:
-        leg = ("%d dias" % dataLegendP[i-1])
+        leg = ("%d meses" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,J,'.',label=leg)
     #ax.plot(xx,yy,J,'o',label=leg)
@@ -203,19 +207,21 @@ for i in range(1,pnum+1):
     #plt.show()
     #plt.pcolor(xx,yy,P)
     #ax.contour(xx, yy, P)
-    #plt.savefig('./teste/tmpPressao%d.pdf' % i_mask)
+    #plt.savefig('./teste/tmpPressao%d.png' % i_mask)
 
 box = ax.get_position()
-ax.set_position([0.2*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
-ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-ax.set_xlabel('$x^{*}$',fontsize=18)
+ax.set_position([0.45*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
+#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+ax.legend(loc='best')
+ax.set_xlabel('$x$',fontsize=18)
 #ax.set_ylabel(r'$y^{*}$',fontsize=18)
 ax.set_ylabel(r'$J \,\left(\frac{kg}{m^2 s}\right)$',fontsize=18)
 #plt.xlabel('$x^{*}$',fontsize=18)
 #plt.ylabel('$p^{*}$',fontsize=18,rotation='horizontal')
 #plt.grid(b=True, which='major', color='k', linestyle='--')
 #ax.legend()
-plt.savefig('./' + filepath + 'tmpJ.pdf')
+plt.grid(True)
+plt.savefig('./' + filepath + 'tmpJ.png')
 #plt.show()
 
 fig = plt.figure()
@@ -237,9 +243,9 @@ for i in range(1,pnum+1):
     #ax = fig.gca(projection='3d')
     #ax = fig.add_subplot(111, projection='3d')
     if dataLegendP[i-1] == 1.:
-        leg = (u"%d dia" % dataLegendP[i-1])
+	leg = (u"%d mês" % dataLegendP[i-1])
     else:
-        leg = ("%d dias" % dataLegendP[i-1])
+	leg = ("%d meses" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,J,'.',label=leg)
     #ax.plot(xx,yy,J,'o',label=leg)
@@ -250,79 +256,83 @@ for i in range(1,pnum+1):
     #plt.show()
     #plt.pcolor(xx,yy,P)
     #ax.contour(xx, yy, P)
-    #plt.savefig('./teste/tmpPressao%d.pdf' % i_mask)
+    #plt.savefig('./teste/tmpPressao%d.png' % i_mask)
 
 box = ax.get_position()
 ax.set_position([0.2*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-ax.set_xlabel('$x^{*}$',fontsize=18)
+ax.set_xlabel('$x$',fontsize=18)
 #ax.set_ylabel(r'$y^{*}$',fontsize=18)
 ax.set_ylabel(u'Resíduo',fontsize=18)
 #plt.xlabel('$x^{*}$',fontsize=18)
 #plt.ylabel('$p^{*}$',fontsize=18,rotation='horizontal')
 #plt.grid(b=True, which='major', color='k', linestyle='--')
 #ax.legend()
-plt.savefig('./' + filepath + 'tmpResid.pdf')
+plt.grid(True)
+plt.savefig('./' + filepath + 'tmpResid.png')
 #plt.show()
 
 ## Produção do bloco
-#fig = plt.figure()
-##ax = fig.gca(projection='3d')
+fig = plt.figure()
+#ax = fig.gca(projection='3d')
 
-##ax = fig.add_subplot(111, projection='3d')
+#ax = fig.add_subplot(111, projection='3d')
 
-#ax = plt.subplot(111)
+ax = plt.subplot(111)
 
-#inDataNameJprod = './' + filepath + 'echoProducao.dat'
-#dt, Jprod = np.loadtxt(inDataNameJprod,unpack=True,usecols=[1,5])
-#dt = dt/mes
-#ax.set_xlabel(r'$t\,(dias)$',fontsize=18)
-#ax.set_ylabel(r'$Produ \c c \~ a o\, \left(kg\right)$',fontsize=16)
-#ax.plot(dt,Jprod,'-o',label=u'Produção')
-#box = ax.get_position()
-#ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
-#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-#plt.savefig('./' + filepath + 'Prod.pdf')
-##plt.show()
+inDataNameJprod = './' + filepath + 'echoProducao.dat'
+dt, Jprod = np.loadtxt(inDataNameJprod,unpack=True,usecols=[1,5])
+dt = dt/mes
+ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
+ax.set_ylabel(r'$Produ \c c \~ a o\, \left(kg\right)$',fontsize=16)
+ax.plot(dt,Jprod,'-o',label=u'Produção')
+box = ax.get_position()
+ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
+ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+plt.grid(True)
+plt.savefig('./' + filepath + 'Prod.png')
+#plt.show()
 
-## RF barra
-#fig = plt.figure()
-##ax = fig.gca(projection='3d')
+# RF barra
+fig = plt.figure()
+#ax = fig.gca(projection='3d')
 
-##ax = fig.add_subplot(111, projection='3d')
+#ax = fig.add_subplot(111, projection='3d')
 
-#ax = plt.subplot(111)
+ax = plt.subplot(111)
 
-#inDataNameRF_ = './' + filepath + 'echoProducao.dat'
-#dt, RF_ = np.loadtxt(inDataNameRF_,unpack=True,usecols=[1,6])
-#dt = dt/mes
-#ax.set_xlabel(r'$t\,(dias)$',fontsize=18)
-#ax.set_ylabel(r'$RF_{recuper\'avel}$',fontsize=16)
-#ax.plot(dt,RF_,'-o',label=u'RF')
-#box = ax.get_position()
-#ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
-#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-#plt.savefig('./' + filepath + 'RF_.pdf')
-##plt.show()
+inDataNameRF_ = './' + filepath + 'echoProducao.dat'
+dt, RF_ = np.loadtxt(inDataNameRF_,unpack=True,usecols=[1,6])
+dt = dt/mes
+ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
+ax.set_ylabel(r'$RF_{recuper\'avel}$',fontsize=16)
+ax.plot(dt,RF_,'-o',label=u'RF')
+box = ax.get_position()
+ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
+ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+plt.grid(True)
+plt.savefig('./' + filepath + 'RF_.png')
+#plt.show()
 
-## RF
-#fig = plt.figure()
-##ax = fig.gca(projection='3d')
+# RF
+fig = plt.figure()
+#ax = fig.gca(projection='3d')
 
-##ax = fig.add_subplot(111, projection='3d')
+#ax = fig.add_subplot(111, projection='3d')
 
-#ax = plt.subplot(111)
+ax = plt.subplot(111)
 
-#inDataNameRF = './' + filepath + 'echoProducao.dat'
-#dt, RF = np.loadtxt(inDataNameRF,unpack=True,usecols=[1,7])
-#dt = dt/mes
-#ax.set_xlabel(r'$t\,(dias)$',fontsize=18)
-#ax.set_ylabel(r'$RF_{total}$',fontsize=16)
-#ax.plot(dt,RF,'-o',label=u'RF')
-#box = ax.get_position()
-#ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
-#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-#plt.savefig('./' + filepath + 'RF.pdf')
+inDataNameRF = './' + filepath + 'echoProducao.dat'
+dt, RF = np.loadtxt(inDataNameRF,unpack=True,usecols=[1,7])
+dt = dt/mes
+ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
+ax.set_ylabel(r'$RF_{total}$',fontsize=16)
+ax.plot(dt,RF,'-o',label=u'RF')
+box = ax.get_position()
+ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
+ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+plt.grid(True)
+plt.savefig('./' + filepath + 'RF.png')
 #plt.show()
 
 print "Pressure's plots OK"

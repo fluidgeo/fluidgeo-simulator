@@ -17,10 +17,16 @@ eval ${comando}
 comando="chmod u+x ./fontes/plotDisp.py"
 eval ${comando}
 
+comando="chmod u+x ./fontes/plotError.py"
+eval ${comando}
+
 comando="./fontes/plot_P.py ${dirExp}/"
 eval ${comando}
 
 comando="./fontes/plotDisp.py ${dirExp}/"
+eval ${comando}
+
+comando="./fontes/plotError.py ${dirExp}/"
 eval ${comando}
 
 #comando="./montarPDFGraficos.sh ${dirExp}"
