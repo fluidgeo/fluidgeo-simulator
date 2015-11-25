@@ -255,6 +255,111 @@ module mInputReader
         return
     end subroutine readInputFileDS !***********************************************************************************
 
+    !---------------------------------------------------------------------------------
+    !> Le arquivo de input e armazena seu conteudo em um array.
+    !! @param file_name Nome do arquivo a ser lido.
+    subroutine readInputParametersDS()
+        use mLeituraEscrita,   only: ipar
+
+        implicit none
+
+        integer*4 success, lines_count
+        character(len=200) file_line
+
+        integer*4 :: main_number_of_lines, main_number_of_includes, i, include_index, inc_nlines, inc_inc, merge_lines
+        character(len=200), allocatable :: main_file_lines(:)
+        character(len=200), allocatable :: include_files(:)
+        character(len=200) include_file
+        integer*4, allocatable :: include_indexes(:), include_number_of_lines(:)
+
+        main_number_of_lines = 0
+        main_number_of_includes = 0
+
+        call analyzeFileParameters(main_number_of_lines, main_number_of_includes)
+
+        if (main_number_of_includes.eq.0) then
+            call createSimpleInputParameters()
+            return
+        end if
+
+        allocate(main_file_lines(main_number_of_lines))
+        allocate(include_indexes(main_number_of_includes))
+        allocate(include_number_of_lines(main_number_of_includes))
+        allocate(include_files(main_number_of_includes))
+
+        lines_count = 1
+        do
+            read(ipar, "(A)", iostat=success) file_line
+            if (success.ne.0) exit
+            main_file_lines(lines_count) = file_line
+            lines_count = lines_count + 1
+        end do
+        rewind(ipar)
+
+        number_of_lines = main_number_of_lines
+
+        !Number of lines
+        do i=1, main_number_of_includes
+            include_index = findInclude(i, main_file_lines, main_number_of_lines)
+            read(main_file_lines(include_index), '(A)') include_file
+
+            include_file = adJustl(include_file)
+            call analyzeFile(include_file, inc_nlines, inc_inc)
+            number_of_lines = number_of_lines + inc_nlines
+            include_indexes(i) = include_index
+            include_number_of_lines(i) = inc_nlines
+            include_files(i) = include_file
+        end do
+
+        !Prepare final struct.
+        call prepareFileLines(include_indexes, include_number_of_lines, main_number_of_includes, main_file_lines)
+
+        !Merge contensts.
+        merge_lines = 0
+        do i=1, main_number_of_includes
+            call mergeIncludeContents(include_files(i), include_indexes(i) + merge_lines)
+            merge_lines = merge_lines + include_number_of_lines(i)
+        end do
+
+        deallocate(main_file_lines)
+        deallocate(include_indexes)
+        deallocate(include_number_of_lines)
+        return
+    end subroutine readInputParametersDS !***********************************************************************************
+
+    !> Cria a estrutura de input de parametros usando um arquivo de entrada sem includes
+    !! @param file_name Nome do arquivo a ser lido.
+    subroutine createSimpleInputParameters()
+        use mLeituraEscrita,   only: ipar
+
+        implicit none
+
+        integer*4 success, lines_count
+        character(len=200) file_line
+        
+!         deallocate(file_lines)
+
+        number_of_lines = 0
+
+        do
+            read(ipar, "(A)", iostat=success) file_line
+            if (success.ne.0) exit
+            number_of_lines = number_of_lines + 1
+        end do
+        rewind(ipar)
+
+        allocate(file_lines(number_of_lines))
+        !TO-DO avoid two-times read
+        lines_count = 1
+        do
+            read(ipar, "(A)", iostat=success) file_line
+            if (success.ne.0) exit
+            file_lines(lines_count) = file_line
+            lines_count = lines_count + 1
+        end do
+        rewind(ipar)
+    end subroutine createSimpleInputParameters !*****************************************************************************
+
 
     !> Cria a estretura de input usando um arquivo de entrada sem includes
     !! @param file_name Nome do arquivo a ser lido.
@@ -266,6 +371,8 @@ module mInputReader
         integer*4 success, lines_count
         character(len=200) file_line
 
+        deallocate(file_lines)
+        
         number_of_lines = 0
 
         do
@@ -379,6 +486,38 @@ module mInputReader
     end subroutine analyzeFileInput !***************************************************************************************
 
     !> Efetua algumas an�lises no arquivo recebido.
+    !! @param   number_of_lines     N�mero de linhas.
+    !! @param   number_of_include   N�mero de ocorr�ncias da palavra include.
+    subroutine analyzeFileParameters(number_of_lines, number_of_includes)
+        use mLeituraEscrita,   only: ipar
+
+        character(len=200) file_line
+        integer*4 number_of_lines, number_of_includes
+
+        character(len=50) include_keyword, formated_keyword
+        integer*4 keyword_len, success
+
+        include_keyword = "include"
+        keyword_len = len(trim(include_keyword)) + 2
+        formated_keyword = trim('*' // trim(include_keyword) // '{')
+
+        number_of_lines = 0
+        number_of_includes = 0
+
+!        lunitInicial = 15
+        do
+            read(ipar, "(A)", iostat=success) file_line
+            if (success.ne.0) exit
+            number_of_lines = number_of_lines + 1
+            if (formated_keyword.eq.file_line(1:keyword_len)) then
+                number_of_includes = number_of_includes + 1
+            end if
+        end do
+        rewind(ipar)
+
+    end subroutine analyzeFileParameters !***************************************************************************************
+
+    !> Efetua algumas an�lises no arquivo recebido.
     !! @param   file_name           O nome do arquivo.
     !! @param   number_of_lines     N�mero de linhas.
     !! @param   number_of_include   N�mero de ocorr�ncias da palavra include.
@@ -484,6 +623,27 @@ module mInputReader
         read(file_line, *) target
         return
     end subroutine readIntegerKeywordValue !***************************************************************************
+
+    !> Efetua a leitura de uma palavra-chave do tipo logico. Se nao encontrado, associa o valor default fornecido.
+    !! @param keyword       A palavra-chave a ser encontrada.
+    !! @param target        Variavel onde o valor inteiro sera atribuido.
+    !! @param default_value Valor default.
+    !! Diego (Nov/2015)
+    subroutine readLogicalKeywordValue(keyword, target, default_value)
+        implicit none
+        character(50) keyword
+        character(120) file_line
+        integer*4 default_value, keyword_line
+        logical :: target
+        keyword_line = findKeyword(keyword)
+        if (keyword_line.eq.0) then
+            target = default_value
+            return
+        end if
+        file_line = adjustL(trim(file_lines(keyword_line)))
+        read(file_line, *) target
+        return
+    end subroutine readLogicalKeywordValue !***************************************************************************
 
     !> Efetua a leitura de uma palavra-chave to tipo string. Se nao encontrado, associa o valor defualt fornecido.
     !! @param keyword       A palavra-chave a ser encontrada.

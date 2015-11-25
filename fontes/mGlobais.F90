@@ -22,9 +22,10 @@
 
         integer, allocatable :: npar_B(:)
         integer, allocatable :: npar_BM(:)
-        real*8               :: etime(6)
+        real*8               :: etime(6), phi_range(2)
         character*4          :: title_B(20)
         character*4          :: title_BM(20)
+        character(len=80)    :: reservoir_case, coupling_mode
 
         real*8,  allocatable :: uTempoN(:)
 
@@ -51,7 +52,7 @@
         integer :: nRK, ordemRK
         integer :: optCC
         character(len=10) :: optSolver
-        logical :: simetriaVel, simetriaGeo
+        logical :: simetriaVel, simetriaGeo, random_porosity
 
         integer :: numat_BM
         integer :: nrowsh_BM,nicode_BM,npint_BM

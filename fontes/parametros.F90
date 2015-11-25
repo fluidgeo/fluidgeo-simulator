@@ -113,10 +113,10 @@
        constMu   = 1.2d-5; ! Pa.s       
        M_m       = 16.01D-3   ! kg/mol 
 
-       p_Reservatorio = 6.32d7;           ! Pa -> Barnett
+!        p_Reservatorio = 6.32d7;           ! Pa -> Barnett
 !        p_Reservatorio = 8.72d7;		  ! Pa -> Eagle Ford
        p_Ref          = p_Reservatorio;   ! Pa 
-       p_Poco         = 5.d5;             ! Pa      
+!        p_Poco         = 5.d5;             ! Pa      
        condContAdim   = p_Poco!/p_Ref;     
        
        dimZ_FB       = 1.d0 !m
@@ -241,6 +241,9 @@
 !     ************************************************************
       SUBROUTINE inicializarParametrosBlocoMacro()
       
+      use mGlobaisArranjos,  only: phi_n, phi_n0, phi_range
+      use mGlobaisEscalares, only: random_porosity
+      
       IMPLICIT NONE
       
       CHARACTER*200 :: linhaAux
@@ -249,20 +252,33 @@
       phi_BM      =  0.2d0        ! adim - porosidade das fraturas naturais
       fraVol_BM   =  1.0d0       ! adim - fracao de volume das fraturas naturais
 !       constK_F   =  1.D-15      ! m^2
-      constK_BM   =  1.0D-18    ! m^2
 !       constK_BM   =  1.0D-18    ! m^2
-      k_s = 25.0d9	! Pa, Tobiloluwa (Diego, set/2015)
+!       constK_BM   =  1.0D-18    ! m^2
+!       k_s = 25.0d9	! Pa, Tobiloluwa (Diego, set/2015)
 !       Kbulk = (6894.75729)*2.6d6	! Shale gas revolution (Diego, set/2015)
-      Kbulk = 5.28d9	! Pa, Skalle (Diego, set/2015)
+!       Kbulk = 5.28d9	! Pa, Skalle (Diego, set/2015)
       alpha_r = 1.0d0 - Kbulk/k_s
 !       alpha_r = 1.0d0
 !       alpha_r = 0.001
 
-      tamBlocoMacro          = 50.d0  ! metros - altura bloco macro (BM_y)
-      widthBlocoMacro        = 10.D0  ! metros - espessura bloco macro (BM_x)
+!       tamBlocoMacro          = 50.d0  ! metros - altura bloco macro (BM_y)
+!       widthBlocoMacro        = 10.D0  ! metros - espessura bloco macro (BM_x)
 !       areaContatoFratPoco = widthBlocoMacro * dimZ_FB;
       areaContatoFratPoco = 0;
       areaContatoBlocoMacroFratura = tamBlocoMacro * dimZ_FB
+      
+!       if (random_porosity .eqv. .true.) then
+!       call random_number(phi_n0)
+!       phi_n0 = (phi_n0*(0.25d0-0.15d0)) + 0.15d0
+!       phi_n = phi_n0
+!       else
+!       phi_n0 = 0.25d0
+!       phi_n = phi_n0
+!       endif
+      
+      call random_number(phi_n0)
+      phi_n0 = (phi_n0*(phi_range(2)-phi_range(1))) + phi_range(1)
+      phi_n = phi_n0
           
       END SUBROUTINE inicializarParametrosBlocoMacro
       

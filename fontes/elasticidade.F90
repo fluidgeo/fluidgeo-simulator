@@ -524,13 +524,16 @@
   OPEN(UNIT=(201), FILE= 'sigmasL.'//idsStr)
   OPEN(UNIT=(202), FILE= 'sigmasR.'//idsStr)
   OPEN(UNIT=(203), FILE= 'sigmasC.'//idsStr)
+  OPEN(UNIT=(301), FILE= 'sigmasLx.'//idsStr)
+  OPEN(UNIT=(302), FILE= 'sigmasRx.'//idsStr)
+  OPEN(UNIT=(303), FILE= 'sigmasCx.'//idsStr)
 
   if (tflag .eqv. .true.) then
 	residbc = 0.0
 	DO J=1,nelx_BM
 	!             Element localization
 		N = J+(nely_BM-1)*(nely_BM)
-	        write(idsx, 223) N, ((STRESS(2,N) + STRESS(3,N)) - alpha_r*p_mean(N))
+	        write(idsx, 223) N, (STRESS(2,N) - alpha_r*p_mean(N))
 	ENDDO
 !       Computation check of element's momentum balance
       DO I=1,nely_BM - 2
@@ -552,8 +555,8 @@
             residS_x = (sig_right - sig_left)/((X(1,N_xright)-X(1,N_xleft)))
             residS_y = (sig_up - sig_down)/((X(2,N_yup)-X(2,N_ydown)))
             
-	    denStress_x = dabs(STRESS(1,N) + STRESS(3,N))
-	    denStress_y = dabs(STRESS(2,N) + STRESS(3,N))
+	    denStress_x = dabs(STRESS(1,N))
+	    denStress_y = dabs(STRESS(2,N))
 	    denGrad_x = dabs(alpha_r*gp_mean(1,N))
 	    denGrad_y = dabs(alpha_r*gp_mean(2,N))
 	    valueError(1,N) = dabs(residS_x - alpha_r*gp_mean(1,N))/denStress_x
@@ -578,14 +581,26 @@
           DO J=1,nely_BM
             N = I+(J-1)*(nelx_BM)
             if (I .eq. 1) then
-		write(201,226) N, STRESS(1,N), STRESS(2,N)
+		write(201,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
 	    else if (I .eq. (nelx_BM-1)) then
-	        write(202,226) N, STRESS(1,N), STRESS(2,N)
+	        write(202,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
 	    else if (I .eq. ((nelx_BM)/2)) then
-	        write(203,226) N, STRESS(1,N), STRESS(2,N)
+	        write(203,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
             endif
           ENDDO
-      ENDDO 
+      ENDDO
+      DO I=1,nely_BM, (nely_BM - 1)/2
+          DO J=1,nelx_BM
+            N = J+(I-1)*(nely_BM)
+            if (I .eq. 1) then
+		write(301,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
+	    else if (I .eq. (nely_BM-1)) then
+	        write(302,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
+	    else if (I .eq. ((nely_BM)/2)) then
+	        write(303,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
+            endif
+          ENDDO
+      ENDDO
   endif
   
   close(idsx)
@@ -601,7 +616,7 @@
   223  FORMAT(4X,I5,10x,1(1PE15.8,2X))
   224  FORMAT(4X,I5,10x,2(1PE15.8,2X))
   225  FORMAT(4X,I5,10x,4(1PE15.8,2X))
-  226  FORMAT(4X,I5,10x,2(1PE15.8,2X))
+  226  FORMAT(4X,I5,10x,3(1PE15.8,2X))
       return
       end subroutine calcStressPoro
 !       

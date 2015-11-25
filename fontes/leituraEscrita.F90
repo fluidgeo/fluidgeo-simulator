@@ -18,7 +18,7 @@
       integer :: contadorUnidadeLogica = 10 
 	  
       integer :: iin,iecho,icoords,iconects,iconectsL
-      integer :: iechoB, iechoF, iechoQuantidadeGas
+      integer :: iechoB, iechoF, iechoQuantidadeGas, ipar
       integer :: ignuplot,iparaviewS,iparaviewP,iparaviewV
       integer :: isatTransiente
       integer :: nprint
@@ -1720,6 +1720,10 @@
       OPEN(UNIT=(17*idx), FILE= 'UC.'//idxStr)
       OPEN(UNIT=(19*idx), FILE= 'UR.'//idxStr)
       
+      OPEN(UNIT=(23*idx), FILE= 'UBx.'//idxStr)
+      OPEN(UNIT=(27*idx), FILE= 'UCx.'//idxStr)
+      OPEN(UNIT=(29*idx), FILE= 'UTx.'//idxStr)
+      
       do N=1,NUMNP
 	WRITE(idrx,210) N, X(1,N), X(2,N), u(1,N), u(2,N)
       enddo
@@ -1738,6 +1742,19 @@
           ENDDO
       ENDDO
       
+       DO I=1,nely + 1, nely/2
+          DO J=1,nelx + 1
+            N = J+(I-1)*(nely + 1)
+            if (I .eq. 1) then
+                WRITE((23*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+            else if (I .eq. (nely + 1)) then
+		WRITE((29*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+	    else
+	        WRITE((27*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+	    endif
+          ENDDO
+       ENDDO
+      
  ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 4 floats 8.2 com espaco de 2 entre eles
  210  FORMAT(4X,I5,10x,5(1PE15.8,2X))
  225  FORMAT(4X,I5,10x,4(1PE15.8,2X))
@@ -1745,6 +1762,9 @@
       close((13*idx))
       close((17*idx))
       close((19*idx))
+      close((23*idx))
+      close((27*idx))
+      close((29*idx))
       close(idrx)
 
       END subroutine   
@@ -1844,15 +1864,17 @@
 !        iin    = input unit number
 !        iecho  = output unit of input data
 !        iouter  = output unit of error norms
-    use mBlocoMacro, only: iechoProducao
+    use mBlocoMacro, only: iechoProducao, iechoPressao
 !
-    character(len=20) :: nomeIn, nomeEcho
+    character(len=20) :: nomeIn, nomeEcho, nomePar
 !
       iin        = 151
       iecho      = 166
       icoords    = 189
       iconects   = 199
       iechoProducao = 5001
+      iechoPressao = 539
+      ipar       = 111
 !
       ignuplot = 303
 !       ignuplotFluxo   = 31
@@ -1860,13 +1882,16 @@
 !
       nomeIn='input.dat'
       nomeEcho='echo.dat'
+      nomePar='parametros.dat'
 !
       open(unit=iin,    file=nomeIn, status='old', err=100) 
+      open(unit=ipar,    file=nomePar, status='old') 
       open(unit=iecho , file=nomeEcho)
 !
       open(unit=icoords   ,file= 'coordenadas.dat')
       open(unit=iconects  ,file= 'conectsNodais.dat')
       open(unit=iechoProducao, file='echoProducao.dat', status='replace')
+      open(unit=iechoPressao, file='echoPressao.dat', status='replace')
 !
       open(unit=ignuplot ,file= 'resultadoP.dat')
 !       open(unit=ignuplotFluxo     ,file= 'resultadoF.dat')
@@ -1884,7 +1909,7 @@
 !
     subroutine fecharArquivosDS()
     
-      use mBlocoMacro, only: iechoProducao
+      use mBlocoMacro, only: iechoProducao, iechoPressao
 
       close(iin      )
       close(iecho    )
@@ -1892,6 +1917,7 @@
       close(iconects )
       close(ignuplot)
       close(iechoProducao)
+      close(iechoPressao)
 !       close(ignuplotFluxo   )
 !       close(iparaview)
     end subroutine fecharArquivosDS

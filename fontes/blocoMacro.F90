@@ -354,16 +354,18 @@
       IMPLICIT NONE
       
       REAL*8   TEMPO, solucao(1,*),X(2,*), L, pressaoPa  
-      INTEGER  NUMNP, I, J,N, idx, idr, idr2
+      INTEGER  NUMNP, I, J,N, idx, idr, idr2, idr3
       character*6  solP, idxStr, solP_BC
       
-      idr = idx*10
+      idr = idx*17
       idr2 = idx*11
+      idr3 = idx*13
       write(idxStr,'(i1)') idx
       solP = 'solP.'//idxStr
       OPEN(UNIT=idr, FILE= solP)
       
-      OPEN(UNIT=(11*idx), FILE= 'solP_BC.'//idxStr)
+      OPEN(UNIT=idr2, FILE= 'solP_BC.'//idxStr)
+      OPEN(UNIT=idr3, FILE= 'solP_C.'//idxStr)
       
       if (dimModelo=='1D') then
         DO I=1,NUMNP 
@@ -381,11 +383,18 @@
           write(iechoPressao,*) ' '
           write(iechoPressao,*) ' ' 
        endif
-       DO J=1,nelx_BM + 1
-	!             Element localization
-		N = J+(nely_BM)*(nely_BM+1)
-	        write(idr2, 223) N, solucao(1,N)
-	ENDDO
+       
+       DO I=nely_BM/2 + 1,nely_BM + 1, nely_BM/2
+          DO J=1,nelx_BM + 1
+            N = J+(I-1)*(nely_BM + 1)
+            if (I .eq. (nely_BM + 1)) then
+		WRITE(idr2,210) N, TEMPO, X(1,N), X(2,N), solucao(1,N)
+	    else
+	        WRITE(idr3,210) N, TEMPO, X(1,N), X(2,N), solucao(1,N)
+	    endif
+          ENDDO
+       ENDDO   
+          
  200  FORMAT(4X,I5,10x,4(1PE15.8,2X))
  ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 3 floats 8.2 com espaco de 2 entre eles
  210  FORMAT(4X,I5,10x,4(1PE15.8,2X))
@@ -393,6 +402,8 @@
  223  FORMAT(4X,I5,10x,1(1PE15.8,2X))
       close(idr)
       close((11*idx))
+      close(idr2)
+      close(idr3)
 
       END subroutine
 
@@ -674,7 +685,7 @@
 !        AND RIGHT-HAND SIDE VECTOR
 
       use mGlobaisEscalares, only : dimModelo, ntype, numat_BM, npint_BM, nicode_BM, iprtin, nrowsh_BM
-      use mGlobaisArranjos,  only : mat_BM, c_BM, grav_BM, bf_BM, phi_n
+      use mGlobaisArranjos,  only : mat_BM, c_BM, grav_BM, bf_BM, phi_n, coupling_mode
       USE mLeituraEscrita,   only : printd, prntel
       use mMalha,            only : numel_BM, numnp_BM, nsd_BM, nen_BM, genfl, genel, local
       use mMalha,            only : conecNodaisElem_BM, x_BM
@@ -782,6 +793,7 @@
          R_UU = phi_n(nel)*M_m/(Z_UU *  R_ * T)
          R_UUP= phi_n(nel)*M_m/(Z_UUP *  R_ * T) 
 
+         if (coupling_mode .eq. "oneway") then
          DO J=1,NEN_BM
             DJN=SHG(3,J,L)*C1
             DJX=SHG(1,J,L)*C1
@@ -823,6 +835,48 @@
 
             ENDDO
          ENDDO
+         
+         else if (coupling_mode .eq. "hydro") then
+         DO J=1,NEN_BM
+            DJN=SHG(3,J,L)*C1
+            DJX=SHG(1,J,L)*C1
+            DJY=SHG(2,J,L)*C1
+
+            ELRESF(NED*J)=ELRESF(NED*J)+DJN*R_UUP*UUP
+         ENDDO        
+!
+!.... ELEMENT STIFFNESS
+!
+         DO J=1,NEN_BM
+            DJX=SHG(1,J,L)*C1
+            DJY=SHG(2,J,L)*C1
+            DJN=SHG(3,J,L)*C1
+            DO I=1,NEN_BM
+               DIX=SHG(1,I,L)
+               DIY=SHG(2,I,L) 
+               DIN=SHG(3,I,L)
+       
+              ELEFFM(NED*J,NED*I) = ELEFFM(NED*J,NED*I)                                  &
+       &                            + R_UU*DJN*DIN                                        &
+       &                            + constK_BM*DTEMPO*UU*M_m/(R_*T*Z_UU) & 
+       &                            * (DIX*DJX+DIY*DJY)/constMu
+       
+
+       
+!             write(*,*) "======================="
+!             write(*,*) "phi", phi_F
+!             write(*,*) "K",   constK_F
+!             write(*,*) "mu",  constMu
+!             write(*,*) "DT",  DTEMPO_F
+!             write(*,*) "UU",  UU
+!             write(*,*) "UUP", UUP
+!             write(*,*) "Z_UU",  Z_UU
+!             write(*,*) "Z_UUP", Z_UUP
+!             write(*,*) "======================="
+
+            ENDDO
+         ENDDO
+         endif
 !
   400 CONTINUE
 
@@ -917,7 +971,6 @@
 !           Para 1D nao tem derivada em Y
             GRADPX=0.D0
             GRADPY=0.D0
-            write(990,*) L
             
             ! SHG(1,1),SHG(1,2), SHG(1,3) e SHG(1,4) avaliadas no ponto de integracao L
             DO J=1,NEN_BM

@@ -1,6 +1,6 @@
 *title_bm{
- experimento Shale 200x200 8000 ft, dt = 1 mes, 90 meses
-}   
+ experimento Shale 200x200 Barnett 2621 m (8600 ft), dt = 1 mes, 90 meses
+}
 *codigos_cond_contorno_blocoMacro{
          1     40201       201         1
          0 
@@ -19,11 +19,11 @@
          0
 }
 *valores_cond_contorno_elasticidade{
-     40201         2    0.0E+0   -3.16E6
-                        0.0E+0   -3.16E6
+     40201         2    0.0E+0   -3.40E6
+                        0.0E+0   -3.40E6
        200         1
-     40201              0.0E+0   -1.58E6
-     40401              0.0E+0   -1.58E6
+     40201              0.0E+0   -1.40E6
+     40401              0.0E+0   -1.40E6
          0
 }
 *coordenadas_nodais_bm{
@@ -100,7 +100,7 @@
    2.592d6   
 }
 *constantes_elasticidade{
-     0.6e9      0.20      2.65
+     40.e9      0.23      2.65
 }
 *end 
 

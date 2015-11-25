@@ -42,7 +42,7 @@ ax = plt.subplot(111)
 
 for i in range(1,pnum+1):
     #i_mask = 10*i
-    inDataNameP = './' + filepath + ('solP.%d' % i)
+    inDataNameP = './' + filepath + ('solP_C.%d' % i)
     xx, yy, P = np.loadtxt(inDataNameP,unpack=True,usecols=[2,3,4])
     #print xx
     #print yy
@@ -58,14 +58,6 @@ for i in range(1,pnum+1):
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,P,'o',label=leg)
     ax.plot(xx,P,'-o',label=leg)
-    
-    #surf = ax.plot_surface(xx, yy, P, rstride=1, cstride=1, cmap=cm.coolwarm,
-        #linewidth=0, antialiased=True)
-    #surf = ax.plot_surface(xx, yy, P)
-    #plt.show()
-    #plt.pcolor(xx,yy,P)
-    #ax.contour(xx, yy, P)
-    #plt.savefig('./teste/tmpPressao%d.png' % i_mask)
 
 box = ax.get_position()
 ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
@@ -75,12 +67,46 @@ ax.set_xlabel(r'$x$',fontsize=18)
 ax.set_ylabel(r'$p$',fontsize=18)
 ax.grid(True)
 
-#plt.xlabel('$x^{*}$',fontsize=18)
-#plt.ylabel('$p^{*}$',fontsize=18,rotation='horizontal')
-#plt.grid(b=True, which='major', color='k', linestyle='--')
-#ax.legend()
-plt.savefig('./' + filepath + 'tmpPressao.png')
+plt.savefig('./' + filepath + 'tmpPressaoC.png')
 #plt.show()
+
+fig = plt.figure()
+#ax = fig.gca(projection='3d')
+
+#ax = fig.adsd_subplot(111, projection='3d')
+
+ax = plt.subplot(111)
+
+for i in range(1,pnum+1):
+    #i_mask = 10*i
+    inDataNameP = './' + filepath + ('solP_BC.%d' % i)
+    xx, yy, P = np.loadtxt(inDataNameP,unpack=True,usecols=[2,3,4])
+    #print xx
+    #print yy
+    #print P
+    #fig = plt.figure()
+    #ax = fig.gca(projection='3d')
+    #ax = fig.add_subplot(111, projection='3d')
+    
+    if dataLegendP[i-1] == 1.:
+        leg = (u"%d mês" % dataLegendP[i-1])
+    else:
+        leg = ("%d meses" % dataLegendP[i-1])
+    Px0[i-1] = P[0]
+    #ax.plot(xx,yy,P,'o',label=leg)
+    ax.plot(xx,P,'-o',label=leg)
+
+box = ax.get_position()
+ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+ax.set_xlabel(r'$x$',fontsize=18)
+#ax.set_ylabel('$y^{*}$',fontsize=18)
+ax.set_ylabel(r'$p$',fontsize=18)
+ax.grid(True)
+
+plt.savefig('./' + filepath + 'tmpPressaoBC.png')
+#plt.show()
+
 
 fig = plt.figure()
 #ax = fig.gca(projection='3d')
@@ -333,6 +359,27 @@ ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 plt.grid(True)
 plt.savefig('./' + filepath + 'RF.png')
+#plt.show()
+
+fig = plt.figure()
+#ax = fig.gca(projection='3d')
+
+#ax = fig.add_subplot(111, projection='3d')
+
+ax = plt.subplot(111)
+
+#inDataNameRF = './' + filepath + 'echoProducao.dat'
+dt, Flux = np.loadtxt(inDataNameRF,unpack=True,usecols=[1,3])
+dt = dt/mes
+ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
+ax.set_ylabel(r'J $\left(\frac{kg}{m^2 s}\right)$',fontsize=16)
+ax.plot(dt,Flux,'-o',label=u'Fluxo Mássico')
+box = ax.get_position()
+ax.set_position([0.45*box.x0+box.x0, box.y0, box.width * 0.95, box.height])
+#ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+ax.legend(loc='best')
+plt.grid(True)
+plt.savefig('./' + filepath + 'Fluxo.png')
 #plt.show()
 
 print "Pressure's plots OK"

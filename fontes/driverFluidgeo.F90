@@ -22,6 +22,7 @@
 	      use mGlobaisEscalares, only : exec
 	      use mLeituraEscrita,   only : fecharArquivos, abrirArquivosDS
 	      use mLeituraEscrita,   only : fecharArquivosDS, abrirArquivo
+	      use mInputReader,      only : readInputParametersDS 
 ! 	      use mBloco,            only : iinBloco  =>iin, iechoBloco  =>iecho
 ! 	      use mBloco,            only : preprocessadorBloco !, processadorBloco 
 	      use mBlocoMacro,       only : iinBlocoMacro=>iin, iechoBlocoMacro=>iecho, iechoPressao, iechoProducao
@@ -63,30 +64,37 @@
 	      comDS = .TRUE.
 	      if(comDS) then
 		call abrirArquivosDS(); print*, " call abrirArquivosDS ()"
-		else
+	      else
 		call readInputFiles(); print*, " call readInputFiles ()"
 	      endif
 
         !...  call abrirArquivosInformacoesMalha ()
 	      print*, ""
 	      print*, "PREPROCESSAMENTO" 
-     
-        !     coeficientes para os ajustes feitos para as curvas Z, gamma e G
-              call inicializarCoeficientes_FormP();       
+          
         !     parametros comuns a bloco e fratura 
+	      write(*,*) "call readInputParametersDS()"
+	      call readInputParametersDS()
+	      write(*,*) "call readSetupParametersDS()"
+	      call readSetupParametersDS()
+	      write(*,*) "call inicializarParametros()"
               call inicializarParametros();
+         !     coeficientes para os ajustes feitos para as curvas Z, gamma e G
+              write(*,*) "call inicializarCoeficientes_FormP()"
+              call inicializarCoeficientes_FormP();  
 
 		if(comDS) then
-		call preprocessamentoDS(); print*, " call preprocessadorDS ()"
+		  call preprocessamentoDS(); print*, " call preprocessadorDS ()"
 		else
-		call preprocessadorBlocoMacro(); print*, " call preprocessador ()"
+		  call preprocessadorBlocoMacro(); print*, " call preprocessador ()"
 		endif
 	!
 	!.... solution phase
 	!
 	      if(exec==1) then
 		   print*, ""
- 		   write(*,*) "Iniciando o PROCESSAMENTO.: 2 Escalas   ...";  call processadorFluidgeo()
+ 		   write(*,*) "Iniciando o PROCESSAMENTO.: Acoplamento hidro-geomecanico";  
+ 		   call processadorFluidgeo()
  	      endif
 	!
 	      call fecharArquivos()
@@ -146,7 +154,7 @@
 ! 	
 ! 	
     subroutine preprocessamentoDS! (optSolver)
-        use mInputReader,      only: readInputFileDS
+        use mInputReader,      only: readInputFileDS, readInputParametersDS
         use mInputReader,      only: leituraGeracaoCoordenadasDS
         use mInputReader,      only: leituraCodigosCondContornoDS
         use mInputReader,      only: leituraValoresCondContornoDS
@@ -197,14 +205,14 @@
 !        and call associated input routines
 !
 !       call alocarMemoria()	! Antigo, pro código pc com leitura do DS (Diego, ago/2015)
+      call alocarMemoriaBlocoMacro()
+      
+      call alocarMemoriaElasticidade()
       
       call inicializarParametrosBlocoMacro()
      
       call calcularQuantidadeGasBlocoMacro()
           
-      call alocarMemoriaBlocoMacro()
-      
-      call alocarMemoriaElasticidade()
 !
 !.... input coordinate data
       write(*,*) "call leituraGeracaoCoordenadasDS"
@@ -250,6 +258,7 @@
 !.... input element data
      write (*,*) "call leituraParamNumericosPropFisicaDS()"
      call leituraParamNumericosPropFisicaDS(NALHS_BM, NEQ_BM)
+     
 ! 
 ! #ifdef withCSR
 !       numConexoesPorElem=nen
@@ -383,9 +392,80 @@
         return
     end subroutine readSetupPhaseDS !**********************************************************************************
 
+    !> Efetua a leitura completa dos dados da etapa de setup dos parametros. Diego (Nov/2015)
+    subroutine readSetupParametersDS
+        use mInputReader,      only: readStringKeywordValue, readrealkeywordvalue, readlogicalkeywordvalue
+        use mInputReader,      only: findKeyword, file_lines
+        use mParametros,       only: p_reservatorio, p_poco, tamBlocoMacro, widthBlocoMacro
+        use mParametros,       only: constK_BM, k_s, Kbulk
+        use mGlobaisArranjos,  only: reservoir_case, phi_range, coupling_mode
+        use mGlobaisEscalares, only: random_porosity
+        
 
+        implicit none
+        character(len=50) keyword_name
+        character*4  default_input_value(20)
+        integer*4 :: i, keyword_line, nLinhaArqInput
 
+!       Reads the reservoir basis
+        keyword_name = "reservoir_case"
+        default_input_value = "unknown"
+        call readStringKeywordValue(keyword_name, reservoir_case, default_input_value)
+!         write(*,*) reservoir_case
 
+!       Reads the reservoir basis
+        keyword_name = "coupling_mode"
+        default_input_value = "oneway"
+        call readStringKeywordValue(keyword_name, coupling_mode, default_input_value)
+!         write(*,*) reservoir_case
+        
+!       Reads reservoir pressure
+        keyword_name = "p_reservatorio"
+	call readRealKeywordValue(keyword_name, p_reservatorio, p_reservatorio)
+! 	write(*,*) p_reservatorio
+	
+!       Reads well pressure
+        keyword_name = "p_poco"
+	call readRealKeywordValue(keyword_name, p_poco, p_poco)
+! 	write(*,*) p_poco
+
+!       Reads reservoir height, the same of fracture
+        keyword_name = "tamBlocoMacro"
+	call readRealKeywordValue(keyword_name, tamBlocoMacro, tamBlocoMacro)
+! 	write(*,*) tamBlocoMacro
+	
+!       Reads reservoir width/2
+        keyword_name = "widthBlocoMacro"
+	call readRealKeywordValue(keyword_name, widthBlocoMacro, widthBlocoMacro)
+! 	write(*,*) widthBlocoMacro
+	
+!       Reads reservoir permeability
+        keyword_name = "k_bm"
+	call readRealKeywordValue(keyword_name, constK_BM, constK_BM)
+! 	write(*,*) constK_BM
+	
+!       Reads k matrix
+        keyword_name = "k_s"
+	call readRealKeywordValue(keyword_name, k_s, k_s)
+! 	write(*,*) k_s
+
+!       Reads K bulk
+        keyword_name = "Kbulk"
+	call readRealKeywordValue(keyword_name, Kbulk, Kbulk)
+! 	write(*,*) Kbulk
+
+	keyword_name = "phi_range"
+        keyword_line = findKeyword(keyword_name)
+        nLinhaArqInput = keyword_line
+        read (file_lines(nLinhaArqInput:),7000) (phi_range(i),i=1,2)
+        nLinhaArqInput = nLinhaArqInput + 1
+!         write(*,*) phi_range
+	
+	7000 format(8f10.0)
+        return
+    end subroutine readSetupParametersDS !**********************************************************************************
+
+    
 !**** new **********************************************************************
 !	
       subroutine processadorFluidgeo()
@@ -401,10 +481,10 @@
       use mParametros,       only : p_Ref, p_Poco, gasTotalKg, gasRecuperavelKg, gasProduzidoKg, phi_BM
       use mCoeficientes,     only : calcularQuantidadeGasReservatorio
       use mGlobaisEscalares, only : ndofD, nlvectD
-      use mGlobaisArranjos,  only : phi_n, phi_n0
+      use mGlobaisArranjos,  only : phi_n, phi_n0, coupling_mode
       use mLeituraEscrita,   only : PRINTDISP, PRINTSTRESS, PRINTPORO
 !
-      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro, CHECKEQ!, calcStressPoro2
+      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro!, CHECKEQ!, calcStressPoro2
       use mElasticidade,        only: deslocamento, fDeslocamento, neqD, nalhsD
       use mElasticidade,        only: alhsD=>alhs, brhsD=>brhs
       use mElasticidade,        only: idDeslocamento, idiagD, lmD
@@ -448,9 +528,9 @@
 !       Heterogeneidade randomica na porosidade. Diego (Nov/2015)
       
 !       call init_random_seed()
-      call random_number(phi_n0)
-      phi_n0 = (phi_n0*(0.25d0-0.15d0)) + 0.15d0
-      phi_n = phi_n0
+!       call random_number(phi_n0)
+!       phi_n0 = (phi_n0*(0.25d0-0.15d0)) + 0.15d0
+!       phi_n = phi_n0
       call printporo(phi_n0,numel_bm, 0)
       
       maiorFonte = -10d-9;
@@ -500,8 +580,6 @@
           TEMPO=TEMPO+DTEMPO;                    
           write(*,*) 'PASSO', NUSTEP, 'TEMPO', TEMPO, 'DT', DTEMPO  
           
-          if (onlydisp .eqv. .true.) goto 550
-          
           flagConvergencia = .FALSE. 
           NUMITER          = 0
               condContornoDeBlocoMacroParaBloco=0  
@@ -523,10 +601,10 @@
              
              SUM_NUMITER = SUM_NUMITER + NUMITER
 
+          if (coupling_mode .eq. "oneway") then
           !
           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CALCULO DA ELASTICIDADE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	  !
-550	  call timing(t1)
 	  deslocamento = 0.0
           if(firstD) then
                 etapa = 'full'
@@ -555,8 +633,9 @@
 !
 !	Fim do calculo da ELASTICIDADE
 !
-             
-             if ( (numPassos .EQ. 0) .OR. (passosTempoParaGravarSaida(idx) .EQ. NUSTEP) ) then
+          endif   
+             if ( (numPassos .EQ. 0) .OR. (passosTempoParaGravarSaida(idx) .EQ. NUSTEP) &
+             & .and. coupling_mode .eq. "oneway" ) then
 ! 		 Rotinas de impressao
                  CALL PRINTSOL_BM2(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
                  CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
@@ -564,6 +643,12 @@
                  call PRINTDISP(deslocamento,X_BM,NUMNP_BM,nelx_BM,nely_BM,idx)
                  call PRINTSTRESS(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx)
                  call printporo(phi_n,numel_bm, idx)
+                 idx = idx + 1
+             else
+! 		 Rotinas de impressao
+                 CALL PRINTSOL_BM2(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
+                 CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
+                 CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
                  idx = idx + 1
              end if
              
