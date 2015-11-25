@@ -22,10 +22,11 @@
 	      use mGlobaisEscalares, only : exec
 	      use mLeituraEscrita,   only : fecharArquivos, abrirArquivosDS
 	      use mLeituraEscrita,   only : fecharArquivosDS, abrirArquivo
+	      use mLeituraEscrita,   only : iechoPressao, iechoProducao
 	      use mInputReader,      only : readInputParametersDS 
 ! 	      use mBloco,            only : iinBloco  =>iin, iechoBloco  =>iecho
 ! 	      use mBloco,            only : preprocessadorBloco !, processadorBloco 
-	      use mBlocoMacro,       only : iinBlocoMacro=>iin, iechoBlocoMacro=>iecho, iechoPressao, iechoProducao
+	      use mBlocoMacro,       only : iinBlocoMacro=>iin, iechoBlocoMacro=>iecho
 	      use mBlocoMacro,       only : preprocessadorBlocoMacro
 ! 	      use mBlocoMacro,       only : preprocessamentoBlocoMacro
 	      use mCoeficientes,     only : inicializarCoeficientes_FormP
@@ -119,7 +120,7 @@
 		use mLeituraEscrita,   only : abrirArquivosInformacoesMalha, fecharArquivos, abrirArquivo
 ! 		use mBloco,            only : iinBloco  =>iin, iechoBloco  =>iecho
 		use mBlocoMacro,       only : iinBlocoMacro=>iin, iechoBlocoMacro=>iecho
-		use mBlocoMacro,       only : iechoPressao, iechoProducao
+		use mLeituraEscrita,   only : iechoPressao, iechoProducao
 		use mCoeficientes,     only : iechoQuantidadeGas
 		
 		implicit none

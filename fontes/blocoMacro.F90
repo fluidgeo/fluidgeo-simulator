@@ -6,7 +6,7 @@
       implicit none 
 ! 
        integer :: iin, iecho, iinPassosPressaoBlocoMacro
-       integer :: iechoPressao, iechoProducao
+!        integer :: iechoPressao, iechoProducao
 
 
        REAL*8, ALLOCATABLE :: solucao_BM(:,:), solucaoTmpAnt_BM(:,:), solucaoNaoLinearAnt_BM(:,:)      
@@ -303,6 +303,7 @@
 
       use mGlobaisEscalares, only: dimModelo
       use mMalha,            only: nelx_BM, nely_BM
+      use mLeituraEscrita,   only: iechoPressao
       
       IMPLICIT NONE
       
@@ -350,6 +351,7 @@
 
       use mGlobaisEscalares, only: dimModelo
       use mMalha,            only: nelx_BM, nely_BM
+      use mLeituraEscrita,   only: iechoPressao
       
       IMPLICIT NONE
       
@@ -502,6 +504,7 @@
       use mCoeficientes,     only: calcularZ_P
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, constK_BM, T, R_, constMu, M_m
       use mParametros,       only: gasTotalKg, gasRecuperavelKg, areaContatoBlocoMacroFratura, gasProduzidoKg
+      use mLeituraEscrita,   only: iechoProducao
       
       
       IMPLICIT NONE
@@ -555,6 +558,7 @@
       use mCoeficientes,     only: calcularZ_P
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, constK_BM, T, R_, constMu, M_m
       use mParametros,       only: gasTotalKg, gasRecuperavelKg, areaContatoBlocoMacroFratura, gasProduzidoKg
+      use mLeituraEscrita,   only: iechoProducao
       
       
       IMPLICIT NONE

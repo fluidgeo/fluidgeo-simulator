@@ -20,7 +20,7 @@
       integer :: iin,iecho,icoords,iconects,iconectsL
       integer :: iechoB, iechoF, iechoQuantidadeGas, ipar
       integer :: ignuplot,iparaviewS,iparaviewP,iparaviewV
-      integer :: isatTransiente
+      integer :: isatTransiente, iechoProducao, iechoPressao
       integer :: nprint
       integer :: qtdImpSat
 
@@ -1864,7 +1864,7 @@
 !        iin    = input unit number
 !        iecho  = output unit of input data
 !        iouter  = output unit of error norms
-    use mBlocoMacro, only: iechoProducao, iechoPressao
+!     use mBlocoMacro, only: iechoProducao, iechoPressao
 !
     character(len=20) :: nomeIn, nomeEcho, nomePar
 !
@@ -1909,7 +1909,7 @@
 !
     subroutine fecharArquivosDS()
     
-      use mBlocoMacro, only: iechoProducao, iechoPressao
+!       use mBlocoMacro, only: iechoProducao, iechoPressao
 
       close(iin      )
       close(iecho    )
