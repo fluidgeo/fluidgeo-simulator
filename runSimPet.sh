@@ -17,9 +17,6 @@
 dirPadrao=teste
 dirExp="$(pwd)"/${1:-${dirPadrao}} 
 
-# Descomprimindo
-tar xf "${1}.tar.gz"
-
 #rm -rf ${dirExp}/out/*.vtk
 rm -rf ${dirExp}/echo*
 rm -rf ${dirExp}/fort.*
@@ -71,6 +68,8 @@ then
   printf "\n numero de processos......: %d\n" ${NP}
   printf "\n comando .................: %s\n" "${comando}"
   eval ${comando}  |tee  ${arqTela}
+  tar cfz "${1}.tar.gz" ${1}
+  rm ${1}
 else
   printf "\n EXECUTAVEL NAO ENCONTRADO \n"
   printf "\n comando .................: %s\n" "${comando}"
