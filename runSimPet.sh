@@ -75,5 +75,3 @@ else
   printf "\n EXECUTAVEL NAO ENCONTRADO \n"
   printf "\n comando .................: %s\n" "${comando}"
 fi
-
-tar cfz "${1}.tar.gz" ${1}
