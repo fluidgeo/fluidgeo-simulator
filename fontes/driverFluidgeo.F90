@@ -526,12 +526,6 @@
       
       onlydisp = .false.
       
-!       Heterogeneidade randomica na porosidade. Diego (Nov/2015)
-      
-!       call init_random_seed()
-!       call random_number(phi_n0)
-!       phi_n0 = (phi_n0*(0.25d0-0.15d0)) + 0.15d0
-!       phi_n = phi_n0
       call printporo(phi_n0,numel_bm, 0)
       
       maiorFonte = -10d-9;
@@ -602,39 +596,39 @@
              
              SUM_NUMITER = SUM_NUMITER + NUMITER
 
-          if (coupling_mode .eq. "oneway") then
-          !
-          !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CALCULO DA ELASTICIDADE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	  !
-	  deslocamento = 0.0
-          if(firstD) then
-                etapa = 'full'
-		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
-					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
-		firstD=.false.
-		optType = 0
-	  else
-! 		CLEAR necessario para nao carregar a solucao anterior dos deslocamentos nas solucoes
-! 		seguintes. Diego (Ago/2015)
-! 		deslocamento = 0.0
-                etapa = 'back'
-		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
-					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
-	  endif
-
-	  call timing(t2)
-	  call timing(t3)
-          label='elasticidade linear'
-          call solverD() 
-          call timing(t4)
+!           if (coupling_mode .eq. "oneway") then
+!           !
+!           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CALCULO DA ELASTICIDADE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! 	  !
+! 	  deslocamento = 0.0
+!           if(firstD) then
+!                 etapa = 'full'
+! 		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
+! 					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
+! 		firstD=.false.
+! 		optType = 0
+! 	  else
+! ! 		CLEAR necessario para nao carregar a solucao anterior dos deslocamentos nas solucoes
+! ! 		seguintes. Diego (Ago/2015)
+! ! 		deslocamento = 0.0
+!                 etapa = 'back'
+! 		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
+! 					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
+! 	  endif
+! 
+! 	  call timing(t2)
+! 	  call timing(t3)
+!           label='elasticidade linear'
+!           call solverD() 
+!           call timing(t4)          
+! !
+! !	Fim do calculo da ELASTICIDADE
+! !
           stressD = 0.0d0
           
           call calcStressPoro(stressD, deslocamento,solucao_BM, flux_BM, x_bm, conecNodaisElem_bm, &
           &                   numnp_BM, numel_bm, nen_bm, nsd_bm, ndofD, tflag, idx)
-!
-!	Fim do calculo da ELASTICIDADE
-!
-          endif   
+!           endif   
              if ( (numPassos .EQ. 0) .OR. (passosTempoParaGravarSaida(idx) .EQ. NUSTEP) &
              & .and. coupling_mode .eq. "oneway" ) then
 ! 		 Rotinas de impressao
@@ -707,9 +701,7 @@
 !       alhsD = 0.0
      
       end subroutine solverD
-
-      end subroutine processadorFluidgeo
-    
+!       end subroutine processadorFluidgeo
 !
 !**** new **********************************************************************
 !
@@ -733,7 +725,9 @@
       REAL*8      :: fluxoMassicoDeBlocoParaBlocoMacro(NUMNP_BM)
       REAL*8      :: condContorno(NUMEL_BM)      
       INTEGER     :: NITERMAX_BM, NUMITER_BM, I, J
-      LOGICAL     :: flagConvergencia, flagTempoCaract
+      LOGICAL     :: flagConvergencia, flagTempoCaract, tflag2
+      
+      tflag2 = .false.
       
       NITERMAX_BM = 5000  !     Numero maximo de iteracoes para SET NEWTON/PICARD 
       
@@ -771,6 +765,7 @@
 
          CALL BTOD            (id_BM,   solucao_BM, BRHS_BM,NDOF_BM,NUMNP_BM)
          
+         
          DO J=1, NDOF_BM
             DO I=1, NUMNP_BM
                IF ( solucao_BM(J,I) .NE. solucao_BM(J,I) ) then
@@ -785,7 +780,40 @@
      &                     flagConvergencia, NUSTEP)
           relax_BM = 0.5
           solucaoNaoLinearAnt_BM = solucao_BM*relax_BM + solucaoNaoLinearAnt_BM*(1-relax_BM)
-    
+          
+          if (coupling_mode .eq. "oneway") then
+          !
+          !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CALCULO DA ELASTICIDADE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	  !
+	  deslocamento = 0.0
+          if(firstD) then
+                etapa = 'full'
+		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
+					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
+		firstD=.false.
+		optType = 0
+	  else
+! 		CLEAR necessario para nao carregar a solucao anterior dos deslocamentos nas solucoes
+! 		seguintes. Diego (Ago/2015)
+! 		deslocamento = 0.0
+                etapa = 'back'
+		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
+					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
+	  endif
+
+	  call timing(t2)
+	  call timing(t3)
+          label='elasticidade linear'
+          call solverD() 
+          call timing(t4)          
+          stressD = 0.0d0
+          
+          call calcStressPoro(stressD, deslocamento,solucao_BM, flux_BM, x_bm, conecNodaisElem_bm, &
+          &                   numnp_BM, numel_bm, nen_bm, nsd_bm, ndofD, tflag2, idx)
+!
+!	Fim do calculo da ELASTICIDADE
+!
+	  endif
       END DO      
       !===========================================  fim do loop das iteracoes de Picard/NEWTON 
          
@@ -801,9 +829,9 @@
          SUM_NUMITER_BM = SUM_NUMITER_BM + NUMITER_BM;         
       END IF   
 
-      end subroutine
+      end subroutine processadorBlocoMacro
       
-
+      end subroutine processadorFluidgeo
 !**** new **********************************************************************
       subroutine colocarCondInicial(solucao, NDOF, NUMNP, condInicial)
       

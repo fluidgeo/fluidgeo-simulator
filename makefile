@@ -22,7 +22,7 @@ TIPOSOLUCAO = withRT
 CC        = gcc
 CC        = icc
 FC        = ifort
-#FC        = gfortran
+FC        = gfortran
 
 ifeq ($(FC),ifort)
    FFLAGSI  = -module ${DIRINC}  
