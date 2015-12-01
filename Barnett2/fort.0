@@ -1,0 +1,12 @@
+ ---------------------- BLOCO MACRO ------------------------
+    pressao(Pa)    gasTotal(kg/m^3)  gasTotal(kg)
+    6.80000E+07      7.04396E+01      3.52198E+04
+    5.00000E+05      6.82611E-01      3.41306E+02
+A quantidade total de gás no bloco macro, com pressao    6.80000E+07(Pa) é    7.04396E+01(kg/m^3) ou    3.52198E+04(kg)
+A quantidade de gás recuperável, reduzindo a pressão para    5.00000E+05(Pa) é    6.97570E+01(kg/m^3) ou    3.48785E+04(kg)
+O volume do bloco macro é 1.000E+01 X 5.000E+01 X 1.000E+00 = 5.000E+02(m^3)
+ 
+ ------------------   R E S E R V A T O R I O  -------------------------
+A quantidade total de gas em uma fratura e dois blocos, com pressao    6.80000E+07(Pa) é    3.52198E+04(kg)
+A quantidade de gás recuperavel, reduzindo a pressao para    5.00000E+05(Pa) é    3.48785E+04(kg)
+ 
