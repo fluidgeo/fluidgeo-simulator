@@ -5,7 +5,7 @@ Barnett
 oneway
 }
 *phi_range{
-      0.20      0.20
+      0.20      0.25
 }
 *p_reservatorio{
     6.80d7   

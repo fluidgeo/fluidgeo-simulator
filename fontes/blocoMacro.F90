@@ -362,7 +362,7 @@
       idr = idx*17
       idr2 = idx*11
       idr3 = idx*13
-      write(idxStr,'(i1)') idx
+      write(idxStr,'(i0)') idx
       solP = 'solP.'//idxStr
       OPEN(UNIT=idr, FILE= solP)
       
@@ -431,7 +431,7 @@
             
 !       Abrindo os arquivos para saída
 
-      write(idxStr,'(i1)') idx
+      write(idxStr,'(i0)') idx
       
       idrx = 11*idx
       gradPx = 'gradPx.'//idxStr
@@ -628,7 +628,7 @@
       Ly    = tamBlocoMacro      ! BM_y
       
 !       Abrindo os arquivos para saída
-      write(idxStr,'(i1)') idx
+      write(idxStr,'(i0)') idx
       
       idxf = 19*idx
       nodeFlux_x = 'nodeFlux_x.'//idxStr

@@ -485,7 +485,7 @@
       use mGlobaisArranjos,  only : phi_n, phi_n0, coupling_mode
       use mLeituraEscrita,   only : PRINTDISP, PRINTSTRESS, PRINTPORO
 !
-      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro!, CHECKEQ!, calcStressPoro2
+      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro, printStressPoro!, CHECKEQ!, calcStressPoro2
       use mElasticidade,        only: deslocamento, fDeslocamento, neqD, nalhsD
       use mElasticidade,        only: alhsD=>alhs, brhsD=>brhs
       use mElasticidade,        only: idDeslocamento, idiagD, lmD
@@ -624,14 +624,15 @@
 ! !
 ! !	Fim do calculo da ELASTICIDADE
 ! !
-          stressD = 0.0d0
+!           stressD = 0.0d0
           
-          call calcStressPoro(stressD, deslocamento,solucao_BM, flux_BM, x_bm, conecNodaisElem_bm, &
+          call printStressPoro(stressD, deslocamento,solucao_BM, flux_BM, x_bm, conecNodaisElem_bm, &
           &                   numnp_BM, numel_bm, nen_bm, nsd_bm, ndofD, tflag, idx)
 !           endif   
-             if ( (numPassos .EQ. 0) .OR. (passosTempoParaGravarSaida(idx) .EQ. NUSTEP) &
-             & .and. coupling_mode .eq. "oneway" ) then
+             if ( (numPassos .EQ. 0) .OR. (passosTempoParaGravarSaida(idx) .EQ. NUSTEP)) then !&
+!              & .and. (coupling_mode .eq. "oneway") ) then
 ! 		 Rotinas de impressao
+                 write(13,*) idx
                  CALL PRINTSOL_BM2(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
                  CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
                  CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
@@ -639,13 +640,14 @@
                  call PRINTSTRESS(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx)
                  call printporo(phi_n,numel_bm, idx)
                  idx = idx + 1
-             else
-! 		 Rotinas de impressao
-                 CALL PRINTSOL_BM2(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
-                 CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
-                 CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
-                 idx = idx + 1
-             end if
+             endif
+!              else
+! ! 		 Rotinas de impressao
+!                  CALL PRINTSOL_BM2(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
+!                  CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
+!                  CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
+!                  idx = idx + 1
+!              end if
              
              solucaoTmpAnt = solucao_BM                     
              write(*,*) 'FIM DO TIME STEP =', NUSTEP

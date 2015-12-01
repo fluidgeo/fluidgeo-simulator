@@ -1710,7 +1710,7 @@
             
 !       Abrindo os arquivos para saída
 
-      write(idxStr,'(i1)') idx
+      write(idxStr,'(i0)') idx
       
       idrx = 11*idx
       disp = 'disp.'//idxStr
@@ -1814,7 +1814,7 @@
             
 !       Abrindo os arquivos para saída
 
-      write(idsStr,'(i1)') idx
+      write(idsStr,'(i0)') idx
       
       idsx = 11*idx
       sigma = 'sigma.'//idsStr

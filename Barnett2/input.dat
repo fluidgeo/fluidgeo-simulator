@@ -1,4 +1,111 @@
 *title_bm{
+ experimento Shale 200x200 Barnett 2621 m (8600 ft), dt = 1 mes, 90 meses
+}
+*codigos_cond_contorno_blocoMacro{
+         1     40201       201         1
+         0 
+}
+*valores_cond_contorno_blocoMacro{
+         1         2    5.0e05      
+                        5.0e05      
+       200       201
+         0 
+}
+*codigos_cond_contorno_elasticidade{
+         1     40000       201         0         0
+       201     40200       201         1         0
+     40201     40401         1         0         0
+         1       201         1         1         1
+         0
+}
+*valores_cond_contorno_elasticidade{
+     40201         2    0.0E+0   -3.40E6
+                        0.0E+0   -3.40E6
+       200         1
+     40201              0.0E+0   -1.40E6
+     40401              0.0E+0   -1.40E6
+         0
+}
+*coordenadas_nodais_bm{
+         1         4      0.00      0.00
+                         10.00      0.00
+                         10.00     50.00
+                          0.00     50.00
+       200         1       200       201 
+         0
+}
+*exec_bm{
+	1
+}
+*iprtin_bm{
+	0
+}
+*nsd_bm{
+	2
+}
+*numnp_bm{
+     40401
+}
+*numel_bm{
+     40000
+}
+*numLados_BM{
+       601
+}
+*nelx_BM{
+      200
+}
+*nely_BM{
+      200
+}
+*nelz_BM{
+        0
+}
+*ndof_bm{
+        1
+}
+*ndofD{
+	2
+}
+*nen_bm{
+	4
+}
+*npint_bm{
+	4
+}
+*nlvect_bm{
+1
+}
+*nlvectD{
+1
+}
+*conectividades_nodais_bm{
+         1         1         1         2       203       202         1
+       200         1         1       200       200       201
+         0 
+}
+*nummat_bm{
+         1 
+}
+*prop_fisica_meio_bm{
+         1       1.00e+00  1.00e+00  1.00e+00
+}
+*grav_bm{
+       0.0      -9.8       0.0
+}
+*transient_data_nstep_bm{
+      90   
+}
+*transient_data_dt_bm{
+   2.592d6   
+}
+*constantes_elasticidade{
+     40.e9      0.23      2.65
+}
+*end 
+
+
+*title_bm{
  experimento Shale 30x30 8000 ft, dt = 1 mes, 90 meses
 }
 *codigos_cond_contorno_blocoMacro{

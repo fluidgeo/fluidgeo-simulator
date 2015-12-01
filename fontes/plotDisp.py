@@ -164,9 +164,11 @@ for m in range(0,pnum+1):
 	plt.figure()
 
 	if (m == 0): 
-		z_min, z_max = np.abs(phin).min(), np.abs(phin).max()
+		#z_min, z_max = np.abs(phin).min(), np.abs(phin).max()
+		z_min, z_max = 0.18, np.abs(phin).max()
 	elif (m == 1 and z_max == z_min):
-		z_min, z_max = np.abs(phin).min(), np.abs(phin).max()
+		#z_min, z_max = np.abs(phin).min(), np.abs(phin).max()
+		z_min, z_max = 0.18, np.abs(phin).max()
 	if ((z_max-z_min)/z_min<0.001): 
 		plt.pcolor(XX, YY, sX, cmap='RdBu')#, vmin=z_min, vmax=z_max)
 	if (z_max != z_min): 
