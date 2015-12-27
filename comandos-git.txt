@@ -1,0 +1,12 @@
+# Copy a remote repository
+git clone https://github.com/fluidgeo/fluidgeo-simulator.git
+# List all local branchs
+git branch --all
+# Creates a branch named one-way
+git branch one-way
+# Moving to the branch one-way
+git checkout one-way
+# Sets the matching between the branch one-way local and remote
+git branch --set-upstream origin/one-way one-way
+# Download repository one-way to local (origin, by our means).
+git pull origin one-way

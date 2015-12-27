@@ -17,7 +17,7 @@ dirExp="$(pwd)"/${1:-${dirPadrao}}
 
 #rm -rf ${dirExp}/out/*.vtk
 rm -rf ${dirExp}/echo*
-#rm -rf ${dirExp}/fort.*
+rm -rf ${dirExp}/fort.*
 rm -rf ${dirExp}/coordenadas.dat
 rm -rf ${dirExp}/conectsLadais.dat
 rm -rf ${dirExp}/conectsNodais.dat
@@ -27,12 +27,12 @@ rm -rf ${dirExp}/pressao_RT.txt
 arqTela=${dirExp}/tela.txt
 
 #### DEFINICAO DO NUMERO DE THREADS (OPENMP) E PROCESSOS (MPI) ####
-ntPadrao=1
+ntPadrao=4
 numThreads=${2:-${ntPadrao}}
 export OMP_NUM_THREADS=${numThreads}
 
 
-npPadrao=1
+npPadrao=4
 #numProcs=${3:-${npPadrao}}
 numProcs=${npPadrao}
 export NP=${numProcs} # atribuir valor padrao aa variavel NP

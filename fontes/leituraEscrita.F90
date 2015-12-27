@@ -18,9 +18,9 @@
       integer :: contadorUnidadeLogica = 10 
 	  
       integer :: iin,iecho,icoords,iconects,iconectsL
-      integer :: iechoB, iechoF, iechoQuantidadeGas
+      integer :: iechoB, iechoF, iechoQuantidadeGas, ipar
       integer :: ignuplot,iparaviewS,iparaviewP,iparaviewV
-      integer :: isatTransiente
+      integer :: isatTransiente, iechoProducao, iechoPressao
       integer :: nprint
       integer :: qtdImpSat
 
@@ -97,7 +97,7 @@
      if(unidLogica==contadorUnidadeLogica) contadorUnidadeLogica = contadorUnidadeLogica + 10
      write(*,*) 'Abertura do arquivo ',  nomeArquivo,', ',  estado, ' em ', unidLogica
      novaUnidLogica=unidLogica
-     write(*,*) "ANtes"
+     write(*,*) "Antes"
      open(unit=unidLogica, file= nomeArquivo, status=estado)
      write(*,*) "Após"
      
@@ -1700,30 +1700,160 @@
 !    Esta rotina tem como finalidade a escrita dos valores dos deslocamentos calculados
 !    para o caso da elasticidade linear.
 
-      SUBROUTINE PRINTDISP(U,X,NUMNP,idx)
+      SUBROUTINE PRINTDISP(U,X,NUMNP,nelx,nely,idx)
       
       IMPLICIT NONE
       
       REAL*8   u(2,*),X(2,*)
-      INTEGER  NUMNP, N, idx, idrx
+      INTEGER  NUMNP, N, idx, idrx, nelx, nely, I, J
       CHARACTER*30  idxStr, disp
             
 !       Abrindo os arquivos para saída
 
-      write(idxStr,'(i1)') idx
+      write(idxStr,'(i0)') idx
       
       idrx = 11*idx
       disp = 'disp.'//idxStr
       OPEN(UNIT=idrx, FILE= disp)
       
+      OPEN(UNIT=(13*idx), FILE= 'UL.'//idxStr)
+      OPEN(UNIT=(17*idx), FILE= 'UC.'//idxStr)
+      OPEN(UNIT=(19*idx), FILE= 'UR.'//idxStr)
+      
+      OPEN(UNIT=(23*idx), FILE= 'UBx.'//idxStr)
+      OPEN(UNIT=(27*idx), FILE= 'UCx.'//idxStr)
+      OPEN(UNIT=(29*idx), FILE= 'UTx.'//idxStr)
+      
       do N=1,NUMNP
 	WRITE(idrx,210) N, X(1,N), X(2,N), u(1,N), u(2,N)
       enddo
       
+      DO I=1,nelx, (nelx-1)/2
+          DO J=1,nely
+            N = I+(J-1)*(nelx+1)
+!             write(217,*) I, J, N
+            if (I .eq. 1) then
+		WRITE((13*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+	    else if (I .eq. (nelx-1)) then
+	        WRITE((19*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+	    else if (I .eq. ((nelx)/2)) then
+	        WRITE((17*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+            endif
+          ENDDO
+      ENDDO
+      
+       DO I=1,nely + 1, nely/2
+          DO J=1,nelx + 1
+            N = J+(I-1)*(nely + 1)
+            if (I .eq. 1) then
+                WRITE((23*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+            else if (I .eq. (nely + 1)) then
+		WRITE((29*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+	    else
+	        WRITE((27*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+	    endif
+          ENDDO
+       ENDDO
+      
  ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 4 floats 8.2 com espaco de 2 entre eles
  210  FORMAT(4X,I5,10x,5(1PE15.8,2X))
+ 225  FORMAT(4X,I5,10x,4(1PE15.8,2X))
 
+      close((13*idx))
+      close((17*idx))
+      close((19*idx))
+      close((23*idx))
+      close((27*idx))
+      close((29*idx))
       close(idrx)
+
+      END subroutine   
+      
+!*** Diego (Set/2015) ********************************************************************** 
+!    Esta sub-rotina tem como finalidade a escrita dos valores dos stresses calculados
+!    para o caso da elasticidade linear.
+
+      SUBROUTINE PRINTPORO(Porosidade,NUMEL, idx)
+      
+      IMPLICIT NONE
+      
+      REAL*8   Porosidade(*)
+      INTEGER  NUMEL, N, idx, idsx, idtx
+      CHARACTER*30  idsStr, sigma, tau
+            
+!       Abrindo os arquivos para saída
+
+      write(idsStr,'(i1)') idx
+      
+      idsx = 11*idx
+      sigma = 'porosity.'//idsStr
+      OPEN(UNIT=idsx, FILE= sigma)
+      
+      do N=1,NUMEL
+	WRITE(idsx,210) N, Porosidade(N)
+      enddo
+      
+ ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 1 floats 8.2 com espaco de 2 entre eles
+ 210  FORMAT(4X,I5,10x,1(1PE15.8,2X))
+
+      close(idsx)
+
+      END subroutine 
+
+!*** Diego (Set/2015) ********************************************************************** 
+!    Esta sub-rotina tem como finalidade a escrita dos valores dos stresses calculados
+!    para o caso da elasticidade linear.
+
+      SUBROUTINE PRINTSTRESS(STRESS,X,NUMEL,nelx,nely,idx)
+      
+      IMPLICIT NONE
+      
+      REAL*8   STRESS(3,*),X(2,*)
+      INTEGER  NUMEL, N, idx, idsx, idtx, nelx, nely, I, J
+      CHARACTER*30  idsStr, sigma, tau
+            
+!       Abrindo os arquivos para saída
+
+      write(idsStr,'(i0)') idx
+      
+      idsx = 11*idx
+      sigma = 'sigma.'//idsStr
+      OPEN(UNIT=idsx, FILE= sigma)
+      
+      OPEN(UNIT=(13*idx), FILE= 'sigmayL.'//idsStr)
+      OPEN(UNIT=(17*idx), FILE= 'sigmayC.'//idsStr)
+      OPEN(UNIT=(19*idx), FILE= 'sigmayR.'//idsStr)
+      
+!       do N=1,NUMEL
+!         ! Metodologia de arredontamento temporário. Diego (out/2015)
+!         if (dabs(STRESS(1,N)) .le. 1.0d-30) STRESS(1,N) = 0.0d0
+!         if (dabs(STRESS(2,N)) .le. 1.0d-30) STRESS(2,N) = 0.0d0
+!         if (dabs(STRESS(3,N)) .le. 1.0d-30) STRESS(3,N) = 0.0d0
+! 	WRITE(idsx,210) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
+!       enddo
+      
+      DO I=1,nelx, (nelx-1)/2
+          DO J=1,nely
+            N = I+(J-1)*(nelx+1)
+!             write(217,*) I, J, N
+            if (I .eq. 1) then
+		WRITE((13*idx),225) N, X(1,N), X(2,N), STRESS(2,N)
+	    else if (I .eq. (nelx-1)) then
+	        WRITE((19*idx),225) N, X(1,N), X(2,N), STRESS(2,N)
+	    else if (I .eq. ((nelx)/2)) then
+	        WRITE((17*idx),225) N, X(1,N), X(2,N), STRESS(2,N)
+            endif
+          ENDDO
+      ENDDO
+      
+ ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 3 floats 8.2 com espaco de 4 entre eles
+ 210  FORMAT(4X,I5,10x,3(E15.8,2X))
+ 225  FORMAT(4X,I5,10x,4(1PE15.8,2X))
+
+      close((13*idx))
+      close((17*idx))
+      close((19*idx))
+      close(idsx)
 
       END subroutine    
 !
@@ -1734,26 +1864,34 @@
 !        iin    = input unit number
 !        iecho  = output unit of input data
 !        iouter  = output unit of error norms
+!     use mBlocoMacro, only: iechoProducao, iechoPressao
 !
-    character(len=20) :: nomeIn, nomeEcho
+    character(len=20) :: nomeIn, nomeEcho, nomePar
 !
-      iin        = 15
-      iecho      = 16 
-      icoords    = 18
-      iconects   = 19
+      iin        = 151
+      iecho      = 166
+      icoords    = 189
+      iconects   = 199
+      iechoProducao = 5001
+      iechoPressao = 539
+      ipar       = 111
 !
-      ignuplot = 30
+      ignuplot = 303
 !       ignuplotFluxo   = 31
 !       iparaview       = 32
 !
       nomeIn='input.dat'
       nomeEcho='echo.dat'
+      nomePar='parametros.dat'
 !
       open(unit=iin,    file=nomeIn, status='old', err=100) 
+      open(unit=ipar,    file=nomePar, status='old') 
       open(unit=iecho , file=nomeEcho)
 !
       open(unit=icoords   ,file= 'coordenadas.dat')
       open(unit=iconects  ,file= 'conectsNodais.dat')
+      open(unit=iechoProducao, file='echoProducao.dat', status='replace')
+      open(unit=iechoPressao, file='echoPressao.dat', status='replace')
 !
       open(unit=ignuplot ,file= 'resultadoP.dat')
 !       open(unit=ignuplotFluxo     ,file= 'resultadoF.dat')
@@ -1770,12 +1908,16 @@
 !=================================================================================
 !
     subroutine fecharArquivosDS()
+    
+!       use mBlocoMacro, only: iechoProducao, iechoPressao
 
       close(iin      )
       close(iecho    )
       close(icoords  )
       close(iconects )
       close(ignuplot)
+      close(iechoProducao)
+      close(iechoPressao)
 !       close(ignuplotFluxo   )
 !       close(iparaview)
     end subroutine fecharArquivosDS

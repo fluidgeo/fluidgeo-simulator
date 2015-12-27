@@ -6,7 +6,7 @@
       implicit none 
 ! 
        integer :: iin, iecho, iinPassosPressaoBlocoMacro
-       integer :: iechoPressao, iechoProducao
+!        integer :: iechoPressao, iechoProducao
 
 
        REAL*8, ALLOCATABLE :: solucao_BM(:,:), solucaoTmpAnt_BM(:,:), solucaoNaoLinearAnt_BM(:,:)      
@@ -303,6 +303,7 @@
 
       use mGlobaisEscalares, only: dimModelo
       use mMalha,            only: nelx_BM, nely_BM
+      use mLeituraEscrita,   only: iechoPressao
       
       IMPLICIT NONE
       
@@ -350,17 +351,23 @@
 
       use mGlobaisEscalares, only: dimModelo
       use mMalha,            only: nelx_BM, nely_BM
+      use mLeituraEscrita,   only: iechoPressao
       
       IMPLICIT NONE
       
       REAL*8   TEMPO, solucao(1,*),X(2,*), L, pressaoPa  
-      INTEGER  NUMNP, I, J,N, idx, idr
-      character*6  solP, idxStr
+      INTEGER  NUMNP, I, J,N, idx, idr, idr2, idr3
+      character*6  solP, idxStr, solP_BC
       
-      idr = idx*10
-      write(idxStr,'(i1)') idx
+      idr = idx*17
+      idr2 = idx*11
+      idr3 = idx*13
+      write(idxStr,'(i0)') idx
       solP = 'solP.'//idxStr
       OPEN(UNIT=idr, FILE= solP)
+      
+      OPEN(UNIT=idr2, FILE= 'solP_BC.'//idxStr)
+      OPEN(UNIT=idr3, FILE= 'solP_C.'//idxStr)
       
       if (dimModelo=='1D') then
         DO I=1,NUMNP 
@@ -377,12 +384,28 @@
         ENDDO        
           write(iechoPressao,*) ' '
           write(iechoPressao,*) ' ' 
-       endif   
+       endif
+       
+       DO I=nely_BM/2 + 1,nely_BM + 1, nely_BM/2
+          DO J=1,nelx_BM + 1
+            N = J+(I-1)*(nely_BM + 1)
+            if (I .eq. (nely_BM + 1)) then
+		WRITE(idr2,210) N, TEMPO, X(1,N), X(2,N), solucao(1,N)
+	    else
+	        WRITE(idr3,210) N, TEMPO, X(1,N), X(2,N), solucao(1,N)
+	    endif
+          ENDDO
+       ENDDO   
+          
  200  FORMAT(4X,I5,10x,4(1PE15.8,2X))
  ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 3 floats 8.2 com espaco de 2 entre eles
  210  FORMAT(4X,I5,10x,4(1PE15.8,2X))
  220  FORMAT(4(1PE15.8,2X))
+ 223  FORMAT(4X,I5,10x,1(1PE15.8,2X))
       close(idr)
+      close((11*idx))
+      close(idr2)
+      close(idr3)
 
       END subroutine
 
@@ -408,7 +431,7 @@
             
 !       Abrindo os arquivos para saída
 
-      write(idxStr,'(i1)') idx
+      write(idxStr,'(i0)') idx
       
       idrx = 11*idx
       gradPx = 'gradPx.'//idxStr
@@ -439,7 +462,8 @@
         DO I=1,NUMNP 
           N = I 
 	    WRITE(idrx,210) N, TEMPO, X(1,N), X(2,N), flux(1,N)
-	    v = (constK_BM/constMu)*(p_Ref/Lx)*flux(1,N)
+! 	    v = (constK_BM/constMu)*(p_Ref/Lx)*flux(1,N)
+	    v = (constK_BM/constMu)*flux(1,N)
 	    WRITE(idrv,210) N, TEMPO, X(1,N), X(2,N), v
         ENDDO      
       else
@@ -448,8 +472,8 @@
             N = I+(J-1)*(nelx_BM + 1)
 	      WRITE(idrx,210) N, TEMPO, X(1,N), X(2,N), flux(1,N)
 	      WRITE(idry,210) N, TEMPO, X(1,N), X(2,N), flux(2,N)
-	      vx = (constK_BM/constMu)*(p_Ref/Lx)*flux(1,N)
-	      vy = (constK_BM/constMu)*(p_Ref/Ly)*flux(2,N)
+	      vx = (constK_BM/constMu)*flux(1,N)
+	      vy = (constK_BM/constMu)*flux(2,N)
 	      WRITE(idrvx,210) N, TEMPO, X(1,N), X(2,N), vx
 	      WRITE(idrvy,210) N, TEMPO, X(1,N), X(2,N), vy
           ENDDO
@@ -480,6 +504,7 @@
       use mCoeficientes,     only: calcularZ_P
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, constK_BM, T, R_, constMu, M_m
       use mParametros,       only: gasTotalKg, gasRecuperavelKg, areaContatoBlocoMacroFratura, gasProduzidoKg
+      use mLeituraEscrita,   only: iechoProducao
       
       
       IMPLICIT NONE
@@ -533,32 +558,31 @@
       use mCoeficientes,     only: calcularZ_P
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, constK_BM, T, R_, constMu, M_m
       use mParametros,       only: gasTotalKg, gasRecuperavelKg, areaContatoBlocoMacroFratura, gasProduzidoKg
+      use mLeituraEscrita,   only: iechoProducao
       
       
       IMPLICIT NONE
       
       REAL*8   FLUX(2*NDOF_BM,*), solucao(NDOF_BM,*), X(NSD_BM,*), TEMPO, DT
-      INTEGER  NUSTEP, NUMNP, I, N
+      INTEGER  NUSTEP, NUMNP, I, N, idx, idxr
       REAL*8  :: volAcumulado, fluxoAnt
+      CHARACTER*30  idxStr, prod
 
       REAL*8  Lx, Ly, Z(nely_BM), pStar(nely_BM), flMassico(NSD_BM,nely_BM), volInst, &
      &         gradP(NSD_BM,nely_BM), volAcumuladoKg, flMassico_soma(NSD_BM,1)
-      
+            
 !     fluxoAnt é iniciado com 0
       Lx    = widthBlocoMacro
       Ly    = tamBlocoMacro      ! BM_y
-      flMassico_soma(1,1) = 0.d0
-      flMassico_soma(2,1) = 0.d0
-      
       
         DO I = 1,nely_BM                ! Laco nos nós verticais
 	  N = (I-1)*(nelx_BM+1) + 1
 	  pStar(I) = solucao(1, N)
-	  gradP(1,I) = FLUX(1,N)*p_Ref/Lx
-	  gradP(2,I) = FLUX(2,N)*p_Ref/Ly
-	  call calcularZ_P(pStar(I)*p_Ref, Z(I))
-	  flMassico(1,I) = - (pStar(I)*p_ref*constK_BM*M_m*gradP(1,I))/(Z(I)*R_*T*constMu)  ! Kg / (m^2 s)
-	  flMassico(2,I) = - (pStar(I)*p_ref*constK_BM*M_m*gradP(2,I))/(Z(I)*R_*T*constMu)  ! Kg / (m^2 s)
+	  gradP(1,I) = FLUX(1,N)!*p_Ref/Lx
+	  gradP(2,I) = FLUX(2,N)!*p_Ref/Ly
+	  call calcularZ_P(pStar(I), Z(I))
+	  flMassico(1,I) = - (pStar(I)*constK_BM*M_m*gradP(1,I))/(Z(I)*R_*T*constMu)  ! Kg / (m^2 s)
+	  flMassico(2,I) = - (pStar(I)*constK_BM*M_m*gradP(2,I))/(Z(I)*R_*T*constMu)  ! Kg / (m^2 s)
         ENDDO
       
       volInst        = (fluxoAnt + flMassico(1,1))/2.0D0 * DT      ! regra do trapezio
@@ -572,6 +596,8 @@
       write(iechoProducao,'(i8,7e15.7)') NUSTEP, TEMPO, DT, flMassico(1,1), volAcumulado,      &
      &                                   volAcumuladoKg, volAcumuladoKg/gasRecuperavelKg, &
      &                                   volAcumuladoKg/gasTotalKg
+     
+!      close(idxr)
       
       END SUBROUTINE
 
@@ -585,6 +611,7 @@
       use mGlobaisEscalares, only: dimModelo
       use mCoeficientes,     only: calcularZ_P
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, constK_BM, T, R_, constMu, M_m, phi_BM
+      use mParametros,       only: gasTotalKg, gasRecuperavelKg, areaContatoBlocoMacroFratura, gasProduzidoKg
       
       
       IMPLICIT NONE
@@ -592,15 +619,16 @@
       REAL*8   solucao(NDOF_BM,*), solucaoant(NDOF_BM,*), TEMPO, flux(2,*), X(2,*), DT
       INTEGER  NUSTEP, NUMNP, I, N, J, idxf, idyf, idx, idxr, idxe
 
-      REAL *8  Lx, Ly, Z(NUMNP_BM), pStar(NUMNP_BM), flMassico(NSD_BM,NUMNP_BM), residJ, &
-     &         gradP(NSD_BM,NUMNP_BM),pStar_ant(NUMNP_BM),residt,Zant(NUMNP_BM),resid(NUMNP_BM),erro(NUMNP_BM)
+      REAL*8  Lx, Ly, Z(NUMNP_BM), pStar(NUMNP_BM), flMassico(NSD_BM,NUMNP_BM), residJ, &
+     &         gradP(NSD_BM,NUMNP_BM),pStar_ant(NUMNP_BM),residt,Zant(NUMNP_BM),resid(NUMNP_BM),&
+     &	       erro(NUMNP_BM)
      CHARACTER*30  idxStr, nodeFlux_x, residueFlux_x
       
       Lx    = widthBlocoMacro
       Ly    = tamBlocoMacro      ! BM_y
       
 !       Abrindo os arquivos para saída
-      write(idxStr,'(i1)') idx
+      write(idxStr,'(i0)') idx
       
       idxf = 19*idx
       nodeFlux_x = 'nodeFlux_x.'//idxStr
@@ -616,12 +644,12 @@
             N = I+(J-1)*(nelx_BM + 1)
             pStar(N) = solucao(1, N)
             pStar_ant(N) = solucaoant(1, N)
-            gradP(1,N) = FLUX(1,N)*p_Ref/Lx
-            gradP(2,N) = FLUX(2,N)*p_Ref/Ly
-            call calcularZ_P(pStar(N)*p_Ref, Z(N))
-            call calcularZ_P(pStar_ant(N)*p_Ref, Zant(N))
-            flMassico(1,N) = - (pStar(N)*p_ref*constK_BM*M_m*gradP(1,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
-            flMassico(2,N) = - (pStar(N)*p_ref*constK_BM*M_m*gradP(2,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
+            gradP(1,N) = FLUX(1,N)!*p_Ref/Lx
+            gradP(2,N) = FLUX(2,N)!*p_Ref/Ly
+            call calcularZ_P(pStar(N), Z(N))
+            call calcularZ_P(pStar_ant(N), Zant(N))
+            flMassico(1,N) = - (pStar(N)*constK_BM*M_m*gradP(1,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
+            flMassico(2,N) = - (pStar(N)*constK_BM*M_m*gradP(2,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
             WRITE(idxf,222) N, TEMPO, X(1,N), X(2,N), flMassico(1,N)  
           ENDDO
       ENDDO
@@ -630,8 +658,8 @@
       DO I=1,nely_BM + 1
           DO J=2,nelx_BM
             N = J+(I-1)*(nely_BM + 1)
-            residJ = (flMassico(1,N+1) - flMassico(1,N-1))/(Lx*(X(1,N+1)-X(1,N-1))) ! Ver o espaçamento da malha depois
-            residt = ((phi_BM*p_ref*M_m)/(R_*T*DT))*((pStar(N)/Z(N)) - (pStar_ant(N)/Zant(N)))
+            residJ = (flMassico(1,N+1) - flMassico(1,N-1))/((X(1,N+1)-X(1,N-1))) ! Ver o espaçamento da malha depois
+            residt = ((phi_BM*M_m)/(R_*T*DT))*((pStar(N)/Z(N))-(pStar_ant(N)/Zant(N)))
             resid(N) = residt + residJ
           ENDDO
       ENDDO
@@ -644,12 +672,15 @@
       ENDDO
 
       222  FORMAT(4X,I5,10x,4(1PE15.8,2X))
+      close(idxf)
+      close(idxr)
       
       END SUBROUTINE
 
       
 !-------------------------------------------------------------------------------------     
-      SUBROUTINE montarSistema_BM (NED, NDOF, fluxoMassicoDeBlocoParaBlocoMacro, DTEMPO)
+      SUBROUTINE montarSistema_BM (NED, NDOF,trU, &
+          trUAnt, DTEMPO)
 !-------------------------------------------------------------------------------------     
       
 !
@@ -659,7 +690,7 @@
 !        AND RIGHT-HAND SIDE VECTOR
 
       use mGlobaisEscalares, only : dimModelo, ntype, numat_BM, npint_BM, nicode_BM, iprtin, nrowsh_BM
-      use mGlobaisArranjos,  only : mat_BM, c_BM, grav_BM, bf_BM
+      use mGlobaisArranjos,  only : mat_BM, c_BM, grav_BM, bf_BM, phi_n, coupling_mode
       USE mLeituraEscrita,   only : printd, prntel
       use mMalha,            only : numel_BM, numnp_BM, nsd_BM, nen_BM, genfl, genel, local
       use mMalha,            only : conecNodaisElem_BM, x_BM
@@ -668,13 +699,13 @@
       use mAlgMatricial,     only : brhs_BM, dlhs_BM
       use mCoeficientes,     only : calcularZ_P
       use mParametros,       only : p_Ref, tamBlocoMacro, widthBlocoMacro, constMu, phi_BM, constK_BM, R_, T
-      use mParametros,       only : fraVol_BM, M_m
+      use mParametros,       only : fraVol_BM, M_m, alpha_r, Kbulk, k_s, beta_r
       
 !
       IMPLICIT NONE
       
       INTEGER :: NDOF, NED
-      REAL*8  :: fluxoMassicoDeBlocoParaBlocoMacro(NUMNP_BM)
+      REAL*8  :: trU(numel_bm), trUAnt(numel_bm)
       REAL*8  :: DTEMPO
             
       REAL*8  :: UU, UUP, GRXUU, GRYUU, tamElem
@@ -695,12 +726,13 @@
       REAL*8 :: fonteMassaDeBlocoParaBlocoMacro
       
       integer :: i,j,k,l,nel
+      
 ! 
 !.... REMOVE ABOVE CARD FOR SINGLE-PRECISION OPERATION 
 ! 
       LOGICAL DIAG,QUAD,ZERODL
       real*8 :: ELEFFM(NEE_BM,NEE_BM),ELRESF(NEE_BM) ! bidu 20ago 2015
-
+  
       shl = 0.0
       if(dimModelo=='1D') then
           call oneshl(shl,w,npint_BM,nen_BM)
@@ -740,30 +772,20 @@
 !
 !....... FORM STIFFNESS MATRIX
 !
-!      GEOMETRICAL DEFINITION OF THE ELEMENT
-!
-      H2=0
-      DO I=1,2
-         H2=H2+(XL(1,I)-XL(1,I+2))**2+(XL(2,I)-XL(2,I+2))**2
-      ENDDO
-      H=DSQRT(H2)/2.D00
-      H2=H*H      
-!
-!      SET UP MATERIAL PROPERTIES
-!
-      EE   =C_BM(1,1)
-      XNI  =C_BM(2,1)
-      ALPHA=C_BM(3,1)
-      CVRHO=C_BM(4,1)
-      RKCON=C_BM(5,1)
-      RK   =C_BM(6,1)
-      T0   =C_BM(7,1)
-      
-       flNoAnt  = -fluxoMassicoDeBlocoParaBlocoMacro(NEL);         
-       flNoPost = -fluxoMassicoDeBlocoParaBlocoMacro(NEL+1);    
-
+     
+       !flNoAnt  = -fluxoMassicoDeBlocoParaBlocoMacro(NEL);         
+       !flNoPost = -fluxoMassicoDeBlocoParaBlocoMacro(NEL+1);    
        tamElem  = X_BM(2,NEL+1)-X_BM(2,NEL);
-       fonteMassaDeBlocoParaBlocoMacro = 0
+       !fonteMassaDeBlocoParaBlocoMacro = 0
+       
+!       beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
+       if (coupling_mode .eq. "oneway") then
+       beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
+       endif
+       if (coupling_mode .eq. "twoway") then
+       beta_r = ((alpha_r-phi_n(nel))/k_s)	! Computing twoway compressibility (Diego, dec/2015)
+!        beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
+       endif
 
       DO 400 L=1,NPINT_BM
          C1=DET(L)*W(L) 
@@ -777,18 +799,20 @@
             GRXUU=GRXUU+SHG(1,J,L)*DL(1,J)
             GRYUU=GRYUU+SHG(2,J,L)*DL(1,J)
          ENDDO
+        
+         CALL calcularZ_P(UU, Z_UU)         
+         CALL calcularZ_P(UUP,Z_UUP)
+         R_UU = phi_n(nel)*M_m/(Z_UU *  R_ * T)
+         R_UUP= phi_n(nel)*M_m/(Z_UUP *  R_ * T) 
 
-         CALL calcularZ_P(UU*p_Ref, Z_UU)         
-         CALL calcularZ_P(UUP*p_Ref,Z_UUP)
-         R_UU = phi_BM*M_m/(Z_UU *  R_ * T)
-         R_UUP =phi_BM*M_m/(Z_UUP *  R_ * T) 
-
+         if (coupling_mode .eq. "oneway") then
          DO J=1,NEN_BM
             DJN=SHG(3,J,L)*C1
             DJX=SHG(1,J,L)*C1
             DJY=SHG(2,J,L)*C1
 
-            ELRESF(NED*J)=ELRESF(NED*J)+DJN*R_UUP*UUP + DTEMPO*fonteMassaDeBlocoParaBlocoMacro*DJN; 
+            ELRESF(NED*J)=ELRESF(NED*J)+DJN*R_UUP*UUP  &
+	&		+ beta_r*djn*M_m*(UU/Z_UU)*UUP/(R_*T)	! Diego, 1-way (set/2015) 
          ENDDO        
 !
 !.... ELEMENT STIFFNESS
@@ -801,14 +825,15 @@
                DIX=SHG(1,I,L)
                DIY=SHG(2,I,L) 
                DIN=SHG(3,I,L)
-              
-               ELEFFM(NED*J,NED*I) = ELEFFM(NED*J,NED*I)                                  &
-       &                            + R_UU*DJN*DIN                                        &
-       &                            + constK_BM*DTEMPO*p_Ref*UU*M_m/(R_*T*Z_UU) & 
-       &                            * (DIX*DJX/widthBlocoMacro**2+DIY*DJY/tamBlocoMacro**2)/constMu
        
-	       
+              ELEFFM(NED*J,NED*I) = ELEFFM(NED*J,NED*I)                                  &
+       &                            + R_UU*DJN*DIN                                        &
+       &                            + constK_BM*DTEMPO*UU*M_m/(R_*T*Z_UU) & 
+       &                            * (DIX*DJX+DIY*DJY)/constMu &
+       &			    + beta_r*djn*M_m*(UU/Z_UU)*(DIN)/(R_*T)	! Diego, 1-way (set/2015)
+       
 
+       
 !             write(*,*) "======================="
 !             write(*,*) "phi", phi_F
 !             write(*,*) "K",   constK_F
@@ -822,6 +847,89 @@
 
             ENDDO
          ENDDO
+         
+         else if (coupling_mode .eq. "twoway") then
+         DO J=1,NEN_BM
+            DJN=SHG(3,J,L)*C1
+            DJX=SHG(1,J,L)*C1
+            DJY=SHG(2,J,L)*C1
+
+        !write(*,*)  beta_r,djn,M_m,UU,Z_UU,UUP,R_*T    ! Diego, 2-way (dec/2015)
+           
+            ELRESF(ndof*J)=ELRESF(ndof*J)+DJN*R_UUP*UUP  &
+                  &+ beta_r*djn*M_m*(UU/Z_UU)*UUP/(R_*T) &
+                  &+ alpha_r*djn*M_m*(UU/Z_UU)*(trUAnt(nel)-trU(nel))/(R_*T)
+! 	&		+ ((alpha_r**2.0)/Kbulk)*djn*M_m*(UU/Z_UU)*(UU-UUP)/(R_*T)  
+            !write(19,*) (trU(nel)-trUAnt(nel))
+         ENDDO        
+!
+!.... ELEMENT STIFFNESS
+!
+         DO J=1,NEN_BM
+            DJX=SHG(1,J,L)*C1
+            DJY=SHG(2,J,L)*C1
+            DJN=SHG(3,J,L)*C1
+            DO I=1,NEN_BM
+               DIX=SHG(1,I,L)
+               DIY=SHG(2,I,L) 
+               DIN=SHG(3,I,L)
+       
+              ELEFFM(ndof*J,ndof*I) = ELEFFM(ndof*J,ndof*I)                                  &
+       &                            + R_UU*DJN*DIN                                        &
+       &                            + constK_BM*DTEMPO*UU*M_m/(R_*T*Z_UU) & 
+       &                            * (DIX*DJX+DIY*DJY)/constMu &
+       &                            +beta_r*djn*M_m*(UU/Z_UU)*(DIN)/(R_*T)! &  ! Diego, 2-way (dec/2015)
+!       &                            + alpha_r*djn*M_m*(UU/Z_UU)*trU(nel)/(R_*T)
+       
+       !write(*,*)  "R_UU,DJN,DIN, constK_BM,DTEMPO,UU,M_m,R_,T,Z_UU,DIX,DJX,DIY,DJY,constMu "
+       !write(*,*)  R_UU,DJN,DIN, constK_BM,DTEMPO,UU,M_m,R_,T,Z_UU,DIX,DJX,DIY,DJY,constMu 
+       !write(*,*)  "beta_r,djn,M_m,UU,Z_UU,DIN,R_*T"; 
+       !write(*,*)  beta_r,djn,M_m,UU,Z_UU,DIN,R_*T; !stop
+
+
+            ENDDO
+         ENDDO
+         else  
+         DO J=1,NEN_BM
+            DJN=SHG(3,J,L)*C1
+            DJX=SHG(1,J,L)*C1
+            DJY=SHG(2,J,L)*C1
+
+            ELRESF(NED*J)=ELRESF(NED*J)+DJN*R_UUP*UUP
+         ENDDO        
+!
+!.... ELEMENT STIFFNESS
+!
+         DO J=1,NEN_BM
+            DJX=SHG(1,J,L)*C1
+            DJY=SHG(2,J,L)*C1
+            DJN=SHG(3,J,L)*C1
+            DO I=1,NEN_BM
+               DIX=SHG(1,I,L)
+               DIY=SHG(2,I,L) 
+               DIN=SHG(3,I,L)
+       
+              ELEFFM(NED*J,NED*I) = ELEFFM(NED*J,NED*I)                                  &
+       &                            + R_UU*DJN*DIN                                        &
+       &                            + constK_BM*DTEMPO*UU*M_m/(R_*T*Z_UU) & 
+       &                            * (DIX*DJX+DIY*DJY)/constMu
+       
+
+       
+!             write(*,*) "======================="
+!             write(*,*) "phi", phi_F
+!             write(*,*) "K",   constK_F
+!             write(*,*) "mu",  constMu
+!             write(*,*) "DT",  DTEMPO_F
+!             write(*,*) "UU",  UU
+!             write(*,*) "UUP", UUP
+!             write(*,*) "Z_UU",  Z_UU
+!             write(*,*) "Z_UUP", Z_UUP
+!             write(*,*) "======================="
+
+            ENDDO
+         ENDDO
+         endif
 !
   400 CONTINUE
 
@@ -843,6 +951,7 @@
        CALL ADDRHS(BRHS_BM,ELRESF,LM_BM(1,1,NEL),NEE_BM)
 !                
  500   CONTINUE
+
       RETURN
       END SUBROUTINE
 
@@ -1120,11 +1229,12 @@
 !
      subroutine alocarMemoriaBlocoMacro()
 
-     use mGlobaisArranjos,  only: mat_BM, grav_BM, bf_BM
+     use mGlobaisArranjos,  only: mat_BM, grav_BM, bf_BM, phi_n, phi_n0
      use mGlobaisEscalares, only: ndofD, nlvectD
      use mMalha,            only: nsd_BM, numel_BM, numnp_BM, numLados_BM, nen_BM, numLadosElem_BM, x_BM, xc_BM
      use mMalha,            only: listaDosElemsPorNo_BM, conecNodaisElem_BM
      use mAlgMatricial,     only: id_BM, lm_BM
+     use mParametros,       only: phi_BM
 
      implicit none
 
@@ -1145,6 +1255,8 @@
 
      allocate(flux_BM (2*ndof_BM, numnp_BM)); flux_BM =0.d0
      allocate(solucao_BM (ndof_BM, numnp_BM)); solucao_BM =0.d0
+     allocate(phi_n(numel_BM));        phi_n= 0.0d0
+     allocate(phi_n0(numel_BM));        !phi_n= phi_BM
      allocate(solucaoNaoLinearAnt_BM(ndof_BM, numnp_BM)); solucaoNaoLinearAnt_BM=0.d0
      allocate(solucaoTmpAnt_BM(ndof_BM, numnp_BM)); solucaoTmpAnt_BM=0.d0
      allocate(BF_BM(nesd_BM, numnp_BM));  BF_BM=0.d0
