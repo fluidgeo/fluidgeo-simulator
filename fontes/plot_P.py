@@ -57,7 +57,7 @@ for i in range(1,pnum+1):
         leg = ("%d meses" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,P,'o',label=leg)
-    ax.plot(xx,P,'-o',label=leg)
+    ax.plot(xx,P,'-.',label=leg)
 
 box = ax.get_position()
 ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
@@ -94,7 +94,7 @@ for i in range(1,pnum+1):
         leg = ("%d meses" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,P,'o',label=leg)
-    ax.plot(xx,P,'-o',label=leg)
+    ax.plot(xx,P,'-.',label=leg)
 
 box = ax.get_position()
 ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
@@ -131,7 +131,7 @@ for i in range(1,pnum+1):
         leg = ("%d meses" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,gradP,'o',label=leg)
-    ax.plot(xx,gradP,'-o',label=leg)
+    ax.plot(xx,gradP,'-.',label=leg)
     #surf = ax.plot_surface(xx, yy, P, rstride=1, cstride=1, cmap=cm.coolwarm,
         #linewidth=0, antialiased=True)
     #surf = ax.plot_surface(xx, yy, P)
@@ -177,7 +177,7 @@ for i in range(1,pnum+1):
         leg = ("%d meses" % dataLegendP[i-1])
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,V,'o',label=leg)
-    ax.plot(xx,V,'-o',label=leg)
+    ax.plot(xx,V,'-.',label=leg)
     #surf = ax.plot_surface(xx, yy, P, rstride=1, cstride=1, cmap=cm.coolwarm,
         #linewidth=0, antialiased=True)
     #surf = ax.plot_surface(xx, yy, P)
@@ -226,7 +226,7 @@ for i in range(1,pnum+1):
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,J,'.',label=leg)
     #ax.plot(xx,yy,J,'o',label=leg)
-    ax.plot(xx,J,'-o',label=leg)
+    ax.plot(xx,J,'-.',label=leg)
     #surf = ax.plot_surface(xx, yy, P, rstride=1, cstride=1, cmap=cm.coolwarm,
         #linewidth=0, antialiased=True)
     #surf = ax.plot_surface(xx, yy, P)
@@ -275,7 +275,7 @@ for i in range(1,pnum+1):
     Px0[i-1] = P[0]
     #ax.plot(xx,yy,J,'.',label=leg)
     #ax.plot(xx,yy,J,'o',label=leg)
-    ax.plot(xx,Resid,'-o',label=leg)
+    ax.plot(xx,Resid,'-.',label=leg)
     #surf = ax.plot_surface(xx, yy, P, rstride=1, cstride=1, cmap=cm.coolwarm,
         #linewidth=0, antialiased=True)
     #surf = ax.plot_surface(xx, yy, P)
@@ -311,7 +311,7 @@ dt, Jprod = np.loadtxt(inDataNameJprod,unpack=True,usecols=[1,5])
 dt = dt/mes
 ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
 ax.set_ylabel(r'$Produ \c c \~ a o\, \left(kg\right)$',fontsize=16)
-ax.plot(dt,Jprod,'-o',label=u'Produção')
+ax.plot(dt,Jprod,'-.',label=u'Produção')
 box = ax.get_position()
 ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
@@ -332,7 +332,7 @@ dt, RF_ = np.loadtxt(inDataNameRF_,unpack=True,usecols=[1,6])
 dt = dt/mes
 ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
 ax.set_ylabel(r'$RF_{recuper\'avel}$',fontsize=16)
-ax.plot(dt,RF_,'-o',label=u'RF')
+ax.plot(dt,RF_,'-.',label=u'RF')
 box = ax.get_position()
 ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
@@ -353,7 +353,7 @@ dt, RF = np.loadtxt(inDataNameRF,unpack=True,usecols=[1,7])
 dt = dt/mes
 ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
 ax.set_ylabel(r'$RF_{total}$',fontsize=16)
-ax.plot(dt,RF,'-o',label=u'RF')
+ax.plot(dt,RF,'-.',label=u'RF')
 box = ax.get_position()
 ax.set_position([0.1*box.x0+box.x0, box.y0, box.width * 0.8, box.height])
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
@@ -373,7 +373,7 @@ dt, Flux = np.loadtxt(inDataNameRF,unpack=True,usecols=[1,3])
 dt = dt/mes
 ax.set_xlabel(r'$t\,(meses)$',fontsize=18)
 ax.set_ylabel(r'J $\left(\frac{kg}{m^2 s}\right)$',fontsize=16)
-ax.plot(dt,Flux,'-o',label=u'Fluxo Mássico')
+ax.plot(dt,Flux,'-.',label=u'Fluxo Mássico')
 box = ax.get_position()
 ax.set_position([0.45*box.x0+box.x0, box.y0, box.width * 0.95, box.height])
 #ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))

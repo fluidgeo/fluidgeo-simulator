@@ -362,15 +362,16 @@
 !**** new **********************************************************************
 !
 !     Essa sub-rotina calcula os sigmas por elemento considerando o estado
-!     plano de tensoes. Funciona apenas para o caso bidimensional.
+!     plano de deformacoes. Funciona apenas para o caso bidimensional.
 !     Diego (Set/2015)
 !
       subroutine calcStressPoro(stress, d, p, gp, x,conecNodaisElem, &
-                            numnp, numel, nen, nsd, ndof, tflag, idx)
+                            numnp, numel, nen, nsd, ndof, tflag)
 !
 
       use mGlobaisEscalares, only: nrowsh_bm, npint_bm	! OK
       use mGlobaisArranjos,  only: mat_bm, c_bm, grav_bm, celast, phi_n, phi_n0	! OK
+      use mGlobaisArranjos,  only: trEps
       use mAlgMatricial,     only: kdbc, addrhs, addlhs	! OK
       use mfuncoesDeForma,   only: oneshl, oneshg, shlt, shlq3d, shg3d, shgq, shlq	! OK
       use mMalha,            only: local	! OK
@@ -399,7 +400,7 @@
       real*8 :: det(npint_bm), w(npint_bm)
 !
       integer*4 :: nee, idsx, idx, idsr
-      real*8   :: strain(nen), p_mean(numel), p_mean_ant, trEps, residbc(nelx_BM)
+      real*8   :: strain(nen), p_mean(numel), p_mean_ant, residbc(nelx_BM)
       real*8   :: denStress_x, denStress_y, valueError_x, valueError_y, denGrad_x, denGrad_y
       REAL*8 :: residS_x, residS_y, sig_down,sig_up,sig_left,sig_right, valueError(nsd,numel)
       CHARACTER*30  idsStr, sigma, rsigma
@@ -485,7 +486,7 @@
 ! 
 !.... compute strain's trace
 ! 
-      trEps = (strain(1) + strain(2))
+      trEps(nel) = (strain(1) + strain(2))
 !
 !.... compute mean pressure over element
 ! 
@@ -495,7 +496,7 @@
 !     
 !.... compute mean porosity over element
 !
-      phi_n(nel) = phi_n0(nel) + alpha_r*trEps + &
+      phi_n(nel) = phi_n0(nel) + alpha_r*trEps(nel) + &
       &            ((alpha_r-phi_n0(nel))/k_s)*(p_mean(nel) - p_Ref)
 !
 !.... compute element volumetric stresses 
@@ -506,125 +507,15 @@
       
   500 continue  
 
-!   if (tflag .eqv. .true.) then
-!         !       Abrindo os arquivos para saída
-! 	write(idsStr,'(i0)') idx
-! 	write(*,*) "Aqui ", idx
-! 
-! 	idsx = 11*idx
-! 	sigma = 'sigy.'//idsStr
-! 	OPEN(UNIT=idsx, FILE= sigma)
-! 	
-! 	idsr = 12*idx
-! 	rsigma = 'eqdiv.'//idsStr
-! 	OPEN(UNIT=idsr, FILE= rsigma)
-! 	
-! 	OPEN(UNIT=(13*idx), FILE= 'eqdivL.'//idsStr)
-! 	OPEN(UNIT=(17*idx), FILE= 'eqdivC.'//idsStr)
-! 	OPEN(UNIT=(19*idx), FILE= 'eqdivR.'//idsStr)
-! 	OPEN(UNIT=(201), FILE= 'sigmasL.'//idsStr)
-! 	OPEN(UNIT=(202), FILE= 'sigmasR.'//idsStr)
-! 	OPEN(UNIT=(203), FILE= 'sigmasC.'//idsStr)
-! 	OPEN(UNIT=(301), FILE= 'sigmasLx.'//idsStr)
-! 	OPEN(UNIT=(302), FILE= 'sigmasRx.'//idsStr)
-! 	OPEN(UNIT=(303), FILE= 'sigmasCx.'//idsStr)
-! 	residbc = 0.0
-! 	DO J=1,nelx_BM
-! 	!             Element localization
-! 		N = J+(nely_BM-1)*(nely_BM)
-! 	        write(idsx, 223) N, (STRESS(2,N) - alpha_r*p_mean(N))
-! 	ENDDO
-! !       Computation check of element's momentum balance
-!       DO I=1,nely_BM - 2
-!           DO J=2,nelx_BM - 1
-! !             Element localization
-!             N = J+(I)*(nely_BM)
-!             N_xleft = N - 1 
-!             N_xright = N + 1
-!             N_ydown = J+(I-2)*(nely_BM + 1)
-!             N_yup = J+(I)*(nely_BM + 1)
-! 
-! !             Stress N,S,E,W terms
-!             sig_left = (STRESS(1,N_xleft)+(STRESS(3,N_xleft)))
-!             sig_right = (STRESS(1,N_xright)+(STRESS(3,N_xright)))
-!             sig_down = (STRESS(2,N_ydown)+(STRESS(3,N_ydown)))
-!             sig_up = (STRESS(2,N_yup)+(STRESS(3,N_yup)))
-!             
-! !             Stress finite difference computation at element
-!             residS_x = (sig_right - sig_left)/((X(1,N_xright)-X(1,N_xleft)))
-!             residS_y = (sig_up - sig_down)/((X(2,N_yup)-X(2,N_ydown)))
-!             
-! 	    denStress_x = dabs(STRESS(1,N))
-! 	    denStress_y = dabs(STRESS(2,N))
-! 	    denGrad_x = dabs(alpha_r*gp_mean(1,N))
-! 	    denGrad_y = dabs(alpha_r*gp_mean(2,N))
-! 	    valueError(1,N) = dabs(residS_x - alpha_r*gp_mean(1,N))/denStress_x
-! 	    valueError(2,N) = dabs(residS_y - alpha_r*gp_mean(2,N))/denStress_y
-!             write(idsr,224) N, valueError(1,N), valueError(2,N) 
-!           ENDDO
-!       ENDDO
-!       
-!       DO I=2,nelx_BM, (nelx_BM - 3)/2
-!           DO J=2,nely_BM - 1
-!             N = I+(J-1)*(nelx_BM)
-!             if (I .eq. 2) then
-! 		WRITE((13*idx),225) N, X(1,N), X(2,N), valueError(1,N), valueError(2,N)
-! 	    else if (I .eq. (nelx_BM-2)) then
-! 	        WRITE((19*idx),225) N, X(1,N), X(2,N), valueError(1,N), valueError(2,N)
-! 	    else if (I .eq. ((nelx_BM)/2)) then
-! 	        WRITE((17*idx),225) N, X(1,N), X(2,N), valueError(1,N), valueError(2,N)
-!             endif
-!           ENDDO
-!       ENDDO  
-!       DO I=1,nelx_BM, (nelx_BM - 1)/2
-!           DO J=1,nely_BM
-!             N = I+(J-1)*(nelx_BM)
-!             if (I .eq. 1) then
-! 		write(201,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
-! 	    else if (I .eq. (nelx_BM-1)) then
-! 	        write(202,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
-! 	    else if (I .eq. ((nelx_BM)/2)) then
-! 	        write(203,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
-!             endif
-!           ENDDO
-!       ENDDO
-!       DO I=1,nely_BM, (nely_BM - 1)/2
-!           DO J=1,nelx_BM
-!             N = J+(I-1)*(nely_BM)
-!             if (I .eq. 1) then
-! 		write(301,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
-! 	    else if (I .eq. (nely_BM-1)) then
-! 	        write(302,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
-! 	    else if (I .eq. ((nely_BM)/2)) then
-! 	        write(303,226) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
-!             endif
-!           ENDDO
-!       ENDDO
-!   endif
-!   
-!   close(idsx)
-!   close(idsr)
-!   close(995)
-!   close(201)
-!   close(202)
-!   close(203)
-!   close((13*idx))
-!   close((17*idx))
-!   close((19*idx))
-!  
-!   223  FORMAT(4X,I5,10x,1(1PE15.8,2X))
-!   224  FORMAT(4X,I5,10x,2(1PE15.8,2X))
-!   225  FORMAT(4X,I5,10x,4(1PE15.8,2X))
-!   226  FORMAT(4X,I5,10x,3(1PE15.8,2X))
       return
       end subroutine calcStressPoro
       
 
 !**** new **********************************************************************
 !
-!     Essa sub-rotina calcula os sigmas por elemento considerando o estado
+!     Essa sub-rotina imprime os sigmas por elemento considerando o estado
 !     plano de tensoes. Funciona apenas para o caso bidimensional.
-!     Diego (Set/2015)
+!     Diego (Dez/2015)
 !
       subroutine printStressPoro(stress, d, p, gp, x,conecNodaisElem, &
                             numnp, numel, nen, nsd, ndof, tflag, idx)
@@ -694,7 +585,6 @@
   if (tflag .eqv. .true.) then
         !       Abrindo os arquivos para saída
 	write(idsStr,'(i0)') idx
-	write(*,*) "Aqui ", idx
 
 	idsx = 11*idx
 	sigma = 'sigy.'//idsStr

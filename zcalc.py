@@ -16,7 +16,7 @@ Nav = 6.022e23
 R   = Nav*kB
 
 # Propriedades do Metano
-T   = 320.0            # Temperatura (Kelvin)
+T   = 352.55            # Temperatura (Kelvin)
 Tb  = 111.63           # Ponto de bolha normal (Kelvin)
 Tc  = 190.6            # Temperatura crítica (Kelvin)
 Tr  = T/Tc             # Temperatura reduzida (adim)
@@ -141,7 +141,7 @@ for i in ('vdW','RK','SRK','PR', 'mRK', 'mPR', 'mPRnew'):
 	
 axes = plt.gca()
 axes.set_xlim([5.e5,6.8e7])
-axes.set_ylim([Z.min()-0.1*Z.min(),Z.max()+0.2*Z.max()])
+axes.set_ylim([Zb.min()-0.1*Zb.min(),Zb.max()+0.2*Zb.max()])
 plt.grid(True)
 plt.legend(loc='best')
 plt.title("Z(p) Metano")

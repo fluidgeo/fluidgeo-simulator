@@ -6,7 +6,7 @@ DIRINC    = ./include
 
 #opcoes de compilacao
 #PETSC     = withPetsc
-OMP       = # withOMP
+OMP       =  withOMP
 OPT       = -O3 -pg  #-fast
 OPT       = -O3  
 OPT       = -O3 -g -DwithGaussSkyline #-fast

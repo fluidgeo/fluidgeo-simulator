@@ -679,7 +679,8 @@
 
       
 !-------------------------------------------------------------------------------------     
-      SUBROUTINE montarSistema_BM (NED, NDOF, fluxoMassicoDeBlocoParaBlocoMacro, DTEMPO)
+      SUBROUTINE montarSistema_BM (NED, NDOF,trU, &
+          trUAnt, DTEMPO)
 !-------------------------------------------------------------------------------------     
       
 !
@@ -704,7 +705,7 @@
       IMPLICIT NONE
       
       INTEGER :: NDOF, NED
-      REAL*8  :: fluxoMassicoDeBlocoParaBlocoMacro(NUMNP_BM)
+      REAL*8  :: trU(numel_bm), trUAnt(numel_bm)
       REAL*8  :: DTEMPO
             
       REAL*8  :: UU, UUP, GRXUU, GRYUU, tamElem
@@ -772,12 +773,19 @@
 !....... FORM STIFFNESS MATRIX
 !
      
-       flNoAnt  = -fluxoMassicoDeBlocoParaBlocoMacro(NEL);         
-       flNoPost = -fluxoMassicoDeBlocoParaBlocoMacro(NEL+1);    
+       !flNoAnt  = -fluxoMassicoDeBlocoParaBlocoMacro(NEL);         
+       !flNoPost = -fluxoMassicoDeBlocoParaBlocoMacro(NEL+1);    
        tamElem  = X_BM(2,NEL+1)-X_BM(2,NEL);
-       fonteMassaDeBlocoParaBlocoMacro = 0
+       !fonteMassaDeBlocoParaBlocoMacro = 0
        
-       beta_r = ((alpha_r-phi_n(nel))/k_s - (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
+!       beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
+       if (coupling_mode .eq. "oneway") then
+       beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
+       endif
+       if (coupling_mode .eq. "twoway") then
+       beta_r = ((alpha_r-phi_n(nel))/k_s)	! Computing twoway compressibility (Diego, dec/2015)
+!        beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
+       endif
 
       DO 400 L=1,NPINT_BM
          C1=DET(L)*W(L) 
@@ -840,7 +848,48 @@
             ENDDO
          ENDDO
          
-         else if (coupling_mode .eq. "hydro") then
+         else if (coupling_mode .eq. "twoway") then
+         DO J=1,NEN_BM
+            DJN=SHG(3,J,L)*C1
+            DJX=SHG(1,J,L)*C1
+            DJY=SHG(2,J,L)*C1
+
+        !write(*,*)  beta_r,djn,M_m,UU,Z_UU,UUP,R_*T    ! Diego, 2-way (dec/2015)
+           
+            ELRESF(ndof*J)=ELRESF(ndof*J)+DJN*R_UUP*UUP  &
+                  &+ beta_r*djn*M_m*(UU/Z_UU)*UUP/(R_*T) &
+                  &+ alpha_r*djn*M_m*(UU/Z_UU)*(trUAnt(nel)-trU(nel))/(R_*T)
+! 	&		+ ((alpha_r**2.0)/Kbulk)*djn*M_m*(UU/Z_UU)*(UU-UUP)/(R_*T)  
+            !write(19,*) (trU(nel)-trUAnt(nel))
+         ENDDO        
+!
+!.... ELEMENT STIFFNESS
+!
+         DO J=1,NEN_BM
+            DJX=SHG(1,J,L)*C1
+            DJY=SHG(2,J,L)*C1
+            DJN=SHG(3,J,L)*C1
+            DO I=1,NEN_BM
+               DIX=SHG(1,I,L)
+               DIY=SHG(2,I,L) 
+               DIN=SHG(3,I,L)
+       
+              ELEFFM(ndof*J,ndof*I) = ELEFFM(ndof*J,ndof*I)                                  &
+       &                            + R_UU*DJN*DIN                                        &
+       &                            + constK_BM*DTEMPO*UU*M_m/(R_*T*Z_UU) & 
+       &                            * (DIX*DJX+DIY*DJY)/constMu &
+       &                            +beta_r*djn*M_m*(UU/Z_UU)*(DIN)/(R_*T)! &  ! Diego, 2-way (dec/2015)
+!       &                            + alpha_r*djn*M_m*(UU/Z_UU)*trU(nel)/(R_*T)
+       
+       !write(*,*)  "R_UU,DJN,DIN, constK_BM,DTEMPO,UU,M_m,R_,T,Z_UU,DIX,DJX,DIY,DJY,constMu "
+       !write(*,*)  R_UU,DJN,DIN, constK_BM,DTEMPO,UU,M_m,R_,T,Z_UU,DIX,DJX,DIY,DJY,constMu 
+       !write(*,*)  "beta_r,djn,M_m,UU,Z_UU,DIN,R_*T"; 
+       !write(*,*)  beta_r,djn,M_m,UU,Z_UU,DIN,R_*T; !stop
+
+
+            ENDDO
+         ENDDO
+         else  
          DO J=1,NEN_BM
             DJN=SHG(3,J,L)*C1
             DJX=SHG(1,J,L)*C1

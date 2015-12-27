@@ -10,6 +10,7 @@
 dirExp=dirExp00
 # Input value
 dirExp=$1
+dirExp=$2
 
 comando="chmod u+x ./fontes/plot_P.py"
 eval ${comando}

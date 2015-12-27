@@ -398,7 +398,7 @@
         use mInputReader,      only: readStringKeywordValue, readrealkeywordvalue, readlogicalkeywordvalue
         use mInputReader,      only: findKeyword, file_lines
         use mParametros,       only: p_reservatorio, p_poco, tamBlocoMacro, widthBlocoMacro
-        use mParametros,       only: constK_BM, k_s, Kbulk
+        use mParametros,       only: constK_BM, k_s, Kbulk, T
         use mGlobaisArranjos,  only: reservoir_case, phi_range, coupling_mode
         use mGlobaisEscalares, only: random_porosity
         
@@ -424,7 +424,12 @@
         keyword_name = "p_reservatorio"
 	call readRealKeywordValue(keyword_name, p_reservatorio, p_reservatorio)
 ! 	write(*,*) p_reservatorio
-	
+
+!       Reads reservoir temperature
+        keyword_name = "T"
+	call readRealKeywordValue(keyword_name, T, T)
+! 	write(*,*) p_reservatorio
+
 !       Reads well pressure
         keyword_name = "p_poco"
 	call readRealKeywordValue(keyword_name, p_poco, p_poco)
@@ -482,7 +487,7 @@
       use mParametros,       only : p_Ref, p_Poco, gasTotalKg, gasRecuperavelKg, gasProduzidoKg, phi_BM
       use mCoeficientes,     only : calcularQuantidadeGasReservatorio
       use mGlobaisEscalares, only : ndofD, nlvectD
-      use mGlobaisArranjos,  only : phi_n, phi_n0, coupling_mode
+      use mGlobaisArranjos,  only : phi_n, phi_n0, coupling_mode, trEps, trEpsTmpAnt
       use mLeituraEscrita,   only : PRINTDISP, PRINTSTRESS, PRINTPORO
 !
       use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro, printStressPoro!, CHECKEQ!, calcStressPoro2
@@ -522,12 +527,15 @@
       logical :: simetria, tflag, onlydisp
       character(LEN=12) :: label, etapa
       integer :: optType = 1
-      integer :: optType_BM = 1
+!       integer :: optType_BM = 1
       
       onlydisp = .false.
       
       call printporo(phi_n0,numel_bm, 0)
-      
+     
+      allocate(trEps(numel_bm));    trEps = 0.0
+      allocate(trEpsTmpAnt(numel_bm));    trEpsTmpAnt = 0.0
+
       maiorFonte = -10d-9;
       numBlocos = NUMNP_BM;
       allocate(fluxoMassicoDeBlocoParaBlocoMacro(numBlocos));
@@ -596,60 +604,26 @@
              
              SUM_NUMITER = SUM_NUMITER + NUMITER
 
-!           if (coupling_mode .eq. "oneway") then
-!           !
-!           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CALCULO DA ELASTICIDADE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! 	  !
-! 	  deslocamento = 0.0
-!           if(firstD) then
-!                 etapa = 'full'
-! 		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
-! 					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
-! 		firstD=.false.
-! 		optType = 0
-! 	  else
-! ! 		CLEAR necessario para nao carregar a solucao anterior dos deslocamentos nas solucoes
-! ! 		seguintes. Diego (Ago/2015)
-! ! 		deslocamento = 0.0
-!                 etapa = 'back'
-! 		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
-! 					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
-! 	  endif
-! 
-! 	  call timing(t2)
-! 	  call timing(t3)
-!           label='elasticidade linear'
-!           call solverD() 
-!           call timing(t4)          
-! !
-! !	Fim do calculo da ELASTICIDADE
-! !
-!           stressD = 0.0d0
-          
-          call printStressPoro(stressD, deslocamento,solucao_BM, flux_BM, x_bm, conecNodaisElem_bm, &
-          &                   numnp_BM, numel_bm, nen_bm, nsd_bm, ndofD, tflag, idx)
+          if (coupling_mode .eq. "oneway") then
+! 		call printStressPoro(stressD, deslocamento,solucao_BM, flux_BM, x_bm, conecNodaisElem_bm, &
+! 		&                   numnp_BM, numel_bm, nen_bm, nsd_bm, ndofD, tflag, idx)
+          endif
 !           endif   
-             if ( (numPassos .EQ. 0) .OR. (passosTempoParaGravarSaida(idx) .EQ. NUSTEP)) then !&
-!              & .and. (coupling_mode .eq. "oneway") ) then
+             if ( (numPassos .EQ. 0) .OR. (passosTempoParaGravarSaida(idx) .EQ. NUSTEP)) then
 ! 		 Rotinas de impressao
-                 write(13,*) idx
-                 CALL PRINTSOL_BM2(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
-                 CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
-                 CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
-                 call PRINTDISP(deslocamento,X_BM,NUMNP_BM,nelx_BM,nely_BM,idx)
-                 call PRINTSTRESS(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx)
-                 call printporo(phi_n,numel_bm, idx)
-                 idx = idx + 1
-             endif
-!              else
-! ! 		 Rotinas de impressao
 !                  CALL PRINTSOL_BM2(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
 !                  CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
 !                  CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
+!                  if (coupling_mode .eq. "oneway") then
+! 			call PRINTDISP(deslocamento,X_BM,NUMNP_BM,nelx_BM,nely_BM,idx)
+! 			call PRINTSTRESS(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx)
+! 			call printporo(phi_n,numel_bm, idx)
+!                  endif
 !                  idx = idx + 1
-!              end if
+             endif
              
              solucaoTmpAnt = solucao_BM                     
+             if (coupling_mode .eq. "twoway") trEpsTmpAnt = trEps
              write(*,*) 'FIM DO TIME STEP =', NUSTEP
              
           END IF    
@@ -716,6 +690,7 @@
       use mMalha,            only : NUMNP_BM, X_BM, NUMEL_BM
       use mAlgMatricial,     only : FTOD, FACTNS, BACKNS, BTOD, LOAD
       use mBlocoMacro,       only : montarSistema_BM
+      !use mArranjosGlobais,  only : trEps, trEpsTmpAnt 
 
       implicit none
 
@@ -724,7 +699,7 @@
       REAL*8      :: TEMPO, relax_BM, DT;
       LOGICAL     :: ERRO      
       
-      REAL*8      :: fluxoMassicoDeBlocoParaBlocoMacro(NUMNP_BM)
+      REAL*8      :: fluxoMassicoDeBlocoParaBlocoMacro(NUMNP_BM),trUNaoLinearAnt(numel_bm), trUTmpAnt(numel_bm)
       REAL*8      :: condContorno(NUMEL_BM)      
       INTEGER     :: NITERMAX_BM, NUMITER_BM, I, J
       LOGICAL     :: flagConvergencia, flagTempoCaract, tflag2
@@ -740,6 +715,13 @@
       ! Isso aqui eh desnecessario.
       solucaoNaoLinearAnt_BM = solucao_BM;
       solucaoTmpAnt_BM       = solucaoTmpAnt;
+
+      if (coupling_mode .eq. "twoway") then
+      trUNaoLinearAnt = trEps
+      trUTmpAnt = trEpsTmpAnt
+      !deslocamentoAnt_BM     = deslocamento;
+      !deslocamentoTmpAnt_BM  = deslocamentoTmpAnt;
+      endif
 
       !=========================================== loop das iteracoes de Picard/Newton 
       DO WHILE ( (flagConvergencia .eqv. .FALSE.) .AND. (NUMITER_BM.LE.NITERMAX_BM) )      
@@ -759,7 +741,7 @@
          !! +++ acho que aqui solucao_F ja deveria ter o valor da cc correta, nao sendo necessario fazer FTOD. Checar, but it does not matter
 
          
-         CALL montarSistema_BM(NED_BM,  NDOF_BM, fluxoMassicoDeBlocoParaBlocoMacro, DT)  ! ASSEMBLE STIFNESS MATRIX
+         CALL montarSistema_BM(NED_BM,  NDOF_BM,trUNaoLinearAnt, trUTmpAnt, DT)  ! ASSEMBLE STIFNESS MATRIX
          
          CALL factns          (ALHS_BM, DLHS_BM,    idiag_BM,neq_BM)            ! FACTORIZATION OF THE STIFFNES MATRIX
 
@@ -783,7 +765,7 @@
           relax_BM = 0.5
           solucaoNaoLinearAnt_BM = solucao_BM*relax_BM + solucaoNaoLinearAnt_BM*(1-relax_BM)
           
-          if (coupling_mode .eq. "oneway") then
+          if ((coupling_mode .eq. "oneway") .or. (coupling_mode .eq. "twoway"))  then
           !
           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CALCULO DA ELASTICIDADE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	  !
@@ -811,7 +793,9 @@
           stressD = 0.0d0
           
           call calcStressPoro(stressD, deslocamento,solucao_BM, flux_BM, x_bm, conecNodaisElem_bm, &
-          &                   numnp_BM, numel_bm, nen_bm, nsd_bm, ndofD, tflag2, idx)
+          &                   numnp_BM, numel_bm, nen_bm, nsd_bm, ndofD, tflag2)
+
+          if (coupling_mode .eq. "twoway") trUNaoLinearAnt = trEps;
 !
 !	Fim do calculo da ELASTICIDADE
 !

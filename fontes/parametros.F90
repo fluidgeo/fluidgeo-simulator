@@ -108,7 +108,7 @@
        bV        = 4.28d-5;  ! m^3/mol -- wiki for methane
        Tc        = 8*aV/27/bV/R_;    ! DUNG       ! antigo Tc        = 190.6d0
        Pc        = aV/27/(bV*bV);   ! DUNG       ! antigo Pc        = 4.599d6
-       T         = 320.d0  ! DUNG                ! antigo T         = 323.15d0  
+!        T         = 320.d0  ! DUNG                ! antigo T         = 323.15d0  
        Tr        = T/Tc;   
        constMu   = 1.2d-5; ! Pa.s       
        M_m       = 16.01D-3   ! kg/mol 
