@@ -18,8 +18,9 @@ dirPadrao=teste
 dirExp="$(pwd)"/${1:-${dirPadrao}} 
 
 #rm -rf ${dirExp}/out/*.vtk
-rm -rf ${dirExp}/echo*
+rm -rf ${dirExp}/echo.*
 rm -rf ${dirExp}/fort.*
+rm -rf ${dirExp}/tela*
 rm -rf ${dirExp}/coordenadas.dat
 rm -rf ${dirExp}/conectsLadais.dat
 rm -rf ${dirExp}/conectsNodais.dat
@@ -67,9 +68,18 @@ then
   printf "\n numero de threads .......: %d\n" ${OMP_NUM_THREADS}
   printf "\n numero de processos......: %d\n" ${NP}
   printf "\n comando .................: %s\n" "${comando}"
-  eval ${comando}  |tee  ${arqTela}
+  eval ${comando}  #|tee  ${arqTela}
   tar cfz "${1}.tar.gz" ${1}
-  rm ${1}
+  rm -rf ${dirExp}/*.0
+  rm -rf ${dirExp}/*.1
+  rm -rf ${dirExp}/*.2
+  rm -rf ${dirExp}/*.3
+  rm -rf ${dirExp}/*.4
+  rm -rf ${dirExp}/*.5
+  rm -rf ${dirExp}/*.6
+  rm -rf ${dirExp}/*.7
+  rm -rf ${dirExp}/*.8
+  rm -rf ${dirExp}/*.9
 else
   printf "\n EXECUTAVEL NAO ENCONTRADO \n"
   printf "\n comando .................: %s\n" "${comando}"

@@ -33,7 +33,7 @@
         real*8, allocatable  :: grav_BM(:), bf_BM(:,:), c_BM(:,:), celast(:)
 
         integer, allocatable :: mat_B(:)
-        real*8, allocatable  :: grav_B(:), bf_B(:,:), c_B(:,:)
+        real*8, allocatable  :: grav_B(:), bf_B(:,:), c_B(:,:), K_BM(:)
         REAL*8, allocatable  :: phi_n(:), phi_n0(:), trEps(:), trEpsTmpAnt(:)
         
       end module mGlobaisArranjos
@@ -69,6 +69,7 @@
       real*8  :: ttv, ttp, tts, tempoSolverVel
       real*8  :: tmVel, tmGeo, tsGeo
       real*8  :: tgeoFase1, tgeoFase2, tgeoFase3, tgeoFase4, ttgeo
+      real*8  :: lambda, mu
 
       integer :: geomech
 

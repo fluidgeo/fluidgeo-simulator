@@ -1,0 +1,42 @@
+*reservoir_case{
+Marcellus
+}
+*coupling_mode{
+twoway
+}
+*phi_range{
+     0.065     0.065
+}
+*p_reservatorio{
+    5.20d7   
+}
+*T{
+    352.55   
+}
+*p_poco{
+    5.00d5   
+}
+*tamBlocoMacro{
+    50.0d0   
+}
+*widthBlocoMacro{
+    10.0d0   
+}
+*k_bm{
+   6.0d-19   
+}
+*k_s{
+   4.00d10   
+}
+*V_langmuir{
+   5.66d-3  
+}
+*P_langmuir{
+   3.45d+6  
+}
+*end
+
+
+*Kbulk{
+   2.47d10  
+}

@@ -1769,6 +1769,36 @@
 
       END subroutine   
       
+!*** Diego (Jul/2015) ********************************************************************** 
+!    Esta rotina tem como finalidade a escrita dos valores dos deslocamentos calculados
+!    para o caso da elasticidade linear para o problema de Terzaghi.
+
+      SUBROUTINE PRINTDISP_T(U,X,NUMNP,nelx,nely,idx)
+      
+      IMPLICIT NONE
+      
+      REAL*8   u(2,*),X(2,*)
+      INTEGER  NUMNP, N, idx, idrx, nelx, nely, I, J
+      CHARACTER*30  idxStr, disp
+            
+!       Abrindo os arquivos para saída
+
+      write(idxStr,'(i0)') idx
+      
+      idrx = 11*idx
+      disp = 'disp.'//idxStr
+      OPEN(UNIT=idrx, FILE= disp)
+      
+      do N=1,NUMNP
+	WRITE(idrx,210) N, X(1,N), X(2,N), u(1,N), u(2,N)
+      enddo
+ ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 4 floats 8.2 com espaco de 2 entre eles
+ 210  FORMAT(4X,I5,10x,5(1PE15.8,2X))
+ 225  FORMAT(4X,I5,10x,4(1PE15.8,2X))
+
+      close(idrx)
+
+      END subroutine   
 !*** Diego (Set/2015) ********************************************************************** 
 !    Esta sub-rotina tem como finalidade a escrita dos valores dos stresses calculados
 !    para o caso da elasticidade linear.

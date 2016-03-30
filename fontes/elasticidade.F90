@@ -16,7 +16,7 @@
 ! 
       module mElasticidade
 
-        real*8,    allocatable :: deslocamento(:,:),  fDeslocamento(:,:,:)
+        real*8,    allocatable :: deslocamento(:,:), deslocamentoAnt(:,:), fDeslocamento(:,:,:)
         integer*4, allocatable :: idDeslocamento(:,:)
         integer*4, pointer     :: idiagD(:), lmD(:,:,:)
         real*8,    pointer     :: alhs(:), brhs(:)
@@ -34,7 +34,8 @@
 !       Alterada por Diego para comportar o caso da elasticidade e as iteracoes no tempo.
 !       (Ago/2015)
       subroutine montarSistEqAlgElasticidade(optsolver, opttype, u, f, alhs, brhs, &
-                         id, lm, idiag, numnp, ndof, nlvect, nalhs, neq, label)
+                    id, lm, idiag, numnp, ndof, nlvect, nalhs, neq, &
+                     label, flagT)
 !
       use mAlgMatricial, only: load, dirichletConditions
       use mMalha,        only: x_bm, conecNodaisElem_BM, numel_bm, nen_bm, nsd_bm
@@ -45,6 +46,7 @@
 
       character(len=10), intent(in) :: optSolver
       character(len=12), intent(in) :: label
+      logical, intent(in)  :: flagT
       integer*4, intent(in) :: ndof, neq, numnp, nlvect, optType
       real*8  :: u(ndof, numnp)
       real*8  :: f(ndof, numnp, nlvect)
@@ -73,8 +75,13 @@
 ! 
       call timing(t1)
       if (label .eq. 'factor' .or. label .eq. 'full') alhs=0.0;
+      if (flagT .eqv. .true.) then
+      call calcCoefSistAlgTerzaghi (u, x_bm, alhs, brhs, idiag, lm, conecNodaisElem_bm, &
+                                     numnp, numel_bm, nen_bm, nsd_bm, ndof, nalhs, neq, label)
+      else
       call calcCoefSistAlgElasticidade (u, x_bm, alhs, brhs, idiag, lm, conecNodaisElem_bm, &
                                      numnp, numel_bm, nen_bm, nsd_bm, ndof, nalhs, neq, label)
+      endif
       write(*,*) " +++ apos call calcCoefSistAlgElasticidade("
       call timing(t2)
       write(*,*) " calculo dos coeficientes, tempo = ", t2 - t1
@@ -286,16 +293,13 @@
                  gf2 = grav_bm(2)
       if(nsd==3) gf3 = grav_bm(3)
       pss = 0.0
-<<<<<<< HEAD
-=======
 !       
       p = 0.0d0
       gpx = 0.0d0
       gpy = 0.0d0
       do 301 k=1,nen
-	p = p + shg(3,k,l)*gpl(1,k)
+      p = p + shg(3,k,l)*gpl(1,k)
       301 continue
->>>>>>> 11d3b106d3e7a8805b8b1c13a97d96e0e1b97a30
 !
       do 300 j=1,nen
            nj=ndof*j
@@ -307,16 +311,9 @@
 !     
 !.... source terms      
 !
-<<<<<<< HEAD
-      ELRESF(nj-1)= ELRESF(nj-1) + RHOMAT*GRAV_BM(1)*djn
-!
-      ELRESF(nj)  = ELRESF(nj) + RHOMAT*GRAV_BM(2)*djn
-!
-=======
       ELRESF(nj-1)= ELRESF(nj-1) + alpha_r*p*djx!+ RHOMAT*GRAV_BM(1)*djn
       ELRESF(nj)  = ELRESF(nj) + alpha_r*p*djy!+ RHOMAT*GRAV_BM(2)*djn 
 !       
->>>>>>> 11d3b106d3e7a8805b8b1c13a97d96e0e1b97a30
       do 300 i=1,nen
       if (label .eq. 'full' .or. label .eq. 'factor') then
       ni = ndof*i
@@ -366,6 +363,200 @@
 
       return
       end subroutine calcCoefSistAlgElasticidade
+    
+!
+!**** new **********************************************************************
+!
+      subroutine calcCoefSistAlgTerzaghi(d, x, alhs, brhs, idiag, lm, conecNodaisElem, &
+                                     numnp, numel, nen, nsd, ndof, nalhs, neq, label )
+!
+
+      use mGlobaisEscalares, only: nrowsh_bm, npint_bm	! OK
+      use mGlobaisArranjos,  only: mat_bm, c_bm, grav_bm, celast	! OK
+      use mAlgMatricial,     only: kdbc, addrhs, addlhs	! OK
+      use mfuncoesDeForma,   only: oneshl, oneshg, shlt, shlq3d, shg3d, shgq, shlq	! OK
+      use mMalha,            only: local	! OK
+      use mBlocoMacro,       only: solucao_BM, ndof_bm
+      use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro
+      use mParametros,       only: k_s, constMu
+      !use mMalha,         only:  conecNodaisElem
+!       use mPardisoSistema, only: addlhsCSR, ApElasticidade, AiElasticidade
+!       use mHYPRESistema,   only: addnslHYPRE, addrhsHYPRE
+!
+      implicit none
+!                                                                       
+!.... remove above card for single-precision operation               
+!       
+      integer*4, intent(in)  :: numnp, numel, nen, nsd, ndof, nalhs, neq 
+!
+      real*8,  intent(inout) :: alhs(nalhsD),   brhs(neqD)
+      real*8,  intent(in)    :: d(ndof, numnp), x(nsd, numnp)
+      character(LEN=12), intent(in) :: label
+      integer*4, intent(in)    :: idiag(neqD),    lm(ndof,nen,numel) 
+      integer*4, intent(in)    :: conecNodaisElem(nen,numel)
+!
+      real*8 :: xl(nsd,nen), dl(ndof,nen), gpl(1,nen)
+      real*8 :: shg(nrowsh_bm,nen,npint_bm), shl(nrowsh_bm,nen,npint_bm)
+      real*8 :: det(npint_bm), w(npint_bm)
+!
+      integer*4 :: nee
+      real*8   :: elresf(ndof*nen), eleffm(ndof*nen,ndof*nen)
+!
+      integer*4:: nel, m, l, i, j, k, ni, nj
+      integer*4, parameter :: um = 1
+      real*8  :: pi, Kx, Ky, Kz
+      real*8  :: temp1, gf1, gf2, gf3
+      real*8  :: pss
+      real*8  :: djx, djy, djz, djn, dix, diy, diz, p, gpx, gpy
+      logical :: diag,zerodl,quad,lsym
+!       Variaveis para o estado plano de tensoes (TODO: Automatizar leitura)
+      real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
+!       *******************************************
+      real*8  :: Lx, Ly
+      real*8  :: alpha_r, Kbulk, lambda, mu, omega_T
+	
+      nee = nen*ndof
+      
+      diag = .false.
+      pi=4.d00*datan(1.d00)
+      YOUNG = celast(1)
+      POISSON = celast(2)
+      RHOMAT = celast(3)
+!
+      lambda = (celast(1)*celast(2))/((1.0+celast(2))*(1.0-2.0*celast(2)))
+      mu = (celast(1))/(2.0*(1.0+celast(2)))
+      Kbulk = (lambda + 2.0/3.0*mu)
+      alpha_r = 1.0d0 - Kbulk/k_s
+      omega_T = 1.0d0
+
+      w=0.0
+      shl=0.0
+
+      if(nen==2) call oneshl(shl,w,npint_bm,nen) 
+      if(nen==3) call   shlt(shl,w,npint_bm,nen)
+      if(nen==4) call   shlq(shl,w,npint_bm,nen)
+      if(nen==8) call shlq3d(shl,w,npint_bm,nen)
+	
+      do 500 nel=1,numel
+!
+!      clear stiffness matrix and force array
+!
+      eleffm=0.0
+      elresf=0.0
+!
+!      LOCALIZE COORDINATes and Dirichlet b.c.
+!
+      call local(conecNodaisElem(1,nel),x,xl,nen,nsd,nsd)
+      call local(conecNodaisElem(1,nel),d,dl,nen,ndof,ndof)
+      call local(conecNodaisElem(1,nel),solucao_BM,gpl,nen,ndof_bm,ndof_bm)
+!
+      m = mat_bm(nel)
+      quad = .true.
+      if (nen.eq.4.and.conecNodaisElem(3,nel).eq.conecNodaisElem(4,nel)) quad = .false.
+!
+      if(nen==2) call oneshg(xl,det,shl,shg,nen,npint_bm,nsd,um,nel,um)
+      if(nen==4) call shgq  (xl,det,shl,shg,npint_bm,nel,quad,nen)
+      if(nen==8) call shg3d (xl,det,shl,shg,npint_bm,nel,nen)
+      
+!
+!.... SETUP ELASTICITY TENSOR COEFFICINTS: PLANE STRAIN 
+!
+         D1=YOUNG/((1.0d0+POISSON)*(1.0d0-2.0d0*POISSON))
+         CMATRIX11 = D1*(1.0d0-POISSON)
+         CMATRIX12=D1*POISSON
+         CMATRIX33=D1*(1.0d0-2.0d0*POISSON)*0.5d0
+!
+!....... form stiffness matrix
+!
+!... length of the element
+!
+      Kx=c_bm(1,m)
+      Ky=c_bm(2,m)
+      if(nsd==3) Kz=c_bm(3,m)
+!
+!.... loop on integration points
+!
+      do 400 l=1,npint_bm
+
+      temp1 = w(l)*det(l)
+! 
+!.... vetor de carga - RHS - f  =  gf0  
+!
+                 gf1 = grav_bm(1)
+                 gf2 = grav_bm(2)
+      if(nsd==3) gf3 = grav_bm(3)
+      pss = 0.0
+!       
+      p = 0.0d0
+      gpx = 0.0d0
+      gpy = 0.0d0
+      do 301 k=1,nen
+      p = p + shg(3,k,l)*gpl(1,k)
+      301 continue
+!
+      do 300 j=1,nen
+           nj=ndof*j
+                 djx=shg(1,j,l)*temp1
+                 djy=shg(2,j,l)*temp1
+      if(nsd==3) djz=shg(3,j,l)*temp1
+      djn=shg(nrowsh_bm,j,l)*temp1
+
+!     
+!.... source terms      
+!
+      ELRESF(nj-1)= ELRESF(nj-1) &
+               &+ ((alpha_r*p-omega_T)/(Kbulk+4.0/3.0*mu))*djn!+ RHOMAT*GRAV_BM(1)*djn
+      ELRESF(nj)  = ELRESF(nj) + ((alpha_r*p-omega_T)/(Kbulk+4.0/3.0*mu))*djn!+ RHOMAT*GRAV_BM(2)*djn 
+!       
+      do 300 i=1,nen
+      if (label .eq. 'full' .or. label .eq. 'factor') then
+      ni = ndof*i
+                 dix=shg(1,i,l)
+                 diy=shg(2,i,l) 
+      if(nsd==3) diz=shg(3,i,l)       
+      
+      ELEFFM(ni-1,nj-1)=ELEFFM(ni-1,nj-1)+(DIX)*(DJX)+(DIY)*(DJY)
+      ELEFFM(ni-1,nj)=ELEFFM(ni-1,nj)+(DIX)*(DJY)+(DIY)*(DJX)
+      ELEFFM(ni,nj-1)=ELEFFM(ni,nj-1)+(DIY)*(DJX)+(DIX)*(DJY)
+      ELEFFM(ni,nj)=ELEFFM(ni,nj)+(DIY)*(DJY)+(DIX)*(DJX)
+      
+      else 
+	continue
+      endif
+  300 continue
+  400 continue  
+!
+!      computation of Dirichlet b.c. contribution
+!
+       call ztest(dl,nee,zerodl)
+!
+      if(.not.zerodl) then
+          call kdbc(eleffm,elresf,dl,nee)
+      endif
+!
+!.... assemble element stifness matrix and force array into global
+!        left-hand-side matrix and right-hand side vector
+      lsym=.true.
+#ifdef withCSR
+! !       call addlhsCSR(alhs,eleffm,      lm(1,1,nel),ApElasticidade,AiElasticidade,nee) 
+!       call addlhsCSR(alhs,eleffm,      lm(1,1,nel),ApElasticidade,AiElasticidade,nee)
+#endif
+#ifdef withGaussSkyline
+!       call addlhs(alhs,eleffm,idiag,lm(1,1,nel),nee,diag,lsym) 
+      if (label .eq. 'full' .or. label .eq. 'factor') call addlhs(alhs,eleffm,idiag,lm(1,1,nel),nee,diag,lsym) 
+#endif
+#ifdef withHYPRE
+! !       call addnslHYPRE(A_HYPRE, eleffm, lm(1,1,nel), nee, lsym) 
+!       call addnslHYPRE(A_HYPRE, eleffm, lm(1,1,nel), nee, lsym)
+!       !call addrhsHYPRE(B_HYPRE, brhs, elresf,lm(1,1,nel),nee)
+#endif
+!       call addrhs(brhs,elresf,lm(1,1,nel),nee)
+      call addrhs(brhs,elresf,lm(1,1,nel),nee)
+
+  500 continue
+
+      return
+      end subroutine calcCoefSistAlgTerzaghi
     
       
 
@@ -420,7 +611,7 @@
 !       real*8  :: pi, Kx, Ky, Kz
       real*8  :: temp1, Area!, gf1, gf2, gf3
 !       real*8  :: pss
-      real*8  :: djx, djy, djz, djn, gpx, gpy, p_mean_tmp, sigma_bc!, gpl
+      real*8  :: djx, djy, djz, djn, gpx, gpy, p_mean_tmp, sigma_bc, divu
       logical :: diag,zerodl,quad,lsym
       real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
 !       *******************************************
@@ -472,6 +663,10 @@
 
       temp1 = w(l)*det(l)
       Area = Area + temp1
+      DIVU=0.d0
+      DO J=1,NEN
+         DIVU=DIVU+SHG(1,J,L)*DL(1,J)+SHG(2,J,L)*DL(2,J)
+      ENDDO
 
       do 300 j=1,nen
 !            nj=ndof*j
@@ -506,8 +701,9 @@
 !     
 !.... compute mean porosity over element
 !
-      phi_n(nel) = phi_n0(nel) + alpha_r*trEps(nel) + &
+      phi_n(nel) = phi_n0(nel) + alpha_r*divu + &
       &            ((alpha_r-phi_n0(nel))/k_s)*(p_mean(nel) - p_Ref)
+      !write(*,*) nel, divu
 !
 !.... compute element volumetric stresses 
 !
@@ -571,18 +767,41 @@
 !       real*8  :: pi, Kx, Ky, Kz
       real*8  :: temp1, Area!, gf1, gf2, gf3
 !       real*8  :: pss
-      real*8  :: djx, djy, djz, djn, gpx, gpy, p_mean_tmp, sigma_bc!, gpl
+      real*8  :: djx, djy, djz, djn, gpx, gpy, p_mean_tmp, sigma_bc, divu(numel)!, gpl
       logical :: diag,zerodl,quad,lsym
       real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
 !       *******************************************
       real*8  :: Lx, Ly
 !	
+      w=0.0
+      shl=0.0
+      call   shlq(shl,w,npint_bm,nen)
+      divu = 0.0
+
   do 500 nel=1,numel
 !
 !      LOCALIZE COORDINATes and Dirichlet b.c.
 !
+      call local(conecNodaisElem(1,nel),x,xl,nen,nsd,nsd)
       call local(conecNodaisElem(1,nel),p,pl,nen,ndof_bm,ndof_bm)
       call local(conecNodaisElem(1,nel),gp,gpl,nen,2*ndof_bm,2*ndof_bm)
+
+      quad = .true.
+      if (nen.eq.4.and.conecNodaisElem(3,nel).eq.conecNodaisElem(4,nel)) quad = .false.
+!
+      call shgq  (xl,det,shl,shg,npint_bm,nel,quad,nen)
+!
+!.... loop on integration points
+!
+      do 400 l=1,npint_bm
+
+      !DIVU=0.d0
+      DO J=1,NEN
+         DIVU(nel)=DIVU(nel)+SHG(1,J,L)*DL(1,J)+SHG(2,J,L)*DL(2,J)
+      ENDDO
+      !write(*,*) nel, divu(nel)
+  400 continue
+      !write(*,*) nel, divu(nel)
 !
 !.... compute mean pressure over element
 ! 
@@ -613,6 +832,7 @@
 	OPEN(UNIT=(301), FILE= 'sigmasLx.'//idsStr)
 	OPEN(UNIT=(302), FILE= 'sigmasRx.'//idsStr)
 	OPEN(UNIT=(303), FILE= 'sigmasCx.'//idsStr)
+	OPEN(UNIT=(997), FILE= 'divu.'//idsStr)
 	residbc = 0.0
 	DO J=1,nelx_BM
 	!             Element localization
@@ -646,6 +866,14 @@
 	    valueError(1,N) = dabs(residS_x - alpha_r*gp_mean(1,N))/denStress_x
 	    valueError(2,N) = dabs(residS_y - alpha_r*gp_mean(2,N))/denStress_y
             write(idsr,224) N, valueError(1,N), valueError(2,N) 
+          ENDDO
+      ENDDO
+      DO I=1,nely_BM
+          DO J=1,nelx_BM
+            N = J+(I-1)*(nely_BM)
+            !write(*,*) "Aqui 1"
+            write(997,226) N, X(1,N), X(2,N), DIVU(N)
+            !write(*,*) N, "div u = ", divu(n)
           ENDDO
       ENDDO
       
@@ -696,6 +924,7 @@
   close((13*idx))
   close((17*idx))
   close((19*idx))
+  close((1*idx))
  
   223  FORMAT(4X,I5,10x,1(1PE15.8,2X))
   224  FORMAT(4X,I5,10x,2(1PE15.8,2X))
@@ -717,6 +946,7 @@
      implicit none
      
      allocate(  deslocamento(ndofD,NUMNP_BM));   deslocamento=0.0
+     allocate(  deslocamentoAnt(ndofD,NUMNP_BM));   deslocamentoAnt=0.0
      allocate(idDeslocamento(ndofD,NUMNP_BM));  idDeslocamento=0
      
      if (nlvectD.ne.0) then 

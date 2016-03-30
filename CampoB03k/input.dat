@@ -1,0 +1,423 @@
+*title_bm{
+ experimento 200x200, Barnett shale, 1665.1 m (5463 ft), 338.75 K, dt = 3 meses, t = 15 anos
+}
+*codigos_cond_contorno_blocoMacro{
+         1     40201       201         1
+         0 
+}
+*valores_cond_contorno_blocoMacro{
+         1         2    5.0e05      
+                        5.0e05      
+       200       201
+         0 
+}
+*codigos_cond_contorno_elasticidade{
+         1     40000       201         0         0
+       201     40200       201         1         0
+     40201     40401         1         0         0
+         1       201         1         1         1
+         0
+}
+*valores_cond_contorno_elasticidade{
+     40201         2    0.0E+0   -2.04E6
+                        0.0E+0   -2.04E6
+       200         1
+     40201              0.0E+0   -1.02E6
+     40401              0.0E+0   -1.02E6
+         0
+}
+*coordenadas_nodais_bm{
+         1         4      0.00      0.00
+                         10.00      0.00
+                         10.00     50.00
+                          0.00     50.00
+       200         1       200       201 
+         0
+}
+*exec_bm{
+	1
+}
+*iprtin_bm{
+	0
+}
+*nsd_bm{
+	2
+}
+*numnp_bm{
+     40401
+}
+*numel_bm{
+     40000
+}
+*numLados_BM{
+       601
+}
+*nelx_BM{
+      200
+}
+*nely_BM{
+      200
+}
+*nelz_BM{
+        0
+}
+*ndof_bm{
+        1
+}
+*ndofD{
+	2
+}
+*nen_bm{
+	4
+}
+*npint_bm{
+	4
+}
+*nlvect_bm{
+1
+}
+*nlvectD{
+1
+}
+*conectividades_nodais_bm{
+         1         1         1         2       203       202         1
+       200         1         1       200       200       201
+         0 
+}
+*nummat_bm{
+         1 
+}
+*prop_fisica_meio_bm{
+         1       1.00e+00  1.00e+00  1.00e+00
+}
+*grav_bm{
+       0.0      -9.8       0.0
+}
+*transient_data_nstep_bm{
+     120   
+}
+*transient_data_dt_bm{
+   2.628d6   
+}
+*constantes_elasticidade{
+    20.0e9      0.23      2.65
+}
+*end 
+
+*title_bm{
+ experimento 200x200, Marcellus shale, 2619.1 m (8593 ft), 352.55 K, dt = 1 mes, 90 meses
+}
+*codigos_cond_contorno_blocoMacro{
+         1     40201       201         1
+         0 
+}
+*valores_cond_contorno_blocoMacro{
+         1         2    5.0e05      
+                        5.0e05      
+       200       201
+         0 
+}
+*codigos_cond_contorno_elasticidade{
+         1     40000       201         0         0
+       201     40200       201         1         0
+     40201     40401         1         0         0
+         1       201         1         1         1
+         0
+}
+*valores_cond_contorno_elasticidade{
+     40201         2    0.0E+0   -3.40E6
+                        0.0E+0   -3.40E6
+       200         1
+     40201              0.0E+0   -1.70E6
+     40401              0.0E+0   -1.70E6
+         0
+}
+*coordenadas_nodais_bm{
+         1         4      0.00      0.00
+                         10.00      0.00
+                         10.00     50.00
+                          0.00     50.00
+       200         1       200       201 
+         0
+}
+*exec_bm{
+	1
+}
+*iprtin_bm{
+	0
+}
+*nsd_bm{
+	2
+}
+*numnp_bm{
+     40401
+}
+*numel_bm{
+     40000
+}
+*numLados_BM{
+       601
+}
+*nelx_BM{
+      200
+}
+*nely_BM{
+      200
+}
+*nelz_BM{
+        0
+}
+*ndof_bm{
+        1
+}
+*ndofD{
+	2
+}
+*nen_bm{
+	4
+}
+*npint_bm{
+	4
+}
+*nlvect_bm{
+1
+}
+*nlvectD{
+1
+}
+*conectividades_nodais_bm{
+         1         1         1         2       203       202         1
+       200         1         1       200       200       201
+         0 
+}
+*nummat_bm{
+         1 
+}
+*prop_fisica_meio_bm{
+         1       1.00e+00  1.00e+00  1.00e+00
+}
+*grav_bm{
+       0.0      -9.8       0.0
+}
+*transient_data_nstep_bm{
+      90   
+}
+*transient_data_dt_bm{
+   2.592d6   
+}
+*constantes_elasticidade{
+     40.e9      0.23      2.65
+}
+*end 
+
+*title_bm{
+ experimento Shale 200x200 8000 ft, dt = 1 ano, 90 anos
+}   
+*codigos_cond_contorno_blocoMacro{
+         1     40201       201         1
+         0 
+}
+*valores_cond_contorno_blocoMacro{
+         1         2    5.0e05      
+                        5.0e05      
+       200       201
+         0 
+}
+*codigos_cond_contorno_elasticidade{
+         1     40000       201         0         0
+       201     40200       201         1         0
+     40201     40401         1         0         0
+         1       201         1         1         1
+         0
+}
+*valores_cond_contorno_elasticidade{
+     40201         2    0.0E+0   -3.16E6
+                        0.0E+0   -3.16E6
+       200         1
+     40201              0.0E+0   -1.58E6
+     40401              0.0E+0   -1.58E6
+         0
+}
+*coordenadas_nodais_bm{
+         1         4      0.00      0.00
+                         10.00      0.00
+                         10.00     50.00
+                          0.00     50.00
+       200         1       200       201 
+         0 
+}
+*exec_bm{
+	1
+}
+*iprtin_bm{
+	0
+}
+*nsd_bm{
+	2
+}
+*numnp_bm{
+     40401
+}
+*numel_bm{
+     40000
+}
+*numLados_BM{
+       601
+}
+*nelx_BM{
+      200
+}
+*nely_BM{
+      200
+}
+*nelz_BM{
+        0
+}
+*ndof_bm{
+        1
+}
+*ndofD{
+	2
+}
+*nen_bm{
+	4
+}
+*npint_bm{
+	4
+}
+*nlvect_bm{
+1
+}
+*nlvectD{
+1
+}
+*conectividades_nodais_bm{
+         1         1         1         2       203       202         1
+       200         1         1       200       200       201
+         0 
+}
+*nummat_bm{
+         1 
+}
+*prop_fisica_meio_bm{
+         1       1.00e+00  1.00e+00  1.00e+00
+}
+*grav_bm{
+       0.0      -9.8       0.0
+}
+*transient_data_nstep_bm{
+      90   
+}
+*transient_data_dt_bm{
+   3.111d7   
+}
+*constantes_elasticidade{
+     0.6e9      0.20      2.65
+}
+*end 
+
+*title_bm{
+ experimento Shale 200x200 8000 ft, dt = 1 mes, 90 meses
+}   
+*codigos_cond_contorno_blocoMacro{
+         1     40201       201         1
+         0 
+}
+*valores_cond_contorno_blocoMacro{
+         1         2    5.0e05      
+                        5.0e05      
+       200       201
+         0 
+}
+*codigos_cond_contorno_elasticidade{
+         1     40000       201         0         0
+       201     40200       201         1         0
+     40201     40401         1         0         0
+         1       201         1         1         1
+         0
+}
+*valores_cond_contorno_elasticidade{
+     40201         2    0.0E+0   -3.16E6
+                        0.0E+0   -3.16E6
+       200         1
+     40201              0.0E+0   -1.58E6
+     40401              0.0E+0   -1.58E6
+         0
+}
+*coordenadas_nodais_bm{
+         1         4      0.00      0.00
+                         50.00      0.00
+                         50.00     10.00
+                          0.00     10.00
+       200         1       200       201 
+         0 
+}
+*exec_bm{
+	1
+}
+*iprtin_bm{
+	0
+}
+*nsd_bm{
+	2
+}
+*numnp_bm{
+     40401
+}
+*numel_bm{
+     40000
+}
+*numLados_BM{
+       601
+}
+*nelx_BM{
+      200
+}
+*nely_BM{
+      200
+}
+*nelz_BM{
+        0
+}
+*ndof_bm{
+        1
+}
+*ndofD{
+	2
+}
+*nen_bm{
+	4
+}
+*npint_bm{
+	4
+}
+*nlvect_bm{
+1
+}
+*nlvectD{
+1
+}
+*conectividades_nodais_bm{
+         1         1         1         2       203       202         1
+       200         1         1       200       200       201
+         0 
+}
+*nummat_bm{
+         1 
+}
+*prop_fisica_meio_bm{
+         1       1.00e+00  1.00e+00  1.00e+00
+}
+*grav_bm{
+       0.0      -9.8       0.0
+}
+*transient_data_nstep_bm{
+      90   
+}
+*transient_data_dt_bm{
+   2.592d6   
+}
+*constantes_elasticidade{
+     0.6e9      0.20      2.65
+}
+*end 

@@ -70,7 +70,7 @@
 	      endif
 
         !...  call abrirArquivosInformacoesMalha ()
-	      print*, ""
+	      print*, " "
 	      print*, "PREPROCESSAMENTO" 
           
         !     parametros comuns a bloco e fratura 
@@ -93,7 +93,7 @@
 	!.... solution phase
 	!
 	      if(exec==1) then
-		   print*, ""
+		   print*, " "
  		   write(*,*) "Iniciando o PROCESSAMENTO.: Acoplamento hidro-geomecanico";  
  		   call processadorFluidgeo()
  	      endif
@@ -196,7 +196,7 @@
 !        call echo
         call readInputFileDS()
         call readSetupPhaseDS()
-
+        !stop
         etime = 0.0
 
 !.... initialization phase
@@ -207,11 +207,11 @@
 !
 !       call alocarMemoria()	! Antigo, pro código pc com leitura do DS (Diego, ago/2015)
       call alocarMemoriaBlocoMacro()
-      
+
       call alocarMemoriaElasticidade()
-      
+
       call inicializarParametrosBlocoMacro()
-     
+
       call calcularQuantidadeGasBlocoMacro()
           
 !
@@ -398,7 +398,7 @@
         use mInputReader,      only: readStringKeywordValue, readrealkeywordvalue, readlogicalkeywordvalue
         use mInputReader,      only: findKeyword, file_lines
         use mParametros,       only: p_reservatorio, p_poco, tamBlocoMacro, widthBlocoMacro
-        use mParametros,       only: constK_BM, k_s, Kbulk, T
+        use mParametros,       only: constK_BM, k_s, Kbulk, T, VL, PL
         use mGlobaisArranjos,  only: reservoir_case, phi_range, coupling_mode
         use mGlobaisEscalares, only: random_porosity
         
@@ -456,9 +456,19 @@
 ! 	write(*,*) k_s
 
 !       Reads K bulk
-        keyword_name = "Kbulk"
-	call readRealKeywordValue(keyword_name, Kbulk, Kbulk)
+!        keyword_name = "Kbulk"
+!	call readRealKeywordValue(keyword_name, Kbulk, Kbulk)
 ! 	write(*,*) Kbulk
+
+!       Reads VL
+        keyword_name = "V_langmuir"
+	call readRealKeywordValue(keyword_name, VL, VL)
+! 	write(*,*) VL
+
+!       Reads PL
+        keyword_name = "P_langmuir"
+	call readRealKeywordValue(keyword_name, PL, PL)
+! 	write(*,*) VL
 
 	keyword_name = "phi_range"
         keyword_line = findKeyword(keyword_name)
@@ -485,15 +495,17 @@
       use mAlgMatricial,     only : NED_BM, ID_BM
       use mAlgMatricial,     only : FTOD 
       use mParametros,       only : p_Ref, p_Poco, gasTotalKg, gasRecuperavelKg, gasProduzidoKg, phi_BM
+      use mParametros,       only : alpha_r, Kbulk, k_s
       use mCoeficientes,     only : calcularQuantidadeGasReservatorio
       use mGlobaisEscalares, only : ndofD, nlvectD
-      use mGlobaisArranjos,  only : phi_n, phi_n0, coupling_mode, trEps, trEpsTmpAnt
-      use mLeituraEscrita,   only : PRINTDISP, PRINTSTRESS, PRINTPORO
+      use mGlobaisArranjos,  only : phi_n, phi_n0, coupling_mode, trEps, trEpsTmpAnt, celast
+      use mLeituraEscrita,   only : PRINTDISP, PRINTSTRESS, PRINTPORO, PRINTDISP_T
 !
       use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro, printStressPoro!, CHECKEQ!, calcStressPoro2
       use mElasticidade,        only: deslocamento, fDeslocamento, neqD, nalhsD
       use mElasticidade,        only: alhsD=>alhs, brhsD=>brhs
       use mElasticidade,        only: idDeslocamento, idiagD, lmD
+      use mElasticidade,        only: deslocamentoAnt
 !
       
       implicit none
@@ -524,12 +536,14 @@
       character(LEN=20)  :: optSolver='GaussSkyline'
       real*8 :: t1, t2, t3, t4
       real*8 :: stressD(nen_bm,numel_bm), gradpElem(nsd_BM,NUMEL_BM)
-      logical :: simetria, tflag, onlydisp
+      logical :: simetria, tflag, onlydisp, flagTerzaghi
       character(LEN=12) :: label, etapa
       integer :: optType = 1
 !       integer :: optType_BM = 1
+      real*8  :: biotM, Ku, mu, Kfluid, omega_T, p0
       
       onlydisp = .false.
+      flagTerzaghi = .false.
       
       call printporo(phi_n0,numel_bm, 0)
      
@@ -559,9 +573,19 @@
       SUM_NUMITER = 0;
       SUM_NUMITER_BM = 0;
       SUM_NUMITER_ANT_BM = 0;
-      
+ 
+      if (flagTerzaghi .eqv. .TRUE.) then
+      mu = (celast(1))/(2.0*(1.0+celast(2)))
+      Kfluid = 1.0d00
+      biotM = 1.0d0/(((alpha_r-0.25d0)/k_s) + 0.25d0/Kfluid)
+      Ku = Kbulk + (alpha_r**2.0d0)*biotM
+      omega_T = 1.0d0
+      p0 = (alpha_r*biotM*omega_T)/(Ku + 4.0/3.0*mu)
+      !p0 = 1.0d0
+      CALL     colocarCondInicial(solucao_BM, NDOF_BM, NUMNP_BM,  p0);  ! solucao_BM = 1.0d0
+      else
       CALL     colocarCondInicial(solucao_BM, NDOF_BM, NUMNP_BM,  1*p_Ref);  ! solucao_BM = 1.0d0
-
+      endif
       IF (NLVECT_BM.GT.0) CALL FTOD(id_BM,solucao_BM,f_BM,NDOF_BM,NUMNP_BM,NLVECT_BM)
       
       solucaoNaoLinearAnt = solucao_BM
@@ -604,26 +628,27 @@
              
              SUM_NUMITER = SUM_NUMITER + NUMITER
 
-          if (coupling_mode .eq. "oneway") then
+!          if ((coupling_mode .eq. "oneway") .or. (coupling_mode .eq. "twoway")) then
 ! 		call printStressPoro(stressD, deslocamento,solucao_BM, flux_BM, x_bm, conecNodaisElem_bm, &
 ! 		&                   numnp_BM, numel_bm, nen_bm, nsd_bm, ndofD, tflag, idx)
-          endif
+!          endif
 !           endif   
              if ( (numPassos .EQ. 0) .OR. (passosTempoParaGravarSaida(idx) .EQ. NUSTEP)) then
 ! 		 Rotinas de impressao
-!                  CALL PRINTSOL_BM2(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
-!                  CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
-!                  CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
-!                  if (coupling_mode .eq. "oneway") then
+                  CALL PRINTSOL_BM2(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
+                  CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
+                  CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
+                  !if (coupling_mode .eq. "oneway" .or. coupling_mode .eq. "twoway") then
 ! 			call PRINTDISP(deslocamento,X_BM,NUMNP_BM,nelx_BM,nely_BM,idx)
 ! 			call PRINTSTRESS(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx)
 ! 			call printporo(phi_n,numel_bm, idx)
-!                  endif
-!                  idx = idx + 1
+ !                 endif
+                  idx = idx + 1
              endif
              
              solucaoTmpAnt = solucao_BM                     
-             if (coupling_mode .eq. "twoway") trEpsTmpAnt = trEps
+!             if (coupling_mode .eq. "twoway") trEpsTmpAnt = trEps
+             if (coupling_mode .eq. "twoway") deslocamentoAnt = deslocamento
              write(*,*) 'FIM DO TIME STEP =', NUSTEP
              
           END IF    
@@ -689,7 +714,7 @@
       use mAlgMatricial,     only : id_BM, ALHS_BM, DLHS_BM, BRHS_BM, NED_BM, IDIAG_BM, NEQ_BM
       use mMalha,            only : NUMNP_BM, X_BM, NUMEL_BM
       use mAlgMatricial,     only : FTOD, FACTNS, BACKNS, BTOD, LOAD
-      use mBlocoMacro,       only : montarSistema_BM
+      use mBlocoMacro,       only : montarSistema_BM, montarSistema_T
       !use mArranjosGlobais,  only : trEps, trEpsTmpAnt 
 
       implicit none
@@ -716,12 +741,12 @@
       solucaoNaoLinearAnt_BM = solucao_BM;
       solucaoTmpAnt_BM       = solucaoTmpAnt;
 
-      if (coupling_mode .eq. "twoway") then
-      trUNaoLinearAnt = trEps
-      trUTmpAnt = trEpsTmpAnt
+      !if (coupling_mode .eq. "twoway") then
+      !trUNaoLinearAnt = trEps
+      !trUTmpAnt = trEpsTmpAnt
       !deslocamentoAnt_BM     = deslocamento;
       !deslocamentoTmpAnt_BM  = deslocamentoTmpAnt;
-      endif
+      !endif
 
       !=========================================== loop das iteracoes de Picard/Newton 
       DO WHILE ( (flagConvergencia .eqv. .FALSE.) .AND. (NUMITER_BM.LE.NITERMAX_BM) )      
@@ -740,9 +765,13 @@
          IF (NLVECT_BM.GT.0) CALL FTOD(id_BM,solucao_BM,      f_BM,        NDOF_BM,NUMNP_BM,NLVECT_BM)        
          !! +++ acho que aqui solucao_F ja deveria ter o valor da cc correta, nao sendo necessario fazer FTOD. Checar, but it does not matter
 
-         
-         CALL montarSistema_BM(NED_BM,  NDOF_BM,trUNaoLinearAnt, trUTmpAnt, DT)  ! ASSEMBLE STIFNESS MATRIX
-         
+         !stop
+         if (flagTerzaghi .eqv. .true.) then
+         CALL montarSistema_T(NED_BM,  NDOF_BM,deslocamento,deslocamentoAnt, DT)  ! ASSEMBLE STIFNESS MATRIX
+         else
+         CALL montarSistema_BM(NED_BM,  NDOF_BM,deslocamento,deslocamentoAnt, DT)  ! ASSEMBLE STIFNESS MATRIX
+         endif
+         !stop
          CALL factns          (ALHS_BM, DLHS_BM,    idiag_BM,neq_BM)            ! FACTORIZATION OF THE STIFFNES MATRIX
 
          call backns          (ALHS_BM, DLHS_BM,    BRHS_BM, idiag_BM,neq_BM)     ! BACK SUBSTITUTION
@@ -764,16 +793,17 @@
      &                     flagConvergencia, NUSTEP)
           relax_BM = 0.5
           solucaoNaoLinearAnt_BM = solucao_BM*relax_BM + solucaoNaoLinearAnt_BM*(1-relax_BM)
-          
+          !stop
           if ((coupling_mode .eq. "oneway") .or. (coupling_mode .eq. "twoway"))  then
           !
           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CALCULO DA ELASTICIDADE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	  !
-	  deslocamento = 0.0
+	  
           if(firstD) then
                 etapa = 'full'
+                deslocamento = 0.0
 		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
-					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
+					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa,flagTerzaghi)
 		firstD=.false.
 		optType = 0
 	  else
@@ -782,7 +812,7 @@
 ! 		deslocamento = 0.0
                 etapa = 'back'
 		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
-					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa)
+					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa,flagTerzaghi)
 	  endif
 
 	  call timing(t2)
@@ -800,6 +830,43 @@
 !	Fim do calculo da ELASTICIDADE
 !
 	  endif
+
+          if (flagTerzaghi .eqv. .true.)  then
+          !
+          !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CALCULO DA ELASTICIDADE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	  !
+	  deslocamento = 0.0
+      !write(*,*) "1"; stop
+          if(firstD) then
+                etapa = 'full'
+		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
+					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa, flagTerzaghi)
+		firstD=.false.
+		optType = 0
+	  else
+! 		CLEAR necessario para nao carregar a solucao anterior dos deslocamentos nas solucoes
+! 		seguintes. Diego (Ago/2015)
+! 		deslocamento = 0.0
+                etapa = 'back'
+		call montarSistEqAlgElasticidade(optSolver, optType, deslocamento, fDeslocamento, alhsD, brhsD,  &
+					idDeslocamento, lmD, idiagD, numnp_bm, ndofD, nlvectD, nalhsD, neqD,etapa, flagTerzaghi)
+	  endif
+
+	  call timing(t2)
+	  call timing(t3)
+          label='elasticidade linear'
+          call solverD() 
+          call timing(t4)          
+          stressD = 0.0d0
+          
+          call calcStressPoro(stressD, deslocamento,solucao_BM, flux_BM, x_bm, conecNodaisElem_bm, &
+          &                   numnp_BM, numel_bm, nen_bm, nsd_bm, ndofD, tflag2)
+
+!
+!	Fim do calculo da ELASTICIDADE
+!
+	  endif
+      if (flagTerzaghi .eqv. .true.) flagConvergencia = .true.
       END DO      
       !===========================================  fim do loop das iteracoes de Picard/NEWTON 
          

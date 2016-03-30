@@ -51,7 +51,7 @@
        REAL*8 :: rhoK   ! massa específica do querogênio, usado par calculo do TOC
        REAL*8 :: rhoI   ! massa específica da fase inorgânica, usado par calculo do TOC 
        
-       REAL*8 :: Sw, phi_M, phi_N, TOC, phi_K;
+       REAL*8 :: Sw, Sg, phi_M, phi_N, TOC, phi_K;
        REAL*8 :: kEff, K_, D;
        REAL*8 :: K_abs, K_re;
 
@@ -73,7 +73,7 @@
 !      Parametros para o bloco macroscopico
 !-------------------------------------------------------------------------------------
 
-       REAL*8  :: phi_BM
+       REAL*8  :: phi_BM, phi_n0_Num
 !        REAL*8, allocatable  :: phi_n(:) 
        REAL*8  :: fraVol_BM 
        REAL*8  :: constK_BM
@@ -81,7 +81,7 @@
        REAL*8  :: beta_r	! Compressibilidade total da rocha (Diego, set/2015)
        REAL*8  :: Kbulk		! Bulk modulus do bloco macro (Diego, set/2015)
        REAL*8  :: alpha_r	! Coeficiente de Biot do bloco macro (Diego, set/2015)
-    
+       LOGICAL :: correcaoPerm    
        REAL*8  :: tamBlocoMacro      ! altura do bloco macro    (F_y = BM_y) 
        REAL*8  :: widthBlocoMacro    ! espessura do bloco macro (BM_x)
        REAL*8  :: dimZ_FB            ! dimensão z da fratura hidraulica e do bloco macro (F_z, BM_z)
@@ -89,6 +89,8 @@
        REAL*8  :: areaContatoBlocoMacroFratura ! area de contato entre o bloco macro e a fratura hidráulica, usada para calcular a produção de gás
        REAL*8  :: gasTotalKg_BM
        REAL*8  :: gasRecuperavelKg_BM
+       REAL*8  :: VL
+       REAL*8  :: PL
 
     contains
 
@@ -173,8 +175,11 @@
 !          Sw        = 0.0d0      
 !          Swr       = 0.0;
                
-        Sgr       = 0.2;
+        Swr       = 0.05               
+        Sgr       = 0.05
         Se        = (Sw-Swr)/(1-Swr-Sgr);
+        !Sgr       = 0.2;
+        !Se        = (Sw-Swr)/(1-Swr-Sgr);
        
         phi_M = 0.1
         phi_N = 0.05
@@ -185,6 +190,7 @@
        
        ! Permeability
        K_abs = 1.d-19; ! 1 microD = 1.e-18 m^2 %Daniel J. Soeder, Scty of Ptrleum engineers, 1988
+
 !        K_abs = 1.d-18; ! 1 microD = 1.e-18 m^2 %Daniel J. Soeder, Scty of Ptrleum engineers, 1988
        
        K_re = (1-Se)*(1-Se)*(1-Se**2);
@@ -241,22 +247,31 @@
 !     ************************************************************
       SUBROUTINE inicializarParametrosBlocoMacro()
       
-      use mGlobaisArranjos,  only: phi_n, phi_n0, phi_range
-      use mGlobaisEscalares, only: random_porosity
+      use mGlobaisArranjos,  only: phi_n, phi_n0, phi_range, K_bm, celast
+      use mGlobaisEscalares, only: random_porosity, lambda, mu
+      use mMalha,            only: numel_bm
       
       IMPLICIT NONE
       
       CHARACTER*200 :: linhaAux
-      INTEGER       :: I
-                
-      phi_BM      =  0.2d0        ! adim - porosidade das fraturas naturais
-      fraVol_BM   =  1.0d0       ! adim - fracao de volume das fraturas naturais
+      INTEGER       :: I, Swr, Sgr, Se
+       
+       allocate(k_bm(numel_bm))      ! Isso tem que ir para um lugar melhor (Diego, Jan/2016) 
+       correcaoPerm = .false.
+       phi_BM      =  0.2d0        ! adim - porosidade das fraturas naturais
+       fraVol_BM   =  1.0d0       ! adim - fracao de volume das fraturas naturais
+       Sw          =  0.10d0
+       Sg          =  1.0d0 - Sw
+       !K_abs     = constK_BM; 
 !       constK_F   =  1.D-15      ! m^2
 !       constK_BM   =  1.0D-18    ! m^2
 !       constK_BM   =  1.0D-18    ! m^2
 !       k_s = 25.0d9	! Pa, Tobiloluwa (Diego, set/2015)
 !       Kbulk = (6894.75729)*2.6d6	! Shale gas revolution (Diego, set/2015)
 !       Kbulk = 5.28d9	! Pa, Skalle (Diego, set/2015)
+      !lambda = (celast(1)*celast(2))/((1.0+celast(2))*(1.0-2.0*celast(2)))
+      !mu = (celast(1))/(2.0*(1.0+celast(2)))
+      !Kbulk = (lambda + 2.0/3.0*mu)
       alpha_r = 1.0d0 - Kbulk/k_s
 !       alpha_r = 1.0d0
 !       alpha_r = 0.001
@@ -277,9 +292,13 @@
 !       endif
       
       call random_number(phi_n0)
+!      phi_n0_Num = (phi_n0*(phi_range(2)-phi_range(1))) + phi_range(1)
       phi_n0 = (phi_n0*(phi_range(2)-phi_range(1))) + phi_range(1)
+      phi_n0_Num = phi_range(1)
       phi_n = phi_n0
           
+!         write(*,*) "K_tmp = ", K_bm; stop
+!         K_bm =  K_ * p/(R_*T*Z) * fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
       END SUBROUTINE inicializarParametrosBlocoMacro
       
 

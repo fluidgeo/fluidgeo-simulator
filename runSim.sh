@@ -16,7 +16,7 @@ dirPadrao=teste
 dirExp="$(pwd)"/${1:-${dirPadrao}} 
 
 #rm -rf ${dirExp}/out/*.vtk
-rm -rf ${dirExp}/echo*
+rm -rf ${dirExp}/echo.*
 rm -rf ${dirExp}/fort.*
 rm -rf ${dirExp}/coordenadas.dat
 rm -rf ${dirExp}/conectsLadais.dat

@@ -420,14 +420,16 @@
 !     Esta rotina imprime a solucao do Bloco Macro
 
       use mGlobaisEscalares, only: dimModelo
+      use mGlobaisArranjos,  only: k_bm
       use mMalha,            only: nelx_BM, nely_BM
       use mParametros,       only: constK_BM, constMu, p_Ref, widthBlocoMacro, tamBlocoMacro
       
       IMPLICIT NONE
       
       REAL*8   TEMPO, flux(2,*),X(2,*), L, pressaoPa, vx, vy, v, Lx, Ly
-      INTEGER  NUMNP, I, J,N, idx, idrx, idry, idrv, idrvx, idrvy
+      INTEGER  NUMNP, I, J,N, idx, idrx, idry, idrv, idrvx, idrvy, I2, J2, N2
       CHARACTER*30  idxStr, gradPx, gradPy, solVelocity, solVelocity_x, solVelocity_y
+      REAL*8  :: Keff
             
 !       Abrindo os arquivos para saída
 
@@ -470,18 +472,49 @@
         DO I=1,nelx_BM + 1
           DO J=1,nely_BM + 1
             N = I+(J-1)*(nelx_BM + 1)
+            N2 = N
+            if ((I .eq. (nelx_BM+1)) .and. (J .eq. (nely_BM+1))) then
+              I2 = I - 1
+              J2 = J - 1
+              N2 = I2+(J2-1)*(nelx_BM)
+              !write(1,*) "Aqui 1"
+              !write(1,*) "N2 = ", N2
+            else if (I .eq. (nelx_BM+1)) then
+              I2 = I - 1
+              N2 = I2+(J-1)*(nelx_BM) 
+              !write(2,*) "Aqui 2"
+              !write(2,*) "N2 = ", N2
+            else if (J .eq. (nely_BM+1)) then
+              I2 = I - 1
+              J2 = J - 1
+              N2 = I2+(J2-1)*(nelx_BM) 
+              !write(3,*) "Aqui 3"
+              !write(3,*) "N2 = ", N2
+            endif
+            !Keff(N2)  = K_bm(N2)
+            ! So para garantir (Diego)
+            if (N2 .gt. nely_bm*nelx_bm) N2 = N2 - nely_bm
+            Keff = K_bm(N2)
+            !write(*,*) "N2 = ", N2
+            !write(*,*) "Keff = ", Keff(N2)
+            if (Keff .le. 1.0d-50) Keff = 0.0
 	      WRITE(idrx,210) N, TEMPO, X(1,N), X(2,N), flux(1,N)
 	      WRITE(idry,210) N, TEMPO, X(1,N), X(2,N), flux(2,N)
-	      vx = (constK_BM/constMu)*flux(1,N)
-	      vy = (constK_BM/constMu)*flux(2,N)
+	      vx = Keff*flux(1,N)
+	      vy = Keff*flux(2,N)
 	      WRITE(idrvx,210) N, TEMPO, X(1,N), X(2,N), vx
 	      WRITE(idrvy,210) N, TEMPO, X(1,N), X(2,N), vy
           ENDDO
-        ENDDO         
+          !stop
+          !write(1574,*) "N2 = ", N2; 
+          !write(1577,*) "Keff(N2) = ", Keff; 
+        ENDDO
+        !stop        
        endif   
+      !stop
   
  200  FORMAT(4X,I5,10x,4(1PE15.8,2X))
- ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 3 floats 8.2 com espaco de 2 entre eles
+! 4 espaços, inteiro max 5i posicoes, 10 espacos, 3 floats 8.2 com espaco de 2 entre eles
  210  FORMAT(4X,I5,10x,4(1PE15.8,2X))
  220  FORMAT(4(1PE15.8,2X))
  
@@ -555,6 +588,7 @@
       
       use mMalha,            only: NSD_BM, nelx_BM, nely_BM
       use mGlobaisEscalares, only: dimModelo
+      use mGlobaisArranjos,  only: k_bm
       use mCoeficientes,     only: calcularZ_P
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, constK_BM, T, R_, constMu, M_m
       use mParametros,       only: gasTotalKg, gasRecuperavelKg, areaContatoBlocoMacroFratura, gasProduzidoKg
@@ -564,27 +598,43 @@
       IMPLICIT NONE
       
       REAL*8   FLUX(2*NDOF_BM,*), solucao(NDOF_BM,*), X(NSD_BM,*), TEMPO, DT
-      INTEGER  NUSTEP, NUMNP, I, N, idx, idxr
+      INTEGER  NUSTEP, NUMNP, I, N, idx, idxr, I2, N2
       REAL*8  :: volAcumulado, fluxoAnt
       CHARACTER*30  idxStr, prod
 
       REAL*8  Lx, Ly, Z(nely_BM), pStar(nely_BM), flMassico(NSD_BM,nely_BM), volInst, &
      &         gradP(NSD_BM,nely_BM), volAcumuladoKg, flMassico_soma(NSD_BM,1)
-            
+      REAL*8  :: Keff(nely_BM)            
 !     fluxoAnt é iniciado com 0
       Lx    = widthBlocoMacro
       Ly    = tamBlocoMacro      ! BM_y
       
         DO I = 1,nely_BM                ! Laco nos nós verticais
 	  N = (I-1)*(nelx_BM+1) + 1
+        N2 = N
+        I2 = I
+        if (I .eq. (nely_BM)) then
+          !N2 = N - 1
+          !I2 = I - 1
+          I2 = I - 1
+          N2 = (I2-1)*(nelx_BM+1)
+          !write(*,*) N2 
+        endif
 	  pStar(I) = solucao(1, N)
 	  gradP(1,I) = FLUX(1,N)!*p_Ref/Lx
-	  gradP(2,I) = FLUX(2,N)!*p_Ref/Ly
+      gradP(2,I) = FLUX(2,N)!*p_Ref/Ly
+        Keff(I2)  = K_bm(N2)
+        !write(*,*) "Keff = ", Keff(I2)
+        if (Keff(I2) .le. 1.0d-50) Keff(I2) = 0.0
 	  call calcularZ_P(pStar(I), Z(I))
-	  flMassico(1,I) = - (pStar(I)*constK_BM*M_m*gradP(1,I))/(Z(I)*R_*T*constMu)  ! Kg / (m^2 s)
-	  flMassico(2,I) = - (pStar(I)*constK_BM*M_m*gradP(2,I))/(Z(I)*R_*T*constMu)  ! Kg / (m^2 s)
+	  !flMassico(1,I) = - (pStar(I)*Keff(I2)*M_m*gradP(1,I))/(Z(I)*R_*T)  ! Kg / (m^2 s)
+	  !flMassico(2,I) = - (pStar(I)*Keff(I2)*M_m*gradP(2,I))/(Z(I)*R_*T)  ! Kg / (m^2 s)
+	  flMassico(1,I) = - (pStar(I)*Keff(I2)*M_m*gradP(1,I))/(Z(I)*R_*T)  ! Kg / (m^2 s)
+	  flMassico(2,I) = - (pStar(I)*Keff(I2)*M_m*gradP(2,I))/(Z(I)*R_*T)  ! Kg / (m^2 s)
+            if (flMassico(1,I) .le. 1.0d-30) flMassico(1,I) = 0.0
+            if (flMassico(2,I) .le. 1.0d-30) flMassico(2,I) = 0.0
         ENDDO
-      
+      !stop 
       volInst        = (fluxoAnt + flMassico(1,1))/2.0D0 * DT      ! regra do trapezio
       ! volAcumulado é iniciado com 0
       volAcumulado   = volAcumulado + volInst             ! kg/m^2
@@ -609,6 +659,7 @@
       
       use mMalha,            only: NSD_BM, nelx_BM, nely_BM, NUMNP_BM
       use mGlobaisEscalares, only: dimModelo
+      use mGlobaisArranjos,  only: k_bm 
       use mCoeficientes,     only: calcularZ_P
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, constK_BM, T, R_, constMu, M_m, phi_BM
       use mParametros,       only: gasTotalKg, gasRecuperavelKg, areaContatoBlocoMacroFratura, gasProduzidoKg
@@ -617,13 +668,14 @@
       IMPLICIT NONE
       
       REAL*8   solucao(NDOF_BM,*), solucaoant(NDOF_BM,*), TEMPO, flux(2,*), X(2,*), DT
-      INTEGER  NUSTEP, NUMNP, I, N, J, idxf, idyf, idx, idxr, idxe
+      INTEGER  NUSTEP, NUMNP, I, N, J, idxf, idyf, idx, idxr, idxe, N2
+      INTEGER  idxk
 
       REAL*8  Lx, Ly, Z(NUMNP_BM), pStar(NUMNP_BM), flMassico(NSD_BM,NUMNP_BM), residJ, &
      &         gradP(NSD_BM,NUMNP_BM),pStar_ant(NUMNP_BM),residt,Zant(NUMNP_BM),resid(NUMNP_BM),&
      &	       erro(NUMNP_BM)
-     CHARACTER*30  idxStr, nodeFlux_x, residueFlux_x
-      
+     CHARACTER*30  idxStr, nodeFlux_x, residueFlux_x, k_n
+
       Lx    = widthBlocoMacro
       Ly    = tamBlocoMacro      ! BM_y
       
@@ -637,20 +689,39 @@
       idxr = 23*idx
       residueFlux_x = 'residueFlux_x.'//idxStr
       OPEN(UNIT=idxr, FILE= residueFlux_x)
+
+      idxk = 11*idx
+      k_n = 'k.'//idxStr
+      OPEN(UNIT=idxk, FILE= k_n)
 !       *********************************************
       
       DO I=1,nelx_BM + 1
           DO J=1,nely_BM + 1
             N = I+(J-1)*(nelx_BM + 1)
+            !N2 = I+(J-1)*(nelx_BM + 1)
+            N2 = I+(J-1)*(nely_BM)
+            if ((I .eq. (nelx_BM+1)) .and. (J .eq. (nely_BM+1))) then
+                !N2 = N - 1
+                N2 = (I-1)+(J-2)*(nelx_BM)
+            endif
+            if (I .eq. (nelx_BM+1)) then
+                !N2 = N - 1
+                N2 = (I-1)+(J-1)*(nelx_BM)
+            endif
+            if (J .eq. (nely_BM+1)) then
+                !N2 = N - 1
+                N2 = (I)+(J-2)*(nelx_BM)
+            endif
             pStar(N) = solucao(1, N)
             pStar_ant(N) = solucaoant(1, N)
             gradP(1,N) = FLUX(1,N)!*p_Ref/Lx
             gradP(2,N) = FLUX(2,N)!*p_Ref/Ly
             call calcularZ_P(pStar(N), Z(N))
             call calcularZ_P(pStar_ant(N), Zant(N))
-            flMassico(1,N) = - (pStar(N)*constK_BM*M_m*gradP(1,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
-            flMassico(2,N) = - (pStar(N)*constK_BM*M_m*gradP(2,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
+            flMassico(1,N) = - (pStar(N)*K_BM(N2)*M_m*gradP(1,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
+            flMassico(2,N) = - (pStar(N)*K_BM(N2)*M_m*gradP(2,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
             WRITE(idxf,222) N, TEMPO, X(1,N), X(2,N), flMassico(1,N)  
+            WRITE(idxk,222) N, TEMPO, X(1,N), X(2,N), (pStar(N)*K_BM(N2)*M_m)/(Z(N)*R_*T*constMu)  
           ENDDO
       ENDDO
       
@@ -674,6 +745,7 @@
       222  FORMAT(4X,I5,10x,4(1PE15.8,2X))
       close(idxf)
       close(idxr)
+      close(idxk)
       
       END SUBROUTINE
 
@@ -689,8 +761,8 @@
 !        ASSEMBLE INTO THE GLOBAL LEFT-HAND-SIDE MATRIX
 !        AND RIGHT-HAND SIDE VECTOR
 
-      use mGlobaisEscalares, only : dimModelo, ntype, numat_BM, npint_BM, nicode_BM, iprtin, nrowsh_BM
-      use mGlobaisArranjos,  only : mat_BM, c_BM, grav_BM, bf_BM, phi_n, coupling_mode
+      use mGlobaisEscalares, only : dimModelo, ntype, numat_BM, npint_BM, nicode_BM, iprtin, nrowsh_BM, lambda, mu
+      use mGlobaisArranjos,  only : mat_BM, c_BM, grav_BM, bf_BM, phi_n, coupling_mode, phi_n0, k_bm, celast
       USE mLeituraEscrita,   only : printd, prntel
       use mMalha,            only : numel_BM, numnp_BM, nsd_BM, nen_BM, genfl, genel, local
       use mMalha,            only : conecNodaisElem_BM, x_BM
@@ -698,24 +770,26 @@
       use mAlgMatricial,     only : colht, kdbc, addrhs, addnsl, addlhs, idiag_BM, lm_BM, alhs_BM
       use mAlgMatricial,     only : brhs_BM, dlhs_BM
       use mCoeficientes,     only : calcularZ_P
-      use mParametros,       only : p_Ref, tamBlocoMacro, widthBlocoMacro, constMu, phi_BM, constK_BM, R_, T
-      use mParametros,       only : fraVol_BM, M_m, alpha_r, Kbulk, k_s, beta_r
+      use mParametros,       only : p_Ref, tamBlocoMacro,widthBlocoMacro, constMu, phi_BM, constK_BM, R_, T, K_re, K_abs
+      use mParametros,       only : fraVol_BM, M_m, alpha_r, Kbulk, k_s, beta_r, Sg, Sw !, Se, Swr, Sgr, VL, PL
+      use mParametros,       only : VL, PL, phi_n0_Num
       
 !
       IMPLICIT NONE
       
       INTEGER :: NDOF, NED
-      REAL*8  :: trU(numel_bm), trUAnt(numel_bm)
+      REAL*8  :: trU(2*ndof,numnp_bm), trUAnt(2*ndof,numnp_bm),DIVU,DIVU_ANT,rho_sc, rho_r
       REAL*8  :: DTEMPO
             
-      REAL*8  :: UU, UUP, GRXUU, GRYUU, tamElem
-      REAL*8  :: Z_UU, Z_UUP, R_UU, R_UUP
+      REAL*8  :: UU, UUP, GRXUU, GRYUU, tamElem, Se, Swr, Sgr 
+      REAL*8  :: Z_UU, Z_UUP, R_UU, R_UUP, K_tmp, Keff_tmp
       REAL*8  :: M, ALPHA, CVRHO, GF1, GF2
       REAL*8  :: H, H2, EE, XNI, C1, T0, RK, RKCON, DIX, DIY, DIN, DJN, DJX, DJY
       
       integer :: iopt
 
       real*8  :: xl(nesd_BM,nen_BM), dl(ned,nen_BM),dpl(ned,nen_BM)
+      real*8  :: ul(2*ned,nen_BM),dul(2*ned,nen_BM)
       real*8, dimension(nrowsh_BM,nenp_BM,npint_BM) :: SHLP, SHGP
       real*8, dimension(nrowsh_BM,nen_BM, npint_BM) :: SHL, SHG
       real*8  :: det(npint_BM), detp(npint_BM), W(npint_BM), WP(npint_BM)
@@ -746,6 +820,31 @@
 !   
       DIAG = .FALSE.
       
+      Sw        = 0.10d0
+      Sg        = 1.00d0 - Sw
+      Swr       = 0.05               
+      Sgr       = 0.05
+      Se        = (Sw-Swr)/(1-Swr-Sgr);
+      K_re      = (1-Se)*(1-Se)*(1-Se**2);
+      !K_abs     = constK_BM; 
+      !K_abs     = constK_BM/(K_re)*(3.0d0-phi_n0_Num)/(2.0d0*phi_n0_Num);
+      K_abs     = constK_BM*(3.0d0-phi_n0_Num)/(2.0d0*phi_n0_Num);
+      !write(*,*) K_abs; stop
+      !k_tmp     = K_re*K_abs/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));
+      !k_tmp     = K_re*K_abs/constMu*(2.0d0*sum(phi_n)/numel_bm)/(3.0d0-sum(phi_n)/numel_bm);   
+      !Keff_Tmp  =  K_tmp !* UU/(R_*T*Z_UU) * 1.0 !* fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
+
+      lambda = (celast(1)*celast(2))/((1.0+celast(2))*(1.0-2.0*celast(2)))
+      mu = (celast(1))/(2.0*(1.0+celast(2)))
+      rho_r = celast(3)*10.0**3.0d0
+      rho_sc = 0.67
+      Kbulk = (lambda + 2.0/3.0*mu)
+      alpha_r = 1.0d0 - Kbulk/k_s
+      !write(*,*) rho_r; write(*,*) VL; write(*,*) PL; stop
+      !write(*,*) "Kbulk =", Kbulk
+      !write(*,*) "k_s =", k_s
+      !write(*,*) "alpha_r =", alpha_r; stop
+
       DO 500 NEL=1,NUMEL_BM
 !
 !      CLEAR STIFFNESS MATRIX AND FORCE ARRAY
@@ -758,7 +857,9 @@
       CALL LOCAL(conecNodaisElem_BM(1,NEL),X_BM,XL,NEN_BM,NSD_BM, NESD_BM)
       CALL LOCAL(conecNodaisElem_BM(1,NEL),solucao_BM,DL,NEN_BM,NDOF,NED)
       CALL LOCAL(conecNodaisElem_BM(1,NEL),solucaoTmpAnt_BM,DPL,NEN_BM,NDOF,NED)
-      
+      call local(conecNodaisElem_BM(1,nel),trU,ul,nen_bm,2*ndof,2*ndof)
+      call local(conecNodaisElem_BM(1,nel),trUAnt,dul,nen_bm,2*ndof,2*ndof)
+      !stop 
       M = MAT_BM(NEL)
 ! 
          shg  = 0.0
@@ -778,32 +879,81 @@
        tamElem  = X_BM(2,NEL+1)-X_BM(2,NEL);
        !fonteMassaDeBlocoParaBlocoMacro = 0
        
-!       beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
-       if (coupling_mode .eq. "oneway") then
-       beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
-       endif
-       if (coupling_mode .eq. "twoway") then
-       beta_r = ((alpha_r-phi_n(nel))/k_s)	! Computing twoway compressibility (Diego, dec/2015)
-!        beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
-       endif
+!      k_ = K_re*K_abs/mu*2.0d0*(sum(phi_n)/numel_bm)/(3.0d0-(sum(phi_n)/numel_bm));
 
+!      K_bm =  K_ * p/(R_*T*Z) * fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
+
+!       beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
+!       if (coupling_mode .eq. "oneway") then
+       beta_r = ((alpha_r-phi_n0(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
+!       endif
+!       if (coupling_mode .eq. "twoway") then
+!       beta_r = ((alpha_r-phi_n0(nel))/k_s)	! Computing twoway compressibility (Diego, dec/2015)
+!        beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
+!       endif
+       !K_abs     = constMu*constK_BM/(K_re)*(3.0d0-sum(phi_n0)/numel_bm)/(2.0d0*sum(phi_n0)/numel_bm);
+       !k_tmp     = K_re*K_abs/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));
+       !stop
+       !k_bm(nel)     = K_re*K_abs/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));   
+       !k_bm(nel)     = constK_bm/constMu
+       !k_bm(nel)     = constK_bm
+       !stop
+       !write(*,*) "K_re = ", K_re
+       !write(*,*) "K_abs = ", K_abs
+       !write(*,*) "mu = ", constMu
+       !write(*,*) "K_bm = ", K_bm(nel)
+       !write(*,*) "Keff_tmp = ", Keff_tmp
+       !write(*,*) k_bm(nel)
+       !Keff_Tmp  =  K_bm(nel) !* UU/(R_*T*Z_UU) * 1.0 !* fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
+
+       !write(*,*) Keff_Tmp; stop
+
+       !write(*,*) "K_re = ", K_re
+
+       !write(*,*) "K_abs = ", K_abs
+
+       !write(*,*) "mu = ", constMu
+
+       !write(*,*) "K_bm = ", K_bm(nel)
+
+       !write(*,*) "Keff_tmp = ", Keff_tmp
+       !write(*,*) "Kbulk = ", Kbulk
+       !write(*,*) k_bm(nel)
+       !stop
       DO 400 L=1,NPINT_BM
          C1=DET(L)*W(L) 
          UU=0.D00
          UUP=0.D00
          GRXUU=0.D00
          GRYUU=0.D00
+         DIVU=0.d0
+         DIVU_ANT=0.d0
          DO J=1,NEN_BM
             UU   =UU   +SHG(3,J,L)*DL(1,J)  
             UUP  =UUP  +SHG(3,J,L)*DPL(1,J)
             GRXUU=GRXUU+SHG(1,J,L)*DL(1,J)
             GRYUU=GRYUU+SHG(2,J,L)*DL(1,J)
+            DIVU=DIVU+SHG(1,J,L)*UL(1,J)+SHG(2,J,L)*UL(2,J)
+            DIVU_ANT=DIVU_ANT+SHG(1,J,L)*DUL(1,J)+SHG(2,J,L)*DUL(2,J)
          ENDDO
-        
+         !stop
          CALL calcularZ_P(UU, Z_UU)         
          CALL calcularZ_P(UUP,Z_UUP)
-         R_UU = phi_n(nel)*M_m/(Z_UU *  R_ * T)
-         R_UUP= phi_n(nel)*M_m/(Z_UUP *  R_ * T) 
+         R_UU      = Sg*phi_n(nel)*M_m/(Z_UU *  R_ * T)
+         R_UUP     = Sg*phi_n(nel)*M_m/(Z_UUP *  R_ * T) 
+         k_bm(nel) = K_re*K_abs/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));   
+         Keff_Tmp  = K_bm(nel)*UU*M_m/(R_*T*Z_UU) !* UU/(R_*T*Z_UU) * 1.0 !* fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
+         !write(*,*) "Keff_tmp, K_tmp, K_re, K_abs"
+         !write(*,*) Keff_tmp, K_tmp, K_re, K_abs; stop
+         !write(*,*) "K_re = ", K_re
+        ! write(*,*) "K_abs = ", K_abs
+        ! write(*,*) "mu = ", constMu
+        ! write(*,*) "K_bm = ", K_bm(nel)
+        ! write(*,*) "Keff_tmp = ", Keff_tmp
+        ! stop
+!         k_tmp     = K_re*K_abs/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));   
+!         Keff_Tmp  =  K_tmp !* UU/(R_*T*Z_UU) * 1.0 !* fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
+        !write(*,*) alpha_r; stop
 
          if (coupling_mode .eq. "oneway") then
          DO J=1,NEN_BM
@@ -812,6 +962,7 @@
             DJY=SHG(2,J,L)*C1
 
             ELRESF(NED*J)=ELRESF(NED*J)+DJN*R_UUP*UUP  &
+!                &        +djn*rho_sc*rho_r*VL*PL/((PL+UU)**2.0d0)*UUP  &
 	&		+ beta_r*djn*M_m*(UU/Z_UU)*UUP/(R_*T)	! Diego, 1-way (set/2015) 
          ENDDO        
 !
@@ -828,8 +979,11 @@
        
               ELEFFM(NED*J,NED*I) = ELEFFM(NED*J,NED*I)                                  &
        &                            + R_UU*DJN*DIN                                        &
-       &                            + constK_BM*DTEMPO*UU*M_m/(R_*T*Z_UU) & 
-       &                            * (DIX*DJX+DIY*DJY)/constMu &
+       &                            + Keff_tmp*DTEMPO & 
+!       &                            + constK_BM*DTEMPO*UU*M_m/(R_*T*Z_UU) & 
+       &                            * (DIX*DJX+DIY*DJY) &
+!       &                            * (DIX*DJX+DIY*DJY)/constMu &
+!                &        +djn*rho_sc*rho_r*VL*PL/((PL+UU)**2.0d0)*din  &
        &			    + beta_r*djn*M_m*(UU/Z_UU)*(DIN)/(R_*T)	! Diego, 1-way (set/2015)
        
 
@@ -858,7 +1012,8 @@
            
             ELRESF(ndof*J)=ELRESF(ndof*J)+DJN*R_UUP*UUP  &
                   &+ beta_r*djn*M_m*(UU/Z_UU)*UUP/(R_*T) &
-                  &+ alpha_r*djn*M_m*(UU/Z_UU)*(trUAnt(nel)-trU(nel))/(R_*T)
+!                &        +djn*rho_sc*rho_r*VL*PL/((PL+UU)**2.0d0)*UUP  &
+       &+ alpha_r*djn*M_m*(UU/Z_UU)*((DIVU_ANT-(alpha_r/Kbulk)*UUP)-(DIVU-(alpha_r/Kbulk)*UU))/(R_*T)
 ! 	&		+ ((alpha_r**2.0)/Kbulk)*djn*M_m*(UU/Z_UU)*(UU-UUP)/(R_*T)  
             !write(19,*) (trU(nel)-trUAnt(nel))
          ENDDO        
@@ -876,8 +1031,11 @@
        
               ELEFFM(ndof*J,ndof*I) = ELEFFM(ndof*J,ndof*I)                                  &
        &                            + R_UU*DJN*DIN                                        &
-       &                            + constK_BM*DTEMPO*UU*M_m/(R_*T*Z_UU) & 
-       &                            * (DIX*DJX+DIY*DJY)/constMu &
+!       &                            + constK_BM*DTEMPO*UU*M_m/(R_*T*Z_UU) & 
+       &                            + Keff_tmp*DTEMPO & 
+       &                            * (DIX*DJX+DIY*DJY) &
+!       &                            * (DIX*DJX+DIY*DJY)/constMu &
+!                &        +djn*rho_sc*rho_r*VL*PL/((PL+UU)**2.0d0)*din  &
        &                            +beta_r*djn*M_m*(UU/Z_UU)*(DIN)/(R_*T)! &  ! Diego, 2-way (dec/2015)
 !       &                            + alpha_r*djn*M_m*(UU/Z_UU)*trU(nel)/(R_*T)
        
@@ -895,7 +1053,8 @@
             DJX=SHG(1,J,L)*C1
             DJY=SHG(2,J,L)*C1
 
-            ELRESF(NED*J)=ELRESF(NED*J)+DJN*R_UUP*UUP
+            ELRESF(NED*J)=ELRESF(NED*J)+DJN*R_UUP*UUP 
+!                &        +djn*rho_sc*rho_r*VL*PL/((PL+UU)**2.0d0)*UUP 
          ENDDO        
 !
 !.... ELEMENT STIFFNESS
@@ -911,8 +1070,11 @@
        
               ELEFFM(NED*J,NED*I) = ELEFFM(NED*J,NED*I)                                  &
        &                            + R_UU*DJN*DIN                                        &
-       &                            + constK_BM*DTEMPO*UU*M_m/(R_*T*Z_UU) & 
-       &                            * (DIX*DJX+DIY*DJY)/constMu
+!       &                            + constK_BM*DTEMPO*UU*M_m/(R_*T*Z_UU) & 
+       &                            + Keff_tmp*DTEMPO & 
+!       &                            * (DIX*DJX+DIY*DJY)/constMu
+!                &        +djn*rho_sc*rho_r*VL*PL/((PL+UU)**2.0d0)*din  &
+       &                            * (DIX*DJX+DIY*DJY)
        
 
        
@@ -932,6 +1094,7 @@
          endif
 !
   400 CONTINUE
+         !stop
 
 !      COMPUTATION OF DIRICHLET B.C. CONTRIBUTION
 !   
@@ -955,6 +1118,217 @@
       RETURN
       END SUBROUTINE
 
+!-------------------------------------------------------------------------------------     
+      SUBROUTINE montarSistema_T (NED, NDOF,trU, &
+          trUAnt, DTEMPO)
+!-------------------------------------------------------------------------------------     
+
+!    Montagem do sistema do problema de consolidacao de Terzaghi.
+!    (Diego, jan/2016)
+
+!
+!.... PROGRAM TO CALCULATE STIFNESS MATRIX AND FORCE ARRAY FOR THE
+!        STOKE'S DISPLACEMENT  ELEMENT AND
+!        ASSEMBLE INTO THE GLOBAL LEFT-HAND-SIDE MATRIX
+!        AND RIGHT-HAND SIDE VECTOR
+
+      use mGlobaisEscalares, only : dimModelo, ntype, numat_BM, npint_BM, nicode_BM, iprtin, nrowsh_BM, lambda, mu
+      use mGlobaisArranjos,  only : mat_BM, c_BM, grav_BM, bf_BM, phi_n, coupling_mode, phi_n0, k_bm, celast
+      USE mLeituraEscrita,   only : printd, prntel
+      use mMalha,            only : numel_BM, numnp_BM, nsd_BM, nen_BM, genfl, genel, local
+      use mMalha,            only : conecNodaisElem_BM, x_BM
+      use mFuncoesDeForma,   only : oneshl, oneshg,  shlq, SHGQ
+      use mAlgMatricial,     only : colht, kdbc, addrhs, addnsl, addlhs, idiag_BM, lm_BM, alhs_BM
+      use mAlgMatricial,     only : brhs_BM, dlhs_BM
+      use mCoeficientes,     only : calcularZ_P
+      use mParametros,       only : p_Ref, tamBlocoMacro,widthBlocoMacro, constMu, phi_BM, constK_BM, R_, T, K_re, K_abs
+      use mParametros,       only : fraVol_BM, M_m, alpha_r, Kbulk, k_s, beta_r, Sg, Sw !, Se, Swr, Sgr, VL, PL
+      use mParametros,       only : VL, PL
+      
+!
+      IMPLICIT NONE
+      
+      INTEGER :: NDOF, NED
+      REAL*8  :: trU(2*ndof,numnp_bm), trUAnt(2*ndof,numnp_bm),DIVU,DIVU_ANT,rho_sc, rho_r
+      REAL*8  :: DTEMPO
+            
+      REAL*8  :: UU, UUP, GRXUU, GRYUU, tamElem, Se, Swr, Sgr 
+      !REAL*8  :: Z_UU, Z_UUP, R_UU, R_UUP, K_tmp, Keff_tmp
+      !REAL*8  :: M, ALPHA, CVRHO, GF1, GF2
+      REAL*8  :: H, H2, EE, XNI, C1, T0, RK, RKCON, DIX, DIY, DIN, DJN, DJX, DJY
+      
+      integer :: iopt
+
+      real*8  :: xl(nesd_BM,nen_BM), dl(ned,nen_BM),dpl(ned,nen_BM)
+      real*8  :: ul(2*ned,nen_BM),dul(2*ned,nen_BM)
+      real*8, dimension(nrowsh_BM,nenp_BM,npint_BM) :: SHLP, SHGP
+      real*8, dimension(nrowsh_BM,nen_BM, npint_BM) :: SHL, SHG
+      real*8  :: det(npint_BM), detp(npint_BM), W(npint_BM), WP(npint_BM)
+      REAL*8  :: flNoAnt, flNoPost
+      
+      logical :: lsym
+
+      REAL*8 :: fonteMassaDeBlocoParaBlocoMacro
+      
+      integer :: i,j,k,l,nel
+      
+! 
+!.... REMOVE ABOVE CARD FOR SINGLE-PRECISION OPERATION 
+! 
+      LOGICAL DIAG,QUAD,ZERODL
+      real*8 :: ELEFFM(NEE_BM,NEE_BM),ELRESF(NEE_BM) ! bidu 20ago 2015
+      real*8  :: biotM, Ku, Kfluid, Cf, pi, const_a
+
+      pi = 3.141592653589793
+      const_a = 1.0d0
+  
+      shl = 0.0
+      if(dimModelo=='1D') then
+          call oneshl(shl,w,npint_BM,nen_BM)
+      end if
+      if(dimModelo=='2D')  then
+          CALL SHLQ(SHL,W,NPINT_BM,NEN_BM)
+        !       CALL SHLQ(SHLP,WP,NPINT,NENP)
+      end if 	
+!
+!      CONSISTENT MATRIX
+!   
+      DIAG = .FALSE.
+      
+      Sw        = 0.30d0
+      Sg        = 1.00d0 - Sw
+      Swr       = 0.05               
+      Sgr       = 0.05
+      Se        = (Sw-Swr)/(1-Swr-Sgr);
+      K_re      = (1-Se)*(1-Se)*(1-Se**2);
+      !K_abs     = constK_BM; 
+      K_abs     = constMu*constK_BM/(K_re)*(3.0d0-sum(phi_n0)/numel_bm)/(2.0d0*sum(phi_n0)/numel_bm);
+      !k_tmp     = K_re*K_abs/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));
+      !k_tmp     = K_re*K_abs/constMu*(2.0d0*sum(phi_n)/numel_bm)/(3.0d0-sum(phi_n)/numel_bm);   
+      !Keff_Tmp  =  K_tmp !* UU/(R_*T*Z_UU) * 1.0 !* fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
+
+      lambda = (celast(1)*celast(2))/((1.0+celast(2))*(1.0-2.0*celast(2)))
+      mu = (celast(1))/(2.0*(1.0+celast(2)))
+      rho_r = celast(3)*10.0**3.0d0
+      rho_sc = 0.67
+      Kbulk = (lambda + 2.0/3.0*mu)
+      alpha_r = 1.0d0 - Kbulk/k_s
+      !write(*,*) rho_r; write(*,*) VL; write(*,*) PL; stop
+      !write(*,*) "Kbulk =", Kbulk
+      !write(*,*) "k_s =", k_s
+      !write(*,*) "alpha_r =", alpha_r; stop
+
+      DO 500 NEL=1,NUMEL_BM
+!
+!      CLEAR STIFFNESS MATRIX AND FORCE ARRAY
+!
+      CALL CLEAR(ELEFFM,NEESQ_BM)
+      CALL CLEAR(ELRESF,NEE_BM)           
+!
+!      LOCALIZE COORDINATES AND DIRICHLET B.C.
+!  
+
+      CALL LOCAL(conecNodaisElem_BM(1,NEL),X_BM,XL,NEN_BM,NSD_BM, NESD_BM)
+      CALL LOCAL(conecNodaisElem_BM(1,NEL),solucao_BM,DL,NEN_BM,NDOF,NED)
+      CALL LOCAL(conecNodaisElem_BM(1,NEL),solucaoTmpAnt_BM,DPL,NEN_BM,NDOF,NED)
+      !stop 
+! 
+         shg  = 0.0
+         if(dimModelo=='1D') then 
+            call oneshg(xl,det,shl,shg,nen_BM,npint_BM,nsd_BM,1,nel,1) !BIDU
+         end if
+         if(dimModelo=='2D') then
+            QUAD = .TRUE.
+            CALL SHGQ(XL,DET,SHL,SHG,NPINT_BM,NEL,QUAD,NEN_BM)        
+         end if
+!
+!....... FORM STIFFNESS MATRIX
+!
+       Kfluid = 1.0d00
+       biotM = 1.0d0/(((alpha_r-0.25)/k_s) + 0.25/Kfluid)
+       Ku = Kbulk + (alpha_r**2.0d0)*biotM
+       Cf = constK_BM*biotM*((Kbulk+4.0d0/3.0d0*mu)/(Ku+4.0d0/3.0d0*mu))
+       !write(*,*) "Cf =", Cf; write(*,*) "Ku = ", Ku; write(*,*) "alpha = ", alpha_r; 
+       !write(*,*) "Kbulk =", Kbulk; write(*,*) "M =", biotM; stop
+
+      DO 400 L=1,NPINT_BM
+         C1=DET(L)*W(L) 
+         UU=0.D00
+         UUP=0.D00
+         GRXUU=0.D00
+         GRYUU=0.D00
+         DO J=1,NEN_BM
+            UU   =UU   +SHG(3,J,L)*DL(1,J)  
+            UUP  =UUP  +SHG(3,J,L)*DPL(1,J)
+            GRXUU=GRXUU+SHG(1,J,L)*DL(1,J)
+            GRYUU=GRYUU+SHG(2,J,L)*DL(1,J)
+         ENDDO
+
+         DO J=1,NEN_BM
+            DJN=SHG(3,J,L)*C1
+            DJX=SHG(1,J,L)*C1
+            DJY=SHG(2,J,L)*C1
+
+            ELRESF(NED*J)=ELRESF(NED*J)+DJN*UUP !+ djn*(dsin(pi*XL(1,J))*dsin(pi*XL(2,J)))
+!                &        +djn*rho_sc*rho_r*VL*PL/((PL+UU)**2.0d0)*UUP 
+         ENDDO       
+!
+!.... ELEMENT STIFFNESS
+!
+         DO J=1,NEN_BM
+            DJX=SHG(1,J,L)*C1
+            DJY=SHG(2,J,L)*C1
+            DJN=SHG(3,J,L)*C1
+            DO I=1,NEN_BM
+               DIX=SHG(1,I,L)
+               DIY=SHG(2,I,L) 
+               DIN=SHG(3,I,L)
+       
+              ELEFFM(NED*J,NED*I) = ELEFFM(NED*J,NED*I)                                  &
+       &                            + DJN*DIN                                        &
+!       &                            + DTEMPO*const_a*(DIX*DJX+DIY*DJY)
+       &                            + DTEMPO*Cf*(DIX*DJX+DIY*DJY)
+       
+
+       
+!             write(*,*) "======================="
+!             write(*,*) "phi", phi_F
+!             write(*,*) "K",   constK_F
+!             write(*,*) "mu",  constMu
+!             write(*,*) "DT",  DTEMPO_F
+!             write(*,*) "UU",  UU
+!             write(*,*) "UUP", UUP
+!             write(*,*) "Z_UU",  Z_UU
+!             write(*,*) "Z_UUP", Z_UUP
+!             write(*,*) "======================="
+
+            ENDDO
+         ENDDO
+!
+  400 CONTINUE
+         !stop
+
+!      COMPUTATION OF DIRICHLET B.C. CONTRIBUTION
+!   
+      CALL ZTEST(DL,NEE_BM,ZERODL)
+!
+!       IF(.NOT.ZERODL) CALL KDBC(ELEFFM,ELRESF,DL,NEE,LM(1,1,NEL),NEL)
+      IF(.NOT.ZERODL) CALL KDBC2(ELEFFM,ELRESF,DL,NEE_BM,LM_BM(1,1,NEL),NEL)
+
+!
+!.... ASSEMBLE ELEMENT STIFNESS MATRIX AND FORCE ARRAY INTO GLOBAL
+!        LEFT-HAND-SIDE MATRIX AND RIGHT-HAND SIDE VECTOR
+
+       lsym=.true.
+!        CALL ADDLHS(ALHSP,ELEFFM,idiagP,LMP(1,1,NEL),NEE,DIAG,lsym)
+       CALL ADDNSL(ALHS_BM,DLHS_BM,ELEFFM,IDIAG_BM,LM_BM(1,1,NEL),NEE_BM,DIAG)
+!
+       CALL ADDRHS(BRHS_BM,ELRESF,LM_BM(1,1,NEL),NEE_BM)
+!                
+ 500   CONTINUE
+
+      RETURN
+      END SUBROUTINE
 !************************************************************** 
 !*** NEW ******************************************************
 !*** SUBROUTINA QUE COMPUTA : grad* p*
@@ -1041,11 +1415,114 @@
             flux_BM(2,NELG)= flux_BM(2,NELG) -  1.D0*GRADPY
 !
             HNM(NELG)=HNM(NELG)+1.D0 ! usado para cálculo da média
+            !write(*,*) "NELG = ", NELG, "HNM = ", HNM(NELG)!; stop
 
          ENDDO !    END OF LOOP OVER ELEMENT NODES                   
 !
       ENDDO ! END OF LOOP OVER MESH ELEMENTS
+!
+!       COMPUTING AVERAGE STRESSES AT NODAL POINTS
+!
+      DO J=1,NUMNP_BM
+         DO I=1,2
+             flux_BM(I,J)=flux_BM(I,J)/HNM(J) 
+         END DO
+      END DO   
+ 
+11000 FORMAT(I2)
+12000 FORMAT(2X,14(1PE15.8,2X)) 
+!
+      end subroutine
+!*** NEW ******************************************************
+!*** SUBROUTINA QUE COMPUTA : K nos elementos (Diego, mar/2016)
+!************************************************************** 
+      subroutine kElem_BM(NED, NDOF)
+!
+      use mMalha,            only: conecNodaisElem_BM, x_BM
+      use mGlobaisEscalares, only: dimModelo, ntype, numat_BM, npint_BM, nicode_BM, iprtin, nrowsh_BM
+      use mMalha,            only: numel_BM, numnp_BM, nsd_BM, nen_BM, genfl, genel, local
+      use mFuncoesDeForma,   only: oneshl, oneshg, shlq, SHGQ
+
+      IMPLICIT NONE
+
+      integer :: NED, NDOF
+
+      LOGICAL QUAD
+
+      REAL*8 :: GRADPX, GRADPY
+     
+      INTEGER   :: I, J, L, NEL, NELG
+  
+      real*8 ::  HNM(NUMNP_BM)
+
+      real*8 :: xl(nesd_BM,nen_BM), dl(ned,nen_BM)
+      real*8 :: det(npint_BM), detp(npint_BM), W(npint_BM), WP(npint_BM)
+      real*8, dimension(nrowsh_BM,nenp_BM,npint_BM) :: SHLP, SHGP
+      real*8, dimension(nrowsh_BM,nen_BM, npint_BM) :: SHL, SHG
+
+!
+!      GENERATION OF LOCAL SHAPE FUNCTIONS AND WEIGHT VALUES
+!
+      shl = 0.0d0
+      if(dimModelo=='1D') call oneshl(shl,w,npint_BM,nen_BM)
+      if(dimModelo=='2D') CALL SHLQ(SHL,W,NPINT_BM,NEN_BM)
+      shlp = shl
       
+      CALL CLEAR(flux_BM,2*NUMNP_BM)       
+
+      HNM=0.D0
+!
+!.... BEGIN LOOP OVER THE MESH ELEMENTS
+!     
+      DO NEL=1,NUMEL_BM
+!
+!....    LOCALIZE UNKNOWNS AND COORDINATES
+
+         CALL LOCAL(conecNodaisElem_BM(1,NEL),x_BM,XL,NEN_BM,NSD_BM,NESD_BM)              
+         CALL LOCAL(conecNodaisElem_BM(1,NEL),solucao_BM,DL,NEN_BM,NDOF,NED)
+
+!....    EVALUATE GLOBAL SHAPE FUNCTION 
+
+         shgp = 0.0
+         shg  = 0.0
+         if(dimModelo=='1D') &
+            call oneshg(xl,det,shl,shg,nen_BM,npint_BM,nsd_BM,1,nel,1) !BIDU
+         if(dimModelo=='2D') &
+             CALL SHGQ(XL,DET,SHL,SHG,NPINT_BM,NEL,QUAD,NEN_BM)        
+         SHGP=SHG     
+!
+!....    COMPUTE FIRST DERIVATIVES OF NODAL PRESSURE
+!
+!....    BEGIN LOOP OVER ELEMENT NODES
+!    
+         DO L=1,NEN_BM
+!
+!           COMPUTE FIRST DERIVATIVES OF NODAL DISPLACEMENT
+!           Para 1D nao tem derivada em Y
+            GRADPX=0.D0
+            GRADPY=0.D0
+            
+            ! SHG(1,1),SHG(1,2), SHG(1,3) e SHG(1,4) avaliadas no ponto de integracao L
+            DO J=1,NEN_BM
+               GRADPX = GRADPX + SHGP(1,J,L)*DL(1,J)
+               GRADPY = GRADPY + SHGP(2,J,L)*DL(1,J)
+            ENDDO
+            ! fornece GRADPX e GRADPY avaliados no ponto de integracao L
+            ! por enquanto nao tem grady porque a condicao de contorno nao tem gradiente em y 
+
+!           STORAGING STRESSES ON GLOBAL ARRAY
+            NELG=conecNodaisElem_BM(L,NEL)
+            
+            ! esse menos vem de fluxo = -gradP ??? 
+            flux_BM(1,NELG)= flux_BM(1,NELG) -  1.D0*GRADPX
+            flux_BM(2,NELG)= flux_BM(2,NELG) -  1.D0*GRADPY
+!
+            HNM(NELG)=HNM(NELG)+1.D0 ! usado para cálculo da média
+            !write(*,*) "NELG = ", NELG, "HNM = ", HNM(NELG)!; stop
+
+         ENDDO !    END OF LOOP OVER ELEMENT NODES                   
+!
+      ENDDO ! END OF LOOP OVER MESH ELEMENTS
 !
 !       COMPUTING AVERAGE STRESSES AT NODAL POINTS
 !
