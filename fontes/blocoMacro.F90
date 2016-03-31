@@ -420,7 +420,7 @@
 !     Esta rotina imprime a solucao do Bloco Macro
 
       use mGlobaisEscalares, only: dimModelo
-      use mGlobaisArranjos,  only: k_bm
+      use mGlobaisArranjos,  only: k_bm, knp_bm
       use mMalha,            only: nelx_BM, nely_BM
       use mParametros,       only: constK_BM, constMu, p_Ref, widthBlocoMacro, tamBlocoMacro
       
@@ -472,29 +472,7 @@
         DO I=1,nelx_BM + 1
           DO J=1,nely_BM + 1
             N = I+(J-1)*(nelx_BM + 1)
-            N2 = N
-            if ((I .eq. (nelx_BM+1)) .and. (J .eq. (nely_BM+1))) then
-              I2 = I - 1
-              J2 = J - 1
-              N2 = I2+(J2-1)*(nelx_BM)
-              !write(1,*) "Aqui 1"
-              !write(1,*) "N2 = ", N2
-            else if (I .eq. (nelx_BM+1)) then
-              I2 = I - 1
-              N2 = I2+(J-1)*(nelx_BM) 
-              !write(2,*) "Aqui 2"
-              !write(2,*) "N2 = ", N2
-            else if (J .eq. (nely_BM+1)) then
-              I2 = I - 1
-              J2 = J - 1
-              N2 = I2+(J2-1)*(nelx_BM) 
-              !write(3,*) "Aqui 3"
-              !write(3,*) "N2 = ", N2
-            endif
-            !Keff(N2)  = K_bm(N2)
-            ! So para garantir (Diego)
-            if (N2 .gt. nely_bm*nelx_bm) N2 = N2 - nely_bm
-            Keff = K_bm(N2)
+            Keff = Knp_bm(N)
             !write(*,*) "N2 = ", N2
             !write(*,*) "Keff = ", Keff(N2)
             if (Keff .le. 1.0d-50) Keff = 0.0
@@ -588,7 +566,7 @@
       
       use mMalha,            only: NSD_BM, nelx_BM, nely_BM
       use mGlobaisEscalares, only: dimModelo
-      use mGlobaisArranjos,  only: k_bm
+      use mGlobaisArranjos,  only: k_bm, Knp_bm
       use mCoeficientes,     only: calcularZ_P
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, constK_BM, T, R_, constMu, M_m
       use mParametros,       only: gasTotalKg, gasRecuperavelKg, areaContatoBlocoMacroFratura, gasProduzidoKg
@@ -611,26 +589,17 @@
       
         DO I = 1,nely_BM                ! Laco nos nós verticais
 	  N = (I-1)*(nelx_BM+1) + 1
-        N2 = N
-        I2 = I
-        if (I .eq. (nely_BM)) then
-          !N2 = N - 1
-          !I2 = I - 1
-          I2 = I - 1
-          N2 = (I2-1)*(nelx_BM+1)
-          !write(*,*) N2 
-        endif
 	  pStar(I) = solucao(1, N)
 	  gradP(1,I) = FLUX(1,N)!*p_Ref/Lx
       gradP(2,I) = FLUX(2,N)!*p_Ref/Ly
-        Keff(I2)  = K_bm(N2)
+        Keff(I)  = Knp_bm(N)
         !write(*,*) "Keff = ", Keff(I2)
-        if (Keff(I2) .le. 1.0d-50) Keff(I2) = 0.0
+        if (Keff(I) .le. 1.0d-50) Keff(I) = 0.0
 	  call calcularZ_P(pStar(I), Z(I))
 	  !flMassico(1,I) = - (pStar(I)*Keff(I2)*M_m*gradP(1,I))/(Z(I)*R_*T)  ! Kg / (m^2 s)
 	  !flMassico(2,I) = - (pStar(I)*Keff(I2)*M_m*gradP(2,I))/(Z(I)*R_*T)  ! Kg / (m^2 s)
-	  flMassico(1,I) = - (pStar(I)*Keff(I2)*M_m*gradP(1,I))/(Z(I)*R_*T)  ! Kg / (m^2 s)
-	  flMassico(2,I) = - (pStar(I)*Keff(I2)*M_m*gradP(2,I))/(Z(I)*R_*T)  ! Kg / (m^2 s)
+	  flMassico(1,I) = - (pStar(I)*Keff(I)*M_m*gradP(1,I))/(Z(I)*R_*T)  ! Kg / (m^2 s)
+	  flMassico(2,I) = - (pStar(I)*Keff(I)*M_m*gradP(2,I))/(Z(I)*R_*T)  ! Kg / (m^2 s)
             if (flMassico(1,I) .le. 1.0d-30) flMassico(1,I) = 0.0
             if (flMassico(2,I) .le. 1.0d-30) flMassico(2,I) = 0.0
         ENDDO
@@ -659,7 +628,7 @@
       
       use mMalha,            only: NSD_BM, nelx_BM, nely_BM, NUMNP_BM
       use mGlobaisEscalares, only: dimModelo
-      use mGlobaisArranjos,  only: k_bm 
+      use mGlobaisArranjos,  only: k_bm, knp_bm 
       use mCoeficientes,     only: calcularZ_P
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, constK_BM, T, R_, constMu, M_m, phi_BM
       use mParametros,       only: gasTotalKg, gasRecuperavelKg, areaContatoBlocoMacroFratura, gasProduzidoKg
@@ -698,30 +667,16 @@
       DO I=1,nelx_BM + 1
           DO J=1,nely_BM + 1
             N = I+(J-1)*(nelx_BM + 1)
-            !N2 = I+(J-1)*(nelx_BM + 1)
-            N2 = I+(J-1)*(nely_BM)
-            if ((I .eq. (nelx_BM+1)) .and. (J .eq. (nely_BM+1))) then
-                !N2 = N - 1
-                N2 = (I-1)+(J-2)*(nelx_BM)
-            endif
-            if (I .eq. (nelx_BM+1)) then
-                !N2 = N - 1
-                N2 = (I-1)+(J-1)*(nelx_BM)
-            endif
-            if (J .eq. (nely_BM+1)) then
-                !N2 = N - 1
-                N2 = (I)+(J-2)*(nelx_BM)
-            endif
             pStar(N) = solucao(1, N)
             pStar_ant(N) = solucaoant(1, N)
             gradP(1,N) = FLUX(1,N)!*p_Ref/Lx
             gradP(2,N) = FLUX(2,N)!*p_Ref/Ly
             call calcularZ_P(pStar(N), Z(N))
             call calcularZ_P(pStar_ant(N), Zant(N))
-            flMassico(1,N) = - (pStar(N)*K_BM(N2)*M_m*gradP(1,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
-            flMassico(2,N) = - (pStar(N)*K_BM(N2)*M_m*gradP(2,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
+            flMassico(1,N) = - (pStar(N)*Knp_BM(N)*M_m*gradP(1,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
+            flMassico(2,N) = - (pStar(N)*Knp_BM(N)*M_m*gradP(2,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
             WRITE(idxf,222) N, TEMPO, X(1,N), X(2,N), flMassico(1,N)  
-            WRITE(idxk,222) N, TEMPO, X(1,N), X(2,N), (pStar(N)*K_BM(N2)*M_m)/(Z(N)*R_*T*constMu)  
+            WRITE(idxk,222) N, TEMPO, X(1,N), X(2,N), (pStar(N)*Knp_BM(N)*M_m)/(Z(N)*R_*T*constMu)  
           ENDDO
       ENDDO
       
@@ -1438,6 +1393,7 @@
 !************************************************************** 
       subroutine kElem_BM(NED, NDOF)
 !
+      use mGlobaisArranjos,  only: K_BM, Knp_BM    
       use mMalha,            only: conecNodaisElem_BM, x_BM
       use mGlobaisEscalares, only: dimModelo, ntype, numat_BM, npint_BM, nicode_BM, iprtin, nrowsh_BM
       use mMalha,            only: numel_BM, numnp_BM, nsd_BM, nen_BM, genfl, genel, local
@@ -1449,7 +1405,7 @@
 
       LOGICAL QUAD
 
-      REAL*8 :: GRADPX, GRADPY
+!      REAL*8 :: Kmean(NUMNP_BM)
      
       INTEGER   :: I, J, L, NEL, NELG
   
@@ -1460,15 +1416,7 @@
       real*8, dimension(nrowsh_BM,nenp_BM,npint_BM) :: SHLP, SHGP
       real*8, dimension(nrowsh_BM,nen_BM, npint_BM) :: SHL, SHG
 
-!
-!      GENERATION OF LOCAL SHAPE FUNCTIONS AND WEIGHT VALUES
-!
-      shl = 0.0d0
-      if(dimModelo=='1D') call oneshl(shl,w,npint_BM,nen_BM)
-      if(dimModelo=='2D') CALL SHLQ(SHL,W,NPINT_BM,NEN_BM)
-      shlp = shl
-      
-      CALL CLEAR(flux_BM,2*NUMNP_BM)       
+      Knp_BM = 0.0d0
 
       HNM=0.D0
 !
@@ -1479,43 +1427,16 @@
 !....    LOCALIZE UNKNOWNS AND COORDINATES
 
          CALL LOCAL(conecNodaisElem_BM(1,NEL),x_BM,XL,NEN_BM,NSD_BM,NESD_BM)              
-         CALL LOCAL(conecNodaisElem_BM(1,NEL),solucao_BM,DL,NEN_BM,NDOF,NED)
-
-!....    EVALUATE GLOBAL SHAPE FUNCTION 
-
-         shgp = 0.0
-         shg  = 0.0
-         if(dimModelo=='1D') &
-            call oneshg(xl,det,shl,shg,nen_BM,npint_BM,nsd_BM,1,nel,1) !BIDU
-         if(dimModelo=='2D') &
-             CALL SHGQ(XL,DET,SHL,SHG,NPINT_BM,NEL,QUAD,NEN_BM)        
-         SHGP=SHG     
-!
-!....    COMPUTE FIRST DERIVATIVES OF NODAL PRESSURE
 !
 !....    BEGIN LOOP OVER ELEMENT NODES
 !    
          DO L=1,NEN_BM
 !
-!           COMPUTE FIRST DERIVATIVES OF NODAL DISPLACEMENT
-!           Para 1D nao tem derivada em Y
-            GRADPX=0.D0
-            GRADPY=0.D0
-            
-            ! SHG(1,1),SHG(1,2), SHG(1,3) e SHG(1,4) avaliadas no ponto de integracao L
-            DO J=1,NEN_BM
-               GRADPX = GRADPX + SHGP(1,J,L)*DL(1,J)
-               GRADPY = GRADPY + SHGP(2,J,L)*DL(1,J)
-            ENDDO
-            ! fornece GRADPX e GRADPY avaliados no ponto de integracao L
-            ! por enquanto nao tem grady porque a condicao de contorno nao tem gradiente em y 
-
 !           STORAGING STRESSES ON GLOBAL ARRAY
             NELG=conecNodaisElem_BM(L,NEL)
             
             ! esse menos vem de fluxo = -gradP ??? 
-            flux_BM(1,NELG)= flux_BM(1,NELG) -  1.D0*GRADPX
-            flux_BM(2,NELG)= flux_BM(2,NELG) -  1.D0*GRADPY
+            Knp_BM(NELG)= Knp_BM(NELG) +  1.D0*K_BM(NEL)
 !
             HNM(NELG)=HNM(NELG)+1.D0 ! usado para cálculo da média
             !write(*,*) "NELG = ", NELG, "HNM = ", HNM(NELG)!; stop
@@ -1526,11 +1447,12 @@
 !
 !       COMPUTING AVERAGE STRESSES AT NODAL POINTS
 !
-      DO J=1,NUMNP_BM
-         DO I=1,2
-             flux_BM(I,J)=flux_BM(I,J)/HNM(J) 
-         END DO
+!      open(UNIT=2,FILE="k1.dat")
+      DO I=1,NUMNP_BM
+         Knp_BM(I)=Knp_BM(I)/HNM(I) 
+!         write(2,*) Knp_BM(I)
       END DO   
+!      close(2)
  
 11000 FORMAT(I2)
 12000 FORMAT(2X,14(1PE15.8,2X)) 
@@ -1707,6 +1629,7 @@
      subroutine alocarMemoriaBlocoMacro()
 
      use mGlobaisArranjos,  only: mat_BM, grav_BM, bf_BM, phi_n, phi_n0
+     use mGlobaisArranjos,  only: Knp_BM
      use mGlobaisEscalares, only: ndofD, nlvectD
      use mMalha,            only: nsd_BM, numel_BM, numnp_BM, numLados_BM, nen_BM, numLadosElem_BM, x_BM, xc_BM
      use mMalha,            only: listaDosElemsPorNo_BM, conecNodaisElem_BM
@@ -1733,6 +1656,7 @@
      allocate(flux_BM (2*ndof_BM, numnp_BM)); flux_BM =0.d0
      allocate(solucao_BM (ndof_BM, numnp_BM)); solucao_BM =0.d0
      allocate(phi_n(numel_BM));        phi_n= 0.0d0
+     allocate(Knp_BM(numnp_BM));        Knp_BM= 0.0d0
      allocate(phi_n0(numel_BM));        !phi_n= phi_BM
      allocate(solucaoNaoLinearAnt_BM(ndof_BM, numnp_BM)); solucaoNaoLinearAnt_BM=0.d0
      allocate(solucaoTmpAnt_BM(ndof_BM, numnp_BM)); solucaoTmpAnt_BM=0.d0

@@ -489,7 +489,7 @@
       use mBlocoMacro,       only : NITER_BM, NDOF_BM, NLVECT_BM, flux_BM      
       use mBlocoMacro,       only : DTEMPO_BM, solucao_BM, f_BM, SUM_NUMITER_BM, calcularFluxoMassico2d   
       use mBlocoMacro,       only : passosTempoParaGravarSaida, numPassos, calcularFluxoMassico2
-      use mBlocoMacro,       only : PRINTSOL_BM, PRINTFLUXV_BM, PRINTSOL_BM2, calcularFluxoMassico, calcularGradiente_BM   
+      use mBlocoMacro,       only : PRINTSOL_BM, PRINTFLUXV_BM, PRINTSOL_BM2, calcularFluxoMassico, calcularGradiente_BM, kElem_BM 
       use mMalha,            only : NUMNP_BM, NUMNP_B, NUMEL_BM, nen_bm, nsd_bm, nelx_BM, nely_BM
       use mMalha,            only : X_BM, conecNodaisElem_BM
       use mAlgMatricial,     only : NED_BM, ID_BM
@@ -620,6 +620,7 @@
 !          Se chegar aqui é pq convergiu, então : guardar o fluxo, resolver novamente o problema nos blocos, atualizar variaveis e imprimir           
 !          +++++++ calcular e armzenar o fluxo aqui 
              call calcularGradiente_BM(NED_BM, NDOF_BM)
+             call kElem_BM(NED_BM, NDOF_BM); !stop
 
              CALL calcularFluxoMassico2d(flux_BM, solucao_BM, X_BM, NUSTEP, TEMPO, NUMNP_BM, DTEMPO, &
       &                                 fluxoAnt, volGasAcumulado)          

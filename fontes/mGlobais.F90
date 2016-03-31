@@ -34,6 +34,7 @@
 
         integer, allocatable :: mat_B(:)
         real*8, allocatable  :: grav_B(:), bf_B(:,:), c_B(:,:), K_BM(:)
+        real*8, allocatable  :: Knp_BM(:)
         REAL*8, allocatable  :: phi_n(:), phi_n0(:), trEps(:), trEpsTmpAnt(:)
         
       end module mGlobaisArranjos
