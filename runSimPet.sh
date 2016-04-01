@@ -68,7 +68,7 @@ then
   printf "\n numero de threads .......: %d\n" ${OMP_NUM_THREADS}
   printf "\n numero de processos......: %d\n" ${NP}
   printf "\n comando .................: %s\n" "${comando}"
-  eval ${comando}  #|tee  ${arqTela}
+  eval ${comando}  |tee  ${arqTela}
   tar cfz "${1}.tar.gz" ${1}
   rm -rf ${dirExp}/*.0
   rm -rf ${dirExp}/*.1
