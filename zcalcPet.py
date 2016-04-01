@@ -9,6 +9,9 @@ import sys
 Pr = float(sys.argv[1])
 T = float(sys.argv[2])
 
+# Lê qual o diretório receberá os arquivos de saída
+outputFile = sys.argv[3] + "/"
+
 # Definindo a precisão das impressões
 np.set_printoptions(precision=50)
 #plt.clf()
@@ -134,12 +137,12 @@ for i in ('vdW','RK','SRK','PR', 'mRK', 'mPR', 'mPRnew'):
 	Z = 1.0/(1.0-C*b) - (a*C)/(R*T*(1.0 + epsilon*b*C)*(1.0 + sigma*b*C))
 	
 	# Aproximação polinomial por mínimos quadrados
-	Pb = np.arange(0.05e7,Pr,0.01e6)
+	Pb = np.arange(0.05e7,Pr,0.01e7)
 	Cb = np.interp(Pb,P,C)
 	Zb = 1.0/(1.0-Cb*b) - (a*Cb)/(R*T*(1.0 + epsilon*b*Cb)*(1.0 + sigma*b*Cb))
 	Zap, residuals, rank, singular_values, rcond = np.polyfit(Pb,Zb,9,full=True)
 	print "Residuos L2 do MMQ = ", residuals
-	np.savetxt(("coef_%s.dat" % i),Zap,fmt='%.50e')
+	np.savetxt((outputFile+"coef_%s.dat" % i),Zap,fmt='%.50e')
 
 	# Plotando Z em função de P
 	#plt.plot(P,Z,label=i,linewidth=2.0)
