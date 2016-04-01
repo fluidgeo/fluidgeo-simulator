@@ -1,6 +1,9 @@
 *reservoir_case{
 Barnett
 }
+*reservoir_depth{
+deep
+}
 *coupling_mode{
 oneway
 }

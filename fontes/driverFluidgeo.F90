@@ -399,7 +399,7 @@
         use mInputReader,      only: findKeyword, file_lines
         use mParametros,       only: p_reservatorio, p_poco, tamBlocoMacro, widthBlocoMacro
         use mParametros,       only: constK_BM, k_s, Kbulk, T, VL, PL
-        use mGlobaisArranjos,  only: reservoir_case, phi_range, coupling_mode
+        use mGlobaisArranjos,  only: reservoir_case, phi_range, coupling_mode, reservoir_depth
         use mGlobaisEscalares, only: random_porosity
         
 
@@ -415,6 +415,11 @@
 !         write(*,*) reservoir_case
 
 !       Reads the reservoir basis
+        keyword_name = "reservoir_depth"
+        default_input_value = "Default"
+        call readStringKeywordValue(keyword_name, reservoir_depth, default_input_value)
+
+!       Reads the coupling mode 
         keyword_name = "coupling_mode"
         default_input_value = "oneway"
         call readStringKeywordValue(keyword_name, coupling_mode, default_input_value)
