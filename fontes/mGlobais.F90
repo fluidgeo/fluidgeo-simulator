@@ -26,6 +26,7 @@
         character*4          :: title_B(20)
         character*4          :: title_BM(20)
         character(len=80)    :: reservoir_case, coupling_mode
+        character(len=80)    :: reservoir_depth
 
         real*8,  allocatable :: uTempoN(:)
 

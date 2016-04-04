@@ -1,5 +1,5 @@
 *title_bm{
- experimento 200x200, Barnett shale, 1165.1 m (3822.58 ft), 338.75 K, dt = 1 ano, 30 anos
+ experimento 200x200, Barnett shale, 1165.1 m (3822.58 ft), 338.75 K, dt = 1 ano, 15 anos
 }
 *codigos_cond_contorno_blocoMacro{
          1     40201       201         1
