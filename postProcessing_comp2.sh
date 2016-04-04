@@ -1,0 +1,37 @@
+#set -x
+#  Script to automatize post-processing of output processing program.
+#  
+#  Author: Diego Volpatto
+#  
+#  Usage example: ./postProcessing.sh dirExp
+#  dirExp is the directory that data will be read in post-processing programs.
+
+# Standard value
+dirExp=dirExp00
+# Input value
+dirExp=$1
+dirExp2=$2
+dirExp3=$3
+
+comando="chmod u+x ./fontes/plot_P_comp2.py"
+eval ${comando}
+
+comando="./fontes/plot_P_comp2.py ${dirExp}/ ${dirExp2}/ ${dirExp3}/"
+eval ${comando}
+
+#comando="./montarPDFGraficos.sh ${dirExp}"
+#eval ${comando} > saida 
+
+# rm -f ${dirExp}/disp.*
+# rm -f ${dirExp}/solP.*
+# rm -f ${dirExp}/gradPx.*
+# rm -f ${dirExp}/gradPy.*
+# rm -f ${dirExp}/solVelocity_x.*
+# rm -f ${dirExp}/solVelocity_y.*
+# rm -f ${dirExp}/nodeFlux_x.*
+# rm -f ${dirExp}/nodeFlux_y.*
+# rm -f ${dirExp}/residueFlux_x.*
+# rm ${dirExp}/residueFlux_y.*
+
+#rm -f saida
+
