@@ -550,7 +550,7 @@
       onlydisp = .false.
       flagTerzaghi = .false.
       
-      call printporo(phi_n0,numel_bm, 0)
+      call printporo(phi_n0,X_BM,numel_bm,nelx_bm,nely_bm, 0)
      
       allocate(trEps(numel_bm));    trEps = 0.0
       allocate(trEpsTmpAnt(numel_bm));    trEpsTmpAnt = 0.0
@@ -639,11 +639,11 @@
                   CALL fieldP_BM(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
                   CALL fieldV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
                   CALL fieldJ_BM(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
-                  !if (coupling_mode .eq. "oneway" .or. coupling_mode .eq. "twoway") then
-! 			call PRINTDISP(deslocamento,X_BM,NUMNP_BM,nelx_BM,nely_BM,idx)
- 			call fieldSigma_BM(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx); stop
-! 			call printporo(phi_n,numel_bm, idx)
- !                 endif
+                  if (coupling_mode .eq. "oneway" .or. coupling_mode .eq. "twoway") then
+ 			call PRINTDISP(deslocamento,X_BM,NUMNP_BM,nelx_BM,nely_BM,idx)
+ 			call fieldSigma_BM(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx);
+ 			call printporo(phi_n,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx)
+                  endif
                   idx = idx + 1
              endif
              

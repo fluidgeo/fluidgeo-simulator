@@ -616,7 +616,8 @@
       logical :: diag,zerodl,quad,lsym
       real*8  :: D1, CMATRIX11, CMATRIX12, CMATRIX33, YOUNG, POISSON, RHOMAT
 !       *******************************************
-      real*8  :: Lx, Ly
+      real*8  :: Lx, Ly, Xe(2,NUMEL), pElem
+      integer :: n2
 !
       nee = nen*ndof
 
@@ -665,8 +666,10 @@
       temp1 = w(l)*det(l)
       Area = Area + temp1
       DIVU=0.d0
+      pElem  = 0.0d0
       DO J=1,NEN
          DIVU=DIVU+SHG(1,J,L)*DL(1,J)+SHG(2,J,L)*DL(2,J)
+         pElem = pElem + shg(3,j,l)*pl(1,j)
       ENDDO
 
       do 300 j=1,nen
@@ -703,7 +706,7 @@
 !.... compute mean porosity over element
 !
       phi_n(nel) = phi_n0(nel) + alpha_r*divu + &
-      &            ((alpha_r-phi_n0(nel))/k_s)*(p_mean(nel) - p_Ref)
+      &            ((alpha_r-phi_n0(nel))/k_s)*(pElem - p_Ref)
       !write(*,*) nel, divu
 !
 !.... compute element volumetric stresses 
@@ -711,6 +714,7 @@
       STRESS(1,NEL)=CMATRIX11*STRAIN(1)+CMATRIX12*STRAIN(2)
       STRESS(2,NEL)=CMATRIX12*STRAIN(1)+CMATRIX11*STRAIN(2)
       STRESS(3,NEL)=CMATRIX33*STRAIN(3)
+!      write(22,*) NEL, STRESS(2,NEL)
       
   500 continue  
 

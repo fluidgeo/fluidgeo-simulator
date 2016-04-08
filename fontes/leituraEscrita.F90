@@ -1707,21 +1707,54 @@
       REAL*8   u(2,*),X(2,*)
       INTEGER  NUMNP, N, idx, idrx, nelx, nely, I, J
       CHARACTER*30  idxStr, disp
+      logical :: fileCheck
             
 !       Abrindo os arquivos para saída
 
       write(idxStr,'(i0)') idx
       
       idrx = 11*idx
+      inquire(unit=idrx, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       disp = 'disp.'//idxStr
       OPEN(UNIT=idrx, FILE= disp)
       
+      inquire(unit=(13*idx), opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       OPEN(UNIT=(13*idx), FILE= 'UL.'//idxStr)
+
+      inquire(unit=(17*idx), opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       OPEN(UNIT=(17*idx), FILE= 'UC.'//idxStr)
+
+      inquire(unit=(19*idx), opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       OPEN(UNIT=(19*idx), FILE= 'UR.'//idxStr)
       
+      inquire(unit=(23*idx), opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       OPEN(UNIT=(23*idx), FILE= 'UBx.'//idxStr)
+
+      inquire(unit=(27*idx), opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       OPEN(UNIT=(27*idx), FILE= 'UCx.'//idxStr)
+
+      inquire(unit=(29*idx), opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       OPEN(UNIT=(29*idx), FILE= 'UTx.'//idxStr)
       
       do N=1,NUMNP
@@ -1803,22 +1836,45 @@
 !    Esta sub-rotina tem como finalidade a escrita dos valores dos stresses calculados
 !    para o caso da elasticidade linear.
 
-      SUBROUTINE PRINTPORO(Porosidade,NUMEL, idx)
+      SUBROUTINE PRINTPORO(Porosidade,X,NUMEL,nelx,nely,idx)
       
       IMPLICIT NONE
       
-      REAL*8   Porosidade(*)
-      INTEGER  NUMEL, N, idx, idsx, idtx
+      REAL*8   Porosidade(*), X(2,*), Xe(2,NUMEL)
+      INTEGER  NUMEL, N, idx, idsx, idtx, nelx, nely, I, J, N2
       CHARACTER*30  idsStr, sigma, tau
+      logical :: fileCheck
             
 !       Abrindo os arquivos para saída
 
       write(idsStr,'(i1)') idx
       
-      idsx = 11*idx
+      idsx = 19  
+      inquire(unit=idsx, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       sigma = 'porosity.'//idsStr
       OPEN(UNIT=idsx, FILE= sigma)
       
+      ! Posicao dos Elementos (Coord Retangulares apenas!!!) Diego.
+      DO I=1,nelx
+          DO J=1,nely
+            N = I+(J-1)*(nelx)
+            N2 = I+(J-1)*(nelx+1)
+            Xe(1,N) = (X(1,N2)+X(1,N2+1))/2.0
+            Xe(2,N) = (X(2,N2)+X(2,N2+nely+1))/2.0
+          ENDDO
+      enddo
+
+      DO I=1,nelx
+          DO J=1,nely
+            N = I+(J-1)*(nelx)
+             !write(217,*) I, J, N
+		WRITE(idsx,210) N, Xe(1,N), Xe(2,N), Porosidade(N)
+          ENDDO
+      ENDDO
+
       do N=1,NUMEL
 	WRITE(idsx,210) N, Porosidade(N)
       enddo
@@ -1838,43 +1894,66 @@
       
       IMPLICIT NONE
       
-      REAL*8   STRESS(3,*),X(2,*)
-      INTEGER  NUMEL, N, idx, idsx, idtx, nelx, nely, I, J
+      !REAL*8   STRESS(3,*),X(2,*), Xe(2,NUMEL)
+      REAL*8   STRESS(4,NUMEL), X(2,*), Xe(2,NUMEL)
+      INTEGER  NUMEL, N, idx, idsx, idtx, nelx, nely, I, J, N2, nel
       CHARACTER*30  idsStr, sigma, tau
+      logical :: fileCheck
             
 !       Abrindo os arquivos para saída
 
       write(idsStr,'(i0)') idx
       
       idsx = 11*idx
+      inquire(unit=idsx, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       sigma = 'sigma.'//idsStr
       OPEN(UNIT=idsx, FILE= sigma)
       
+      inquire(unit=(13*idx), opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       OPEN(UNIT=(13*idx), FILE= 'sigmax.'//idsStr)
+      inquire(unit=(17*idx), opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       OPEN(UNIT=(17*idx), FILE= 'sigmay.'//idsStr)
+      inquire(unit=(19*idx), opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       OPEN(UNIT=(19*idx), FILE= 'sigmat.'//idsStr)
-      
-!       do N=1,NUMEL
-!         ! Metodologia de arredontamento temporário. Diego (out/2015)
-!         if (dabs(STRESS(1,N)) .le. 1.0d-30) STRESS(1,N) = 0.0d0
-!         if (dabs(STRESS(2,N)) .le. 1.0d-30) STRESS(2,N) = 0.0d0
-!         if (dabs(STRESS(3,N)) .le. 1.0d-30) STRESS(3,N) = 0.0d0
-! 	WRITE(idsx,210) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
-!       enddo
-      
+     
+      ! Posicao dos Elementos (Coord Retangulares apenas!!!) Diego.
       DO I=1,nelx
           DO J=1,nely
             N = I+(J-1)*(nelx)
-             write(217,*) I, J, N
-!            if (I .eq. 1) then
-		WRITE((13*idx),225) N, (X(1,N)+X(1,N+1))/2.0, (X(2,N)+X(2,N+nely+1))/2.0, STRESS(1,N)
-!	    else if (I .eq. (nelx-1)) then
-!	        WRITE((19*idx),225) N, X(1,N), X(2,N), STRESS(2,N)
-!	    else if (I .eq. ((nelx)/2)) then
-!	        WRITE((17*idx),225) N, X(1,N), X(2,N), STRESS(2,N)
- !           endif
+            N2 = I+(J-1)*(nelx+1)
+            Xe(1,N) = (X(1,N2)+X(1,N2+1))/2.0
+            Xe(2,N) = (X(2,N2)+X(2,N2+nely+1))/2.0
+          ENDDO
+      enddo
+
+      DO I=1,nelx
+          DO J=1,nely
+            N = I+(J-1)*(nelx)
+!            N2 = I+(J-1)*(nelx+1)
+             !write(217,*) I, J, N
+		WRITE((13*idx),225) N, Xe(1,N), Xe(2,N), STRESS(1,N)
+		WRITE((17*idx),225) N, Xe(1,N), Xe(2,N), STRESS(2,N)
+		WRITE((19*idx),225) N, Xe(1,N), Xe(2,N), STRESS(3,N)
           ENDDO
       ENDDO
+
+!      do nel = 1,numel
+!		WRITE((13*idx),225) Nel, Xe(1,nel), Xe(2,nel), STRESS(1,Nel)
+!		WRITE((17*idx),225) Nel, Xe(1,nel), Xe(2,nel), STRESS(2,Nel)
+!		WRITE((19*idx),225) Nel, Xe(1,nel), Xe(2,nel), STRESS(3,Nel)
+!      enddo
       
  ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 3 floats 8.2 com espaco de 4 entre eles
  210  FORMAT(4X,I5,10x,5(E15.8,2X))
