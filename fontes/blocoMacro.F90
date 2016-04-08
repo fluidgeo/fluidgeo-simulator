@@ -480,29 +480,50 @@
       INTEGER  NUMNP, I, J,N, idx, idrx, idry, idrv, idrvx, idrvy, I2, J2, N2
       CHARACTER*30  idxStr, gradPx, gradPy, solVelocity, solVelocity_x, solVelocity_y
       REAL*8  :: Keff
+      logical :: fileCheck
             
 !       Abrindo os arquivos para saída
 
       write(idxStr,'(i0)') idx
       
       idrx = 11*idx
+      inquire(unit=idrx, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       gradPx = 'gradPx.'//idxStr
       OPEN(UNIT=idrx, FILE= gradPx)
       
       idry = 12*idx
+      inquire(unit=idry, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       gradPy = 'gradPy.'//idxStr
       OPEN(UNIT=idry, FILE= gradPy)
       
       if (dimModelo=='1D') then
 	idrv = 13*idx
+      inquire(unit=idrv, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
 	solVelocity = 'solVelocity.'//idxStr
 	OPEN(UNIT=idrv, FILE= solVelocity)
       else
 	idrvx = 14*idx
+      inquire(unit=idrvx, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
 	solVelocity_x = 'solVelocity_x.'//idxStr
 	OPEN(UNIT=idrvx, FILE= solVelocity_x)
       
 	idrvy = 17*idx
+      inquire(unit=idrvy, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
 	solVelocity_y = 'solVelocity_y.'//idxStr
 	OPEN(UNIT=idrvy, FILE= solVelocity_y)
       endif
@@ -693,7 +714,9 @@
       REAL*8  Lx, Ly, Z(NUMNP_BM), pStar(NUMNP_BM), flMassico(NSD_BM,NUMNP_BM), residJ, &
      &         gradP(NSD_BM,NUMNP_BM),pStar_ant(NUMNP_BM),residt,Zant(NUMNP_BM),resid(NUMNP_BM),&
      &	       erro(NUMNP_BM)
+
      CHARACTER*30  idxStr, nodeFlux_x, residueFlux_x, k_n
+     logical :: fileCheck
 
       Lx    = widthBlocoMacro
       Ly    = tamBlocoMacro      ! BM_y
@@ -702,6 +725,10 @@
       write(idxStr,'(i0)') idx
       
       idxf = 19*idx
+      inquire(unit=idxf, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       nodeFlux_x = 'nodeFlux_x.'//idxStr
       OPEN(UNIT=idxf, FILE= nodeFlux_x)
       
@@ -710,10 +737,18 @@
 !      OPEN(UNIT=idxr, FILE= residueFlux_x)
 
       idyf = 7*idx
+      inquire(unit=idyf, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       nodeFlux_y = 'nodeFlux_y.'//idxStr
       OPEN(UNIT=idyf, FILE= nodeFlux_y)
 
       idxk = 11*idx
+      inquire(unit=idxk, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
       k_n = 'condHydraulic.'//idxStr
       OPEN(UNIT=idxk, FILE= k_n)
 !       *********************************************
