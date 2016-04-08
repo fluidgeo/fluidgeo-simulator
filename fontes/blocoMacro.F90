@@ -890,7 +890,7 @@
       Kbulk = (lambda + 2.0/3.0*mu)
       alpha_r = 1.0d0 - Kbulk/k_s
       !write(*,*) rho_r; write(*,*) VL; write(*,*) PL; stop
-      !write(*,*) "Kbulk =", Kbulk
+!      write(*,*) "Kbulk =", Kbulk; stop 1 
       !write(*,*) "k_s =", k_s
       !write(*,*) "alpha_r =", alpha_r; stop
 
