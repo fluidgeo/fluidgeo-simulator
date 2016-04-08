@@ -653,10 +653,11 @@
 
       REAL*8  Lx, Ly, Z(nely_BM), pStar(nely_BM), flMassico(NSD_BM,nely_BM), volInst, &
      &         gradP(NSD_BM,nely_BM), volAcumuladoKg, flMassico_soma(NSD_BM,1)
-      REAL*8  :: Keff(nely_BM)            
+      REAL*8  :: Keff(nely_BM), flInterface            
 !     fluxoAnt é iniciado com 0
       Lx    = widthBlocoMacro
       Ly    = tamBlocoMacro      ! BM_y
+      flInterface = 0.0d0
       
         DO I = 1,nely_BM                ! Laco nos nós verticais
 	  N = (I-1)*(nelx_BM+1) + 1
@@ -673,13 +674,15 @@
 	  flMassico(2,I) = - (pStar(I)*Keff(I)*M_m*gradP(2,I))/(Z(I)*R_*T)  ! Kg / (m^2 s)
             if (flMassico(1,I) .le. 1.0d-30) flMassico(1,I) = 0.0
             if (flMassico(2,I) .le. 1.0d-30) flMassico(2,I) = 0.0
+            flInterface = flInterface + &
+      &     flMassico(1,I)*(areaContatoBlocoMacroFratura/nely_bm)
         ENDDO
       !stop 
-      volInst        = (fluxoAnt + flMassico(1,1))/2.0D0 * DT      ! regra do trapezio
+      volInst        = (fluxoAnt + flInterface)/2.0D0 * DT      ! regra do trapezio
       ! volAcumulado é iniciado com 0
-      volAcumulado   = volAcumulado + volInst             ! kg/m^2
-      fluxoAnt       = flMassico(1,1)
-      volAcumuladoKg = volAcumulado * areaContatoBlocoMacroFratura
+      volAcumulado   = volAcumulado + volInst             ! kg
+      fluxoAnt       = flInterface
+      volAcumuladoKg = volAcumulado
          
       gasProduzidoKg = volAcumuladoKg;
    
