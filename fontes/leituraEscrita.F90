@@ -1834,6 +1834,63 @@
 !    Esta sub-rotina tem como finalidade a escrita dos valores dos stresses calculados
 !    para o caso da elasticidade linear.
 
+      SUBROUTINE fieldSigma_BM(STRESS,X,NUMEL,nelx,nely,idx)
+      
+      IMPLICIT NONE
+      
+      REAL*8   STRESS(3,*),X(2,*)
+      INTEGER  NUMEL, N, idx, idsx, idtx, nelx, nely, I, J
+      CHARACTER*30  idsStr, sigma, tau
+            
+!       Abrindo os arquivos para saída
+
+      write(idsStr,'(i0)') idx
+      
+      idsx = 11*idx
+      sigma = 'sigma.'//idsStr
+      OPEN(UNIT=idsx, FILE= sigma)
+      
+      OPEN(UNIT=(13*idx), FILE= 'sigmax.'//idsStr)
+      OPEN(UNIT=(17*idx), FILE= 'sigmay.'//idsStr)
+      OPEN(UNIT=(19*idx), FILE= 'sigmat.'//idsStr)
+      
+!       do N=1,NUMEL
+!         ! Metodologia de arredontamento temporário. Diego (out/2015)
+!         if (dabs(STRESS(1,N)) .le. 1.0d-30) STRESS(1,N) = 0.0d0
+!         if (dabs(STRESS(2,N)) .le. 1.0d-30) STRESS(2,N) = 0.0d0
+!         if (dabs(STRESS(3,N)) .le. 1.0d-30) STRESS(3,N) = 0.0d0
+! 	WRITE(idsx,210) N, STRESS(1,N), STRESS(2,N), STRESS(3,N)
+!       enddo
+      
+      DO I=1,nelx
+          DO J=1,nely
+            N = I+(J-1)*(nelx)
+             write(217,*) I, J, N
+!            if (I .eq. 1) then
+		WRITE((13*idx),225) N, (X(1,N)+X(1,N+1))/2.0, (X(2,N)+X(2,N+nely+1))/2.0, STRESS(1,N)
+!	    else if (I .eq. (nelx-1)) then
+!	        WRITE((19*idx),225) N, X(1,N), X(2,N), STRESS(2,N)
+!	    else if (I .eq. ((nelx)/2)) then
+!	        WRITE((17*idx),225) N, X(1,N), X(2,N), STRESS(2,N)
+ !           endif
+          ENDDO
+      ENDDO
+      
+ ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 3 floats 8.2 com espaco de 4 entre eles
+ 210  FORMAT(4X,I5,10x,5(E15.8,2X))
+ 225  FORMAT(4X,I5,6x,3(1PE15.8,2X))
+
+      close((13*idx))
+      close((17*idx))
+      close((19*idx))
+      close(idsx)
+
+      END subroutine    
+
+!*** Diego (Set/2015) ********************************************************************** 
+!    Esta sub-rotina tem como finalidade a escrita dos valores dos stresses calculados
+!    para o caso da elasticidade linear.
+
       SUBROUTINE PRINTSTRESS(STRESS,X,NUMEL,nelx,nely,idx)
       
       IMPLICIT NONE

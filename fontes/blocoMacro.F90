@@ -715,7 +715,7 @@
      &         gradP(NSD_BM,NUMNP_BM),pStar_ant(NUMNP_BM),residt,Zant(NUMNP_BM),resid(NUMNP_BM),&
      &	       erro(NUMNP_BM)
 
-     CHARACTER*30  idxStr, nodeFlux_x, residueFlux_x, k_n
+     CHARACTER*30  idxStr, nodeFlux_x, nodeFlux_y, residueFlux_x, k_n
      logical :: fileCheck
 
       Lx    = widthBlocoMacro

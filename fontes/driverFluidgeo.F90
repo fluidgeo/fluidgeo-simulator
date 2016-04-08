@@ -504,7 +504,7 @@
       use mCoeficientes,     only : calcularQuantidadeGasReservatorio
       use mGlobaisEscalares, only : ndofD, nlvectD
       use mGlobaisArranjos,  only : phi_n, phi_n0, coupling_mode, trEps, trEpsTmpAnt, celast
-      use mLeituraEscrita,   only : PRINTDISP, PRINTSTRESS, PRINTPORO, PRINTDISP_T
+      use mLeituraEscrita,   only : PRINTDISP, fieldSigma_BM, PRINTPORO, PRINTDISP_T
 !
       use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro, printStressPoro!, CHECKEQ!, calcStressPoro2
       use mElasticidade,        only: deslocamento, fDeslocamento, neqD, nalhsD
@@ -641,7 +641,7 @@
                   CALL fieldJ_BM(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
                   !if (coupling_mode .eq. "oneway" .or. coupling_mode .eq. "twoway") then
 ! 			call PRINTDISP(deslocamento,X_BM,NUMNP_BM,nelx_BM,nely_BM,idx)
-! 			call PRINTSTRESS(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx)
+ 			call fieldSigma_BM(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx); stop
 ! 			call printporo(phi_n,numel_bm, idx)
  !                 endif
                   idx = idx + 1
