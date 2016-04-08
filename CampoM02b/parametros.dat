@@ -1,6 +1,9 @@
 *reservoir_case{
 Marcellus
 }
+*reservoir_depth{
+shallow
+}
 *coupling_mode{
 oneway
 }
