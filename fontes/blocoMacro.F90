@@ -409,13 +409,63 @@
 
       END subroutine
 
+!*** NEW Diego (Abril/2016) ********************************************************************** 
+!   Sub-rotina para impressao do resultado do campo de pressao 2D no
+!   formato matricial.
+
+      SUBROUTINE fieldP_BM(solucao,X,NUMNP,TEMPO,idx)
+!
+!     Esta rotina imprime a solucao do Bloco Macro
+
+      use mGlobaisEscalares, only: dimModelo
+      use mMalha,            only: nelx_BM, nely_BM
+      use mLeituraEscrita,   only: iechoPressao
+      
+      IMPLICIT NONE
+      
+      REAL*8   TEMPO, solucao(1,*),X(2,*), L, pressaoPa  
+      INTEGER  NUMNP, I, J,N, idx, idr, idr2, idr3
+      character*6  solP, idxStr, solP_BCi
+      logical :: fileCheck
+      
+      idr = idx*17
+      inquire(unit=idr, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta"; stop
+      endif
+      write(idxStr,'(i0)') idx
+      solP = 'fieldP.'//idxStr
+      OPEN(UNIT=idr, FILE= solP)
+      
+      if (dimModelo=='2D') then
+        DO I=1,nelx_BM + 1
+          DO J=1,nely_BM + 1
+            N = I+(J-1)*(nelx_BM + 1)
+	      WRITE(idr,210) N, TEMPO, X(1,N), X(2,N), solucao(1,N)
+          ENDDO
+        ENDDO        
+       endif
+       
+          
+ 200  FORMAT(4X,I5,10x,4(1PE15.8,2X))
+ ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 3 floats 8.2 com espaco de 2 entre eles
+ 210  FORMAT(4X,I5,10x,4(1PE15.8,2X))
+ 220  FORMAT(4(1PE15.8,2X))
+ 223  FORMAT(4X,I5,10x,1(1PE15.8,2X))
+      close(idr)
+      close((11*idx))
+      close(idr2)
+      close(idr3)
+
+      END subroutine
+
 !*** Diego (Abril/2015) ********************************************************************** 
 !    Esta rotina tem como finalidade o calculo e armazenamento do fluxo massico
 !    e a velocidade em todos os nos.
 !    TODO: 1) Imprimir os resultados de fluxo massico para todos os nos, que dependem de P/Z(P).
 !    2) Corrigir o calculo da velocidade em y (nao imprime).
 
-      SUBROUTINE PRINTFLUXV_BM(flux,X,NUMNP,TEMPO,idx)
+      SUBROUTINE fieldV_BM(flux,X,NUMNP,TEMPO,idx)
 !
 !     Esta rotina imprime a solucao do Bloco Macro
 
@@ -624,7 +674,7 @@
 !*** Diego (maio/2015) ********************************************************************** 
 !    Essa rotina calcula o fluxo mássico em todos os nós.
 
-      SUBROUTINE calcularFluxoMassico2(FLUX, solucao, solucaoant, X, TEMPO, DT, NUMNP, idx)
+      SUBROUTINE fieldJ_BM(FLUX, solucao, solucaoant, X, TEMPO, DT, NUMNP, idx)
       
       use mMalha,            only: NSD_BM, nelx_BM, nely_BM, NUMNP_BM
       use mGlobaisEscalares, only: dimModelo
@@ -655,12 +705,16 @@
       nodeFlux_x = 'nodeFlux_x.'//idxStr
       OPEN(UNIT=idxf, FILE= nodeFlux_x)
       
-      idxr = 23*idx
-      residueFlux_x = 'residueFlux_x.'//idxStr
-      OPEN(UNIT=idxr, FILE= residueFlux_x)
+!      idxr = 23*idx
+!      residueFlux_x = 'residueFlux_x.'//idxStr
+!      OPEN(UNIT=idxr, FILE= residueFlux_x)
+
+      idyf = 7*idx
+      nodeFlux_y = 'nodeFlux_y.'//idxStr
+      OPEN(UNIT=idyf, FILE= nodeFlux_y)
 
       idxk = 11*idx
-      k_n = 'k.'//idxStr
+      k_n = 'condHydraulic.'//idxStr
       OPEN(UNIT=idxk, FILE= k_n)
 !       *********************************************
       
@@ -673,33 +727,35 @@
             gradP(2,N) = FLUX(2,N)!*p_Ref/Ly
             call calcularZ_P(pStar(N), Z(N))
             call calcularZ_P(pStar_ant(N), Zant(N))
-            flMassico(1,N) = - (pStar(N)*Knp_BM(N)*M_m*gradP(1,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
-            flMassico(2,N) = - (pStar(N)*Knp_BM(N)*M_m*gradP(2,N))/(Z(N)*R_*T*constMu)  ! Kg / (m^2 s)
+            flMassico(1,N) = - (pStar(N)*Knp_BM(N)*M_m*gradP(1,N))/(Z(N)*R_*T)  ! Kg / (m^2 s)
+            flMassico(2,N) = - (pStar(N)*Knp_BM(N)*M_m*gradP(2,N))/(Z(N)*R_*T)  ! Kg / (m^2 s)
             WRITE(idxf,222) N, TEMPO, X(1,N), X(2,N), flMassico(1,N)  
-            WRITE(idxk,222) N, TEMPO, X(1,N), X(2,N), (pStar(N)*Knp_BM(N)*M_m)/(Z(N)*R_*T*constMu)  
+            WRITE(idyf,222) N, TEMPO, X(1,N), X(2,N), flMassico(2,N)  
+            ! Condutividade hidráulica
+            WRITE(idxk,222) N, TEMPO, X(1,N), X(2,N), (pStar(N)*Knp_BM(N)*M_m)/(Z(N)*R_*T)  
           ENDDO
       ENDDO
       
       ! Para a conservação de massa espacial local (colocar como saída da subrotina)
-      DO I=1,nely_BM + 1
-          DO J=2,nelx_BM
-            N = J+(I-1)*(nely_BM + 1)
-            residJ = (flMassico(1,N+1) - flMassico(1,N-1))/((X(1,N+1)-X(1,N-1))) ! Ver o espaçamento da malha depois
-            residt = ((phi_BM*M_m)/(R_*T*DT))*((pStar(N)/Z(N))-(pStar_ant(N)/Zant(N)))
-            resid(N) = residt + residJ
-          ENDDO
-      ENDDO
+!      DO I=1,nely_BM + 1
+!          DO J=2,nelx_BM
+!            N = J+(I-1)*(nely_BM + 1)
+!            residJ = (flMassico(1,N+1) - flMassico(1,N-1))/((X(1,N+1)-X(1,N-1))) ! Ver o espaçamento da malha depois
+!            residt = ((phi_BM*M_m)/(R_*T*DT))*((pStar(N)/Z(N))-(pStar_ant(N)/Zant(N)))
+!            resid(N) = residt + residJ
+!          ENDDO
+!      ENDDO
       
-      DO I=2,nelx_BM
-          DO J=1,nely_BM + 1
-            N = I+(J-1)*(nelx_BM + 1)
-            WRITE(idxr,222) N, TEMPO, X(1,N), X(2,N), resid(N)
-          ENDDO
-      ENDDO
+!      DO I=2,nelx_BM
+!          DO J=1,nely_BM + 1
+!            N = I+(J-1)*(nelx_BM + 1)
+!            WRITE(idxr,222) N, TEMPO, X(1,N), X(2,N), resid(N)
+!          ENDDO
+!      ENDDO
 
       222  FORMAT(4X,I5,10x,4(1PE15.8,2X))
       close(idxf)
-      close(idxr)
+      close(idyf)
       close(idxk)
       
       END SUBROUTINE

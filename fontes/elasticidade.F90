@@ -68,8 +68,9 @@
                                       numnp, ndof, nlvect, nalhs, neq, label)
       200 write(*,*) " +++ apos call montarEstrutDadosSistEqAlq("
       if (nlvect.gt.0) call load                (id,f,brhs,ndof,numnp,nlvect)
-    
       if (nlvect.gt.0) call dirichletConditions (id,u,f,ndof,numnp,nlvect)
+      !write(1,*) f; stop
+      !stop 
       write(*,*) " +++ apos call dirichletConditions("
 
 ! 

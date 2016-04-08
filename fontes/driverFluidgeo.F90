@@ -492,9 +492,9 @@
       subroutine processadorFluidgeo()
 
       use mBlocoMacro,       only : NITER_BM, NDOF_BM, NLVECT_BM, flux_BM      
-      use mBlocoMacro,       only : DTEMPO_BM, solucao_BM, f_BM, SUM_NUMITER_BM, calcularFluxoMassico2d   
-      use mBlocoMacro,       only : passosTempoParaGravarSaida, numPassos, calcularFluxoMassico2
-      use mBlocoMacro,       only : PRINTSOL_BM, PRINTFLUXV_BM, PRINTSOL_BM2, calcularFluxoMassico, calcularGradiente_BM, kElem_BM 
+      use mBlocoMacro,       only : DTEMPO_BM, solucao_BM, f_BM, SUM_NUMITER_BM   
+      use mBlocoMacro,       only : passosTempoParaGravarSaida, numPassos, calcularFluxoMassico2d
+      use mBlocoMacro,       only : fieldP_BM, fieldV_BM, fieldJ_BM, calcularGradiente_BM, kElem_BM 
       use mMalha,            only : NUMNP_BM, NUMNP_B, NUMEL_BM, nen_bm, nsd_bm, nelx_BM, nely_BM
       use mMalha,            only : X_BM, conecNodaisElem_BM
       use mAlgMatricial,     only : NED_BM, ID_BM
@@ -634,16 +634,11 @@
              
              SUM_NUMITER = SUM_NUMITER + NUMITER
 
-!          if ((coupling_mode .eq. "oneway") .or. (coupling_mode .eq. "twoway")) then
-! 		call printStressPoro(stressD, deslocamento,solucao_BM, flux_BM, x_bm, conecNodaisElem_bm, &
-! 		&                   numnp_BM, numel_bm, nen_bm, nsd_bm, ndofD, tflag, idx)
-!          endif
-!           endif   
              if ( (numPassos .EQ. 0) .OR. (passosTempoParaGravarSaida(idx) .EQ. NUSTEP)) then
 ! 		 Rotinas de impressao
-                  CALL PRINTSOL_BM2(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
-                  CALL PRINTFLUXV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
-                  CALL calcularFluxoMassico2(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
+                  CALL fieldP_BM(solucao_BM,    x_BM,NUMNP_BM,TEMPO,idx)
+                  CALL fieldV_BM(flux_BM,    x_BM,NUMNP_BM,TEMPO,idx)
+                  CALL fieldJ_BM(FLUX_BM, solucao_BM, solucaoTmpAnt, X_BM, TEMPO, DTEMPO, NUMNP_BM, idx)
                   !if (coupling_mode .eq. "oneway" .or. coupling_mode .eq. "twoway") then
 ! 			call PRINTDISP(deslocamento,X_BM,NUMNP_BM,nelx_BM,nely_BM,idx)
 ! 			call PRINTSTRESS(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx)
