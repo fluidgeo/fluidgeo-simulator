@@ -249,12 +249,12 @@
       
       use mGlobaisArranjos,  only: phi_n, phi_n0, phi_range, K_bm, celast
       use mGlobaisEscalares, only: random_porosity, lambda, mu
-      use mMalha,            only: numel_bm
+      use mMalha,            only: numel_bm, nelx_BM, nely_BM
       
       IMPLICIT NONE
       
       CHARACTER*200 :: linhaAux
-      INTEGER       :: I, Swr, Sgr, Se
+      INTEGER       :: I, Swr, Sgr, Se, rndlvl, N, J, K
        
        allocate(k_bm(numel_bm))      ! Isso tem que ir para um lugar melhor (Diego, Jan/2016) 
        correcaoPerm = .false.
@@ -291,9 +291,49 @@
 !       phi_n = phi_n0
 !       endif
       
-      call random_number(phi_n0)
+      call random_number(phi_n0)!; write(*,*) phi_n0; stop
 !      phi_n0_Num = (phi_n0*(phi_range(2)-phi_range(1))) + phi_range(1)
       phi_n0 = (phi_n0*(phi_range(2)-phi_range(1))) + phi_range(1)
+!      write(73,*) phi_n0; stop
+      do j = 1,nely_bm
+        N = 1 + (J-1)*(nelx_bm)
+        phi_n0(N) = 0.10
+      enddo
+
+      rndlvl = 10
+      do k=1,rndlvl
+        do i=1, nely_BM
+            do j=2,nelx_BM
+                N = j+(i-1)*(nelx_bm)
+                if (N .eq. 1) then
+                    phi_n0(N) = (phi_n0(N+nelx_bm)+phi_n0(N+nelx_bm+1)+phi_n0(N+1))/3.0
+                else if (N .eq. nelx_bm) then
+                    phi_n0(N) = (phi_n0(N+nelx_bm)+phi_n0(N+nelx_bm-1)+phi_n0(N-1))/3.0
+                else if (N .eq. ((nely_bm-1)*nelx_bm+1)) then
+                    phi_n0(N) = (phi_n0(N+1)+phi_n0(N-nelx_bm+1)+phi_n0(N-nelx_bm))/3.0
+                else if (N .eq. (nelx_bm*nely_bm)) then
+                    phi_n0(N) = (phi_n0(N-1)+phi_n0(N-nelx_bm-1)+phi_n0(N-nelx_bm))/3.0
+                else if ((i .eq. 1) .and. (j .ne. 1 .and. j .ne. nelx_bm)) then
+                    phi_n0(N) = (phi_n0(N-1)+phi_n0(N+1)+phi_n0(N+nelx_bm)+phi_n0(N+nelx_bm+1)+ &
+                    & phi_n0(N+nelx_bm-1))/5.0
+                else if ((i .eq. nely_bm) .and. (j .ne. 1 .and. j .ne. nelx_bm)) then
+                    phi_n0(N) = (phi_n0(N-1)+phi_n0(N+1)+phi_n0(N-nelx_bm)+phi_n0(N-nelx_bm+1)+& 
+                        & phi_n0(N-nelx_bm-1))/5.0
+                else if ((j .eq. 1) .and. (i .ne. 1 .and. i .ne. nely_bm)) then
+                    phi_n0(N) = (phi_n0(N+1)+phi_n0(N+nelx_bm)+phi_n0(N-nelx_bm)+ &
+                        & phi_n0(N-nelx_bm+1)+phi_n0(N+nelx_bm+1))/5.0
+                else if ((j .eq. nelx_bm) .and. (i .ne. 1 .and. i .ne. nely_bm)) then
+                    phi_n0(N) = (phi_n0(N-1)+phi_n0(N+nelx_bm)+phi_n0(N-nelx_bm)+ & 
+                        &phi_n0(N-nelx_bm-1)+phi_n0(N+nelx_bm-1))/5.0
+                else
+                    phi_n0(N) = (phi_n0(N+1)+phi_n0(N-1)+phi_n0(N+nelx_bm)+phi_n0(N-nelx_bm)+ &
+                        & phi_n0(N-nelx_bm-1)+phi_n0(N+nelx_bm-1)+ &
+                        & phi_n0(N-nelx_bm+1)+phi_n0(N+nelx_bm+1))/8.0
+                endif
+        enddo
+      enddo
+      enddo
+
       phi_n0_Num = phi_range(1)
       phi_n = phi_n0
           

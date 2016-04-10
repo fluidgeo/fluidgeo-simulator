@@ -1875,12 +1875,12 @@
           ENDDO
       ENDDO
 
-      do N=1,NUMEL
-	WRITE(idsx,210) N, Porosidade(N)
-      enddo
+!      do N=1,NUMEL
+!	WRITE(idsx,210) N, Porosidade(N)
+!      enddo
       
  ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 1 floats 8.2 com espaco de 2 entre eles
- 210  FORMAT(4X,I5,10x,1(1PE15.8,2X))
+ 210  FORMAT(4X,I5,10x,3(1PE15.8,2X))
 
       close(idsx)
 

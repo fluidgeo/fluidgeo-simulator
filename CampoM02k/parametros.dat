@@ -8,7 +8,7 @@ deep
 oneway
 }
 *phi_range{
-     0.065     0.065
+     0.05      0.08
 }
 *p_reservatorio{
     6.40d7   
