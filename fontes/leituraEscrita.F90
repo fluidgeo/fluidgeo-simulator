@@ -1705,7 +1705,7 @@
       IMPLICIT NONE
       
       REAL*8   u(2,*),X(2,*)
-      INTEGER  NUMNP, N, idx, idrx, nelx, nely, I, J
+      INTEGER  NUMNP, N, idx, idrx, nelx, nely, I, J, idrul, idruc, idrur, idrubx, idrucx, idrutx 
       CHARACTER*30  idxStr, disp
       logical :: fileCheck
             
@@ -1713,91 +1713,105 @@
 
       write(idxStr,'(i0)') idx
       
-      idrx = 11*idx
+!      idrx = 11*idx
+      idrx = 5551
       inquire(unit=idrx, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idrx disp"; stop
       endif
+      !call genUnit(idrx); !write(*,*) idr; stop
       disp = 'disp.'//idxStr
       OPEN(UNIT=idrx, FILE= disp)
       
-      inquire(unit=(13*idx), opened=fileCheck)
-      if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
-      endif
-      OPEN(UNIT=(13*idx), FILE= 'UL.'//idxStr)
+!      idrul = 5552
+!      inquire(unit=idrul, opened=fileCheck)
+!      if (fileCheck) then
+!          write(*,*) "Unidade de escrita ja aberta: idrul"; stop
+!      endif
+!      call genUnit(idrul); !write(*,*) idr; stop
+!      OPEN(UNIT=idrul, FILE= 'UL.'//idxStr)
 
-      inquire(unit=(17*idx), opened=fileCheck)
-      if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
-      endif
-      OPEN(UNIT=(17*idx), FILE= 'UC.'//idxStr)
+!      idruc = 5553
+!      inquire(unit=idruc, opened=fileCheck)
+!      if (fileCheck) then
+!          write(*,*) "Unidade de escrita ja aberta: idruc"; stop
+!      endif
+!      call genUnit(idruc); !write(*,*) idr; stop
+!      OPEN(UNIT=idruc, FILE= 'UC.'//idxStr)
 
-      inquire(unit=(19*idx), opened=fileCheck)
-      if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
-      endif
-      OPEN(UNIT=(19*idx), FILE= 'UR.'//idxStr)
-      
-      inquire(unit=(23*idx), opened=fileCheck)
-      if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
-      endif
-      OPEN(UNIT=(23*idx), FILE= 'UBx.'//idxStr)
+!      idrur = 5554
+!      inquire(unit=idrur, opened=fileCheck)
+!      if (fileCheck) then
+!          write(*,*) "Unidade de escrita ja aberta: idrur"; stop
+!      endif
+!      call genUnit(idrur); !write(*,*) idr; stop
+!      OPEN(UNIT=idrur, FILE= 'UR.'//idxStr)
 
-      inquire(unit=(27*idx), opened=fileCheck)
-      if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
-      endif
-      OPEN(UNIT=(27*idx), FILE= 'UCx.'//idxStr)
+!      idrubx = 5555      
+!      inquire(unit=idrubx, opened=fileCheck)
+!      if (fileCheck) then
+!          write(*,*) "Unidade de escrita ja aberta: idrubx"; stop
+!      endif
+!      call genUnit(idrubx); !write(*,*) idr; stop
+!      OPEN(UNIT=idrubx, FILE= 'UBx.'//idxStr)
 
-      inquire(unit=(29*idx), opened=fileCheck)
-      if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
-      endif
-      OPEN(UNIT=(29*idx), FILE= 'UTx.'//idxStr)
+!      idrucx = 5556
+!      inquire(unit=idrucx, opened=fileCheck)
+!      if (fileCheck) then
+!          write(*,*) "Unidade de escrita ja aberta: idrucx"; stop
+!      endif
+!      call genUnit(idrucx); !write(*,*) idr; stop
+!      OPEN(UNIT=idrucx, FILE= 'UCx.'//idxStr)
+
+!      idrutx = 5557
+!      inquire(unit=idrutx, opened=fileCheck)
+!      if (fileCheck) then
+!          write(*,*) "Unidade de escrita ja aberta: idrutx"; stop
+!      endif
+!      call genUnit(idrutx); !write(*,*) idr; stop
+!      OPEN(UNIT=idrutx, FILE= 'UTx.'//idxStr)
       
       do N=1,NUMNP
 	WRITE(idrx,210) N, X(1,N), X(2,N), u(1,N), u(2,N)
       enddo
       
-      DO I=1,nelx, (nelx-1)/2
-          DO J=1,nely
-            N = I+(J-1)*(nelx+1)
+!      DO I=1,nelx, (nelx-1)/2
+!          DO J=1,nely
+!            N = I+(J-1)*(nelx+1)
 !             write(217,*) I, J, N
-            if (I .eq. 1) then
-		WRITE((13*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
-	    else if (I .eq. (nelx-1)) then
-	        WRITE((19*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
-	    else if (I .eq. ((nelx)/2)) then
-	        WRITE((17*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
-            endif
-          ENDDO
-      ENDDO
+!            if (I .eq. 1) then
+!		WRITE((13*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+!	    else if (I .eq. (nelx-1)) then
+!	        WRITE((19*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+!	    else if (I .eq. ((nelx)/2)) then
+!	        WRITE((17*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+!            endif
+!          ENDDO
+!      ENDDO
       
-       DO I=1,nely + 1, nely/2
-          DO J=1,nelx + 1
-            N = J+(I-1)*(nely + 1)
-            if (I .eq. 1) then
-                WRITE((23*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
-            else if (I .eq. (nely + 1)) then
-		WRITE((29*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
-	    else
-	        WRITE((27*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
-	    endif
-          ENDDO
-       ENDDO
+!       DO I=1,nely + 1, nely/2
+!          DO J=1,nelx + 1
+!            N = J+(I-1)*(nely + 1)
+!            if (I .eq. 1) then
+!                WRITE((23*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+!            else if (I .eq. (nely + 1)) then
+!		WRITE((29*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+!	    else
+!	        WRITE((27*idx),225) N, X(1,N), X(2,N), u(1,N), u(2,N)
+!	    endif
+!          ENDDO
+!       ENDDO
       
  ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 4 floats 8.2 com espaco de 2 entre eles
  210  FORMAT(4X,I5,10x,5(1PE15.8,2X))
  225  FORMAT(4X,I5,10x,4(1PE15.8,2X))
 
-      close((13*idx))
-      close((17*idx))
-      close((19*idx))
-      close((23*idx))
-      close((27*idx))
-      close((29*idx))
+!      close(idrul)
+!      close(idruc)
+!      close(idrur)
+!      close(idrubx)
+!      close(idrucx)
+!      close(idrutx)
       close(idrx)
 
       END subroutine   
@@ -1849,11 +1863,13 @@
 
       write(idsStr,'(i1)') idx
       
-      idsx = 19  
+!      idsx = 19  
+      idsx = 6661
       inquire(unit=idsx, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idsx poro"; stop
       endif
+!      call genUnit(idsx); !write(*,*) idr; stop
       sigma = 'porosity.'//idsStr
       OPEN(UNIT=idsx, FILE= sigma)
       
@@ -1896,37 +1912,48 @@
       
       !REAL*8   STRESS(3,*),X(2,*), Xe(2,NUMEL)
       REAL*8   STRESS(4,NUMEL), X(2,*), Xe(2,NUMEL)
-      INTEGER  NUMEL, N, idx, idsx, idtx, nelx, nely, I, J, N2, nel
+      INTEGER  NUMEL, N, nelx, nely, I, J, N2, nel, idx
       CHARACTER*30  idsStr, sigma, tau
+      integer  :: idsx, idsy, ids, idst
       logical :: fileCheck
             
 !       Abrindo os arquivos para saída
 
       write(idsStr,'(i0)') idx
       
-      idsx = 11*idx
+!      idsx = 11*idx
+      ids = 7777
+      inquire(unit=ids, opened=fileCheck)
+      if (fileCheck) then
+         write(*,*) "Unidade de escrita ja aberta: ids"; stop
+      endif
+!      call genUnit(ids); !write(*,*) idr; stop
+      sigma = 'sigma.'//idsStr
+      OPEN(UNIT=ids, FILE= sigma)
+
+      idsx = 7772
       inquire(unit=idsx, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idsx"; stop
       endif
-      sigma = 'sigma.'//idsStr
-      OPEN(UNIT=idsx, FILE= sigma)
-      
-      inquire(unit=(13*idx), opened=fileCheck)
+!      call genUnit(idsx); !write(*,*) idr; stop
+      OPEN(UNIT=idsx, FILE= 'sigmax.'//idsStr)
+
+      idsy = 7773
+      inquire(unit=idsy, opened=fileCheck)
+      if (fileCheck) then
+          write(*,*) "Unidade de escrita ja aberta: idsy"; stop
+      endif
+!      call genUnit(idsy); !write(*,*) idr; stop
+      OPEN(UNIT=idsy, FILE= 'sigmay.'//idsStr)
+
+      idst = 7774
+      inquire(unit=idst, opened=fileCheck)
       if (fileCheck) then
           write(*,*) "Unidade de escrita ja aberta"; stop
       endif
-      OPEN(UNIT=(13*idx), FILE= 'sigmax.'//idsStr)
-      inquire(unit=(17*idx), opened=fileCheck)
-      if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
-      endif
-      OPEN(UNIT=(17*idx), FILE= 'sigmay.'//idsStr)
-      inquire(unit=(19*idx), opened=fileCheck)
-      if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
-      endif
-      OPEN(UNIT=(19*idx), FILE= 'sigmat.'//idsStr)
+!      call genUnit(idst); !write(*,*) idr; stop
+      OPEN(UNIT=idst, FILE= 'sigmat.'//idsStr)
      
       ! Posicao dos Elementos (Coord Retangulares apenas!!!) Diego.
       DO I=1,nelx
@@ -1943,9 +1970,9 @@
             N = I+(J-1)*(nelx)
 !            N2 = I+(J-1)*(nelx+1)
              !write(217,*) I, J, N
-		WRITE((13*idx),225) N, Xe(1,N), Xe(2,N), STRESS(1,N)
-		WRITE((17*idx),225) N, Xe(1,N), Xe(2,N), STRESS(2,N)
-		WRITE((19*idx),225) N, Xe(1,N), Xe(2,N), STRESS(3,N)
+		WRITE(idsx,225) N, Xe(1,N), Xe(2,N), STRESS(1,N)
+		WRITE(idsy,225) N, Xe(1,N), Xe(2,N), STRESS(2,N)
+		WRITE(idst,225) N, Xe(1,N), Xe(2,N), STRESS(3,N)
           ENDDO
       ENDDO
 
@@ -1959,9 +1986,9 @@
  210  FORMAT(4X,I5,10x,5(E15.8,2X))
  225  FORMAT(4X,I5,6x,3(1PE15.8,2X))
 
-      close((13*idx))
-      close((17*idx))
-      close((19*idx))
+      close(ids)
+      close(idst)
+      close(idsy)
       close(idsx)
 
       END subroutine    
@@ -2022,6 +2049,33 @@
       close(idsx)
 
       END subroutine    
+!**** new Diego (Maio/2016) **********************************************************************
+!
+!    Essa rotina gera um numero de unidade de arquivo aleatoriamente
+!      de forma que nao haja conflito com unidades abertas anteriormente.
+!      Desta forma, nao ha conflitos na escrita de arquivos.
+
+      subroutine genUnit(intUnit)
+      implicit none     
+!
+!.... program to generating an integer unit file number unopened
+!
+!
+      integer, intent(inout) :: intUnit
+      real*8  :: realUnit
+      logical :: fileCheck = .true.
+      
+      realUnit = -1.0d0
+      do while ((fileCheck .eqv. .true.).and. (realUnit .le. 0.0d0))
+        call random_number(realUnit)
+        realUnit = realUnit*1e4
+        intUnit  = nint(realUnit)
+        inquire(unit=intUnit, opened=fileCheck) 
+      enddo
+
+      write(*,*) "Open unit number ", intUnit
+
+      end
 !
 !=================================================================================
 !

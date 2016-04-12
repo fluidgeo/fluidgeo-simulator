@@ -419,32 +419,47 @@
 
       use mGlobaisEscalares, only: dimModelo
       use mMalha,            only: nelx_BM, nely_BM
-      use mLeituraEscrita,   only: iechoPressao
+      use mLeituraEscrita,   only: iechoPressao, genUnit
       
       IMPLICIT NONE
       
-      REAL*8   TEMPO, solucao(1,*),X(2,*), L, pressaoPa  
+      REAL*8   TEMPO, solucao(1,*),X(2,*), L, pressaoPa, teste
       INTEGER  NUMNP, I, J,N, idx, idr, idr2, idr3
-      character*6  solP, idxStr, solP_BCi
+      character*30  solP, idxStr, solP_BC
       logical :: fileCheck
       
-      idr = idx*17
+      !idr = idx*17
+
+      !call random_number(teste)
+      !teste = teste*1d5
+      
+      !fileCheck = .true.
+      !do while (fileCheck .eqv. .true.)
+        !call random_number(teste)
+        !teste = teste*1e5
+        !idr = nint(teste)
+        !inquire(unit=idr, opened=fileCheck)
+      !enddo
+
+      !write(*,*) nint(teste); stop
+      idr = 1111
       inquire(unit=idr, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idr pressao"; stop
       endif
+      !call genUnit(idr)!; write(*,*) idr; stop
       write(idxStr,'(i0)') idx
       solP = 'fieldP.'//idxStr
-      OPEN(UNIT=idr, FILE= solP)
+      OPEN(UNIT=idr, FILE=solP)
       
-      if (dimModelo=='2D') then
+!      if (dimModelo=='2D') then
         DO I=1,nelx_BM + 1
           DO J=1,nely_BM + 1
             N = I+(J-1)*(nelx_BM + 1)
 	      WRITE(idr,210) N, TEMPO, X(1,N), X(2,N), solucao(1,N)
           ENDDO
         ENDDO        
-       endif
+!       endif
        
           
  200  FORMAT(4X,I5,10x,4(1PE15.8,2X))
@@ -453,9 +468,9 @@
  220  FORMAT(4(1PE15.8,2X))
  223  FORMAT(4X,I5,10x,1(1PE15.8,2X))
       close(idr)
-      close((11*idx))
-      close(idr2)
-      close(idr3)
+      !close((11*idx))
+      !close(idr2)
+      !close(idr3)
 
       END subroutine
 
@@ -473,6 +488,7 @@
       use mGlobaisArranjos,  only: k_bm, knp_bm
       use mMalha,            only: nelx_BM, nely_BM
       use mParametros,       only: constK_BM, constMu, p_Ref, widthBlocoMacro, tamBlocoMacro
+      use mLeituraEscrita,   only: genUnit
       
       IMPLICIT NONE
       
@@ -486,44 +502,54 @@
 
       write(idxStr,'(i0)') idx
       
-      idrx = 11*idx
+      !idrx = 11*idx
+      idrx = 2221
       inquire(unit=idrx, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idrx"; stop
       endif
+      !call genUnit(idrx)!; write(*,*) idrx
       gradPx = 'gradPx.'//idxStr
       OPEN(UNIT=idrx, FILE= gradPx)
       
-      idry = 12*idx
+      !idry = 12*idx
+      idry = 2222
       inquire(unit=idry, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idry"; stop
       endif
+      !call genUnit(idry)!; write(*,*) idry
       gradPy = 'gradPy.'//idxStr
       OPEN(UNIT=idry, FILE= gradPy)
       
       if (dimModelo=='1D') then
-	idrv = 13*idx
+!	idrv = 13*idx
+      idrv = 2223
       inquire(unit=idrv, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idrv"; stop
       endif
+!      call genUnit(idrv)!; write(*,*) idrv
 	solVelocity = 'solVelocity.'//idxStr
 	OPEN(UNIT=idrv, FILE= solVelocity)
       else
-	idrvx = 14*idx
+!	idrvx = 14*idx
+      idrvx = 2224
       inquire(unit=idrvx, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idrvx"; stop
       endif
+!      call genUnit(idrvx)!; write(*,*) idrvx
 	solVelocity_x = 'solVelocity_x.'//idxStr
 	OPEN(UNIT=idrvx, FILE= solVelocity_x)
       
-	idrvy = 17*idx
+!	idrvy = 17*idx
+      idrvy = 2225
       inquire(unit=idrvy, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idrvy"; stop
       endif
+!      call genUnit(idrvy)!; write(*,*) idrvy
 	solVelocity_y = 'solVelocity_y.'//idxStr
 	OPEN(UNIT=idrvy, FILE= solVelocity_y)
       endif
@@ -706,6 +732,7 @@
       use mCoeficientes,     only: calcularZ_P
       use mParametros,       only: p_Ref, tamBlocoMacro, widthBlocoMacro, constK_BM, T, R_, constMu, M_m, phi_BM
       use mParametros,       only: gasTotalKg, gasRecuperavelKg, areaContatoBlocoMacroFratura, gasProduzidoKg
+      use mLeituraEscrita,   only: genUnit
       
       
       IMPLICIT NONE
@@ -727,11 +754,13 @@
 !       Abrindo os arquivos para saída
       write(idxStr,'(i0)') idx
       
-      idxf = 19*idx
+!      idxf = 19*idx
+      idxf = 3331
       inquire(unit=idxf, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idxf"; stop
       endif
+!      call genUnit(idxf); !write(*,*) idr; stop
       nodeFlux_x = 'nodeFlux_x.'//idxStr
       OPEN(UNIT=idxf, FILE= nodeFlux_x)
       
@@ -739,19 +768,23 @@
 !      residueFlux_x = 'residueFlux_x.'//idxStr
 !      OPEN(UNIT=idxr, FILE= residueFlux_x)
 
-      idyf = 7*idx
+!      idyf = 7*idx
+      idyf = 3332
       inquire(unit=idyf, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idyf"; stop
       endif
+!      call genUnit(idyf); !write(*,*) idr; stop
       nodeFlux_y = 'nodeFlux_y.'//idxStr
       OPEN(UNIT=idyf, FILE= nodeFlux_y)
 
-      idxk = 11*idx
+!      idxk = 11*idx
+      idxk = 3333
       inquire(unit=idxk, opened=fileCheck)
       if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta"; stop
+          write(*,*) "Unidade de escrita ja aberta: idxk"; stop
       endif
+!      call genUnit(idxk); !write(*,*) idr; stop
       k_n = 'condHydraulic.'//idxStr
       OPEN(UNIT=idxk, FILE= k_n)
 !       *********************************************

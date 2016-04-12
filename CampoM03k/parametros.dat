@@ -8,7 +8,7 @@ deep
 twoway
 }
 *phi_range{
-     0.050     0.080
+     0.065     0.065
 }
 *p_reservatorio{
     6.40d7   

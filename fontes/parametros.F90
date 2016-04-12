@@ -290,17 +290,23 @@
 !       phi_n0 = 0.25d0
 !       phi_n = phi_n0
 !       endif
-      
+
+!
+! ************************* Porosidade ***********************************
+!
+      ! Essa geração de porosidade deve ser colocada em uma sub-rotina (Diego, Abril/2016)
       call random_number(phi_n0)!; write(*,*) phi_n0; stop
 !      phi_n0_Num = (phi_n0*(phi_range(2)-phi_range(1))) + phi_range(1)
       phi_n0 = (phi_n0*(phi_range(2)-phi_range(1))) + phi_range(1)
 !      write(73,*) phi_n0; stop
+      if (phi_range(2) .ne. phi_range(1)) then
       do j = 1,nely_bm
         N = 1 + (J-1)*(nelx_bm)
         phi_n0(N) = 0.10
       enddo
+      endif
 
-      rndlvl = 10
+      rndlvl = 10   ! Número de médias na porosidade aleatória
       do k=1,rndlvl
         do i=1, nely_BM
             do j=2,nelx_BM
