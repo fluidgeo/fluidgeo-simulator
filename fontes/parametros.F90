@@ -54,6 +54,7 @@
        REAL*8 :: Sw, Sg, phi_M, phi_N, TOC, phi_K;
        REAL*8 :: kEff, K_, D;
        REAL*8 :: K_abs, K_re;
+       REAL*8, allocatable :: K_absRnd(:)
 
        REAL*8 :: tamBloco; 
        REAL*8 :: alturaBloco; ! usada para calcular o volume do bloco e a quantidade de gás total
@@ -254,7 +255,7 @@
       IMPLICIT NONE
       
       CHARACTER*200 :: linhaAux
-      INTEGER       :: I, Swr, Sgr, Se, rndlvl, N, J, K
+      INTEGER       :: I, Swr, Sgr, Se, rndlvl, N, J, K, nel
        
        allocate(k_bm(numel_bm))      ! Isso tem que ir para um lugar melhor (Diego, Jan/2016) 
        correcaoPerm = .false.
@@ -342,6 +343,12 @@
 
       phi_n0_Num = phi_range(1)
       phi_n = phi_n0
+
+!****************** Permeabilidade intrinseca *******************
+
+      do nel = 1,numel_bm
+          K_absRnd(NEL) = constK_BM*(3.0d0-phi_n(nel))/(2.0d0*phi_n(nel));
+      enddo
           
 !         write(*,*) "K_tmp = ", K_bm; stop
 !         K_bm =  K_ * p/(R_*T*Z) * fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );

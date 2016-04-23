@@ -100,7 +100,7 @@
    2.628d6   
 }
 *constantes_elasticidade{
-    24.0e9      0.23      2.65
+     6.0e9      0.23      2.65
 }
 *end 
 

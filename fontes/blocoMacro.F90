@@ -854,7 +854,7 @@
       use mCoeficientes,     only : calcularZ_P
       use mParametros,       only : p_Ref, tamBlocoMacro,widthBlocoMacro, constMu, phi_BM, constK_BM, R_, T, K_re, K_abs
       use mParametros,       only : fraVol_BM, M_m, alpha_r, Kbulk, k_s, beta_r, Sg, Sw !, Se, Swr, Sgr, VL, PL
-      use mParametros,       only : VL, PL, phi_n0_Num
+      use mParametros,       only : VL, PL, phi_n0_Num, K_absRnd
       
 !
       IMPLICIT NONE
@@ -888,7 +888,7 @@
 ! 
       LOGICAL DIAG,QUAD,ZERODL
       real*8 :: ELEFFM(NEE_BM,NEE_BM),ELRESF(NEE_BM) ! bidu 20ago 2015
-  
+
       shl = 0.0
       if(dimModelo=='1D') then
           call oneshl(shl,w,npint_BM,nen_BM)
@@ -908,13 +908,7 @@
       Sgr       = 0.05
       Se        = (Sw-Swr)/(1-Swr-Sgr);
       K_re      = (1-Se)*(1-Se)*(1-Se**2);
-      !K_abs     = constK_BM; 
-      !K_abs     = constK_BM/(K_re)*(3.0d0-phi_n0_Num)/(2.0d0*phi_n0_Num);
       K_abs     = constK_BM*(3.0d0-phi_n0_Num)/(2.0d0*phi_n0_Num);
-      !write(*,*) K_abs; stop
-      !k_tmp     = K_re*K_abs/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));
-      !k_tmp     = K_re*K_abs/constMu*(2.0d0*sum(phi_n)/numel_bm)/(3.0d0-sum(phi_n)/numel_bm);   
-      !Keff_Tmp  =  K_tmp !* UU/(R_*T*Z_UU) * 1.0 !* fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
 
       lambda = (celast(1)*celast(2))/((1.0+celast(2))*(1.0-2.0*celast(2)))
       mu = (celast(1))/(2.0*(1.0+celast(2)))
@@ -923,9 +917,10 @@
       Kbulk = (lambda + 2.0/3.0*mu)
       alpha_r = 1.0d0 - Kbulk/k_s
       !write(*,*) rho_r; write(*,*) VL; write(*,*) PL; stop
-!      write(*,*) "Kbulk =", Kbulk; stop 1 
-      !write(*,*) "k_s =", k_s
-      !write(*,*) "alpha_r =", alpha_r; stop
+!      write(*,*) "Kbulk =", Kbulk;! stop 1 
+!      write(*,*) "k_s =", k_s
+!      write(*,*) "E =", celast(1), "nu =", celast(2)
+!      write(*,*) "alpha_r =", alpha_r; stop
 
       DO 500 NEL=1,NUMEL_BM
 !
@@ -955,53 +950,9 @@
 !
 !....... FORM STIFFNESS MATRIX
 !
-     
-       !flNoAnt  = -fluxoMassicoDeBlocoParaBlocoMacro(NEL);         
-       !flNoPost = -fluxoMassicoDeBlocoParaBlocoMacro(NEL+1);    
        tamElem  = X_BM(2,NEL+1)-X_BM(2,NEL);
-       !fonteMassaDeBlocoParaBlocoMacro = 0
-       
-!      k_ = K_re*K_abs/mu*2.0d0*(sum(phi_n)/numel_bm)/(3.0d0-(sum(phi_n)/numel_bm));
-
-!      K_bm =  K_ * p/(R_*T*Z) * fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
-
-!       beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
-!       if (coupling_mode .eq. "oneway") then
        beta_r = ((alpha_r-phi_n0(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
-!       endif
-!       if (coupling_mode .eq. "twoway") then
-!       beta_r = ((alpha_r-phi_n0(nel))/k_s)	! Computing twoway compressibility (Diego, dec/2015)
-!        beta_r = ((alpha_r-phi_n(nel))/k_s + (alpha_r**2.0)/Kbulk)	! Computing total compressibility (Diego, set/2015)
-!       endif
-       !K_abs     = constMu*constK_BM/(K_re)*(3.0d0-sum(phi_n0)/numel_bm)/(2.0d0*sum(phi_n0)/numel_bm);
-       !k_tmp     = K_re*K_abs/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));
-       !stop
-       !k_bm(nel)     = K_re*K_abs/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));   
-       !k_bm(nel)     = constK_bm/constMu
-       !k_bm(nel)     = constK_bm
-       !stop
-       !write(*,*) "K_re = ", K_re
-       !write(*,*) "K_abs = ", K_abs
-       !write(*,*) "mu = ", constMu
-       !write(*,*) "K_bm = ", K_bm(nel)
-       !write(*,*) "Keff_tmp = ", Keff_tmp
-       !write(*,*) k_bm(nel)
-       !Keff_Tmp  =  K_bm(nel) !* UU/(R_*T*Z_UU) * 1.0 !* fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
-
-       !write(*,*) Keff_Tmp; stop
-
-       !write(*,*) "K_re = ", K_re
-
-       !write(*,*) "K_abs = ", K_abs
-
-       !write(*,*) "mu = ", constMu
-
-       !write(*,*) "K_bm = ", K_bm(nel)
-
-       !write(*,*) "Keff_tmp = ", Keff_tmp
-       !write(*,*) "Kbulk = ", Kbulk
-       !write(*,*) k_bm(nel)
-       !stop
+!      K_absRnd(NEL) = constK_BM*(3.0d0-phi_n(nel))/(2.0d0*phi_n(nel));
       DO 400 L=1,NPINT_BM
          C1=DET(L)*W(L) 
          UU=0.D00
@@ -1023,19 +974,8 @@
          CALL calcularZ_P(UUP,Z_UUP)
          R_UU      = Sg*phi_n(nel)*M_m/(Z_UU *  R_ * T)
          R_UUP     = Sg*phi_n(nel)*M_m/(Z_UUP *  R_ * T) 
-         k_bm(nel) = K_re*K_abs/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));   
+         k_bm(nel) = K_re*K_absRnd(nel)/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));   
          Keff_Tmp  = K_bm(nel)*UU*M_m/(R_*T*Z_UU) !* UU/(R_*T*Z_UU) * 1.0 !* fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
-         !write(*,*) "Keff_tmp, K_tmp, K_re, K_abs"
-         !write(*,*) Keff_tmp, K_tmp, K_re, K_abs; stop
-         !write(*,*) "K_re = ", K_re
-        ! write(*,*) "K_abs = ", K_abs
-        ! write(*,*) "mu = ", constMu
-        ! write(*,*) "K_bm = ", K_bm(nel)
-        ! write(*,*) "Keff_tmp = ", Keff_tmp
-        ! stop
-!         k_tmp     = K_re*K_abs/constMu*(2.0d0*phi_n(nel))/(3.0d0-phi_n(nel));   
-!         Keff_Tmp  =  K_tmp !* UU/(R_*T*Z_UU) * 1.0 !* fc! + D * ( Gamma*rhoL/H + p*rhoL * GammaDivH_Linha );
-        !write(*,*) alpha_r; stop
 
          if (coupling_mode .eq. "oneway") then
          DO J=1,NEN_BM
@@ -1761,7 +1701,7 @@
      use mMalha,            only: nsd_BM, numel_BM, numnp_BM, numLados_BM, nen_BM, numLadosElem_BM, x_BM, xc_BM
      use mMalha,            only: listaDosElemsPorNo_BM, conecNodaisElem_BM
      use mAlgMatricial,     only: id_BM, lm_BM
-     use mParametros,       only: phi_BM
+     use mParametros,       only: phi_BM, K_absRnd
 
      implicit none
 
@@ -1784,6 +1724,7 @@
      allocate(solucao_BM (ndof_BM, numnp_BM)); solucao_BM =0.d0
      allocate(phi_n(numel_BM));        phi_n= 0.0d0
      allocate(Knp_BM(numnp_BM));        Knp_BM= 0.0d0
+     allocate(K_absRnd(numel_BM));        K_absRnd= 0.0d0
      allocate(phi_n0(numel_BM));        !phi_n= phi_BM
      allocate(solucaoNaoLinearAnt_BM(ndof_BM, numnp_BM)); solucaoNaoLinearAnt_BM=0.d0
      allocate(solucaoTmpAnt_BM(ndof_BM, numnp_BM)); solucaoTmpAnt_BM=0.d0

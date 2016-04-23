@@ -127,7 +127,7 @@
             k = id(i,j)
             if (k.gt.0) then
                do nlv=1,nlvect
-                  brhs(k) = brhs(k) + f(i,j,nlv)
+                      brhs(k) = brhs(k) + f(i,j,nlv)
                   !write(1,*) brhs(k)
                end do
             endif
