@@ -506,7 +506,7 @@
       use mGlobaisArranjos,  only : phi_n, phi_n0, coupling_mode, trEps, trEpsTmpAnt, celast
       use mLeituraEscrita,   only : PRINTDISP, fieldSigma_BM, PRINTPORO, PRINTDISP_T
 !
-      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro, printStressPoro, printsigvol, printsigvol2!, CHECKEQ!, calcStressPoro2
+      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro, printStressPoro, printsigvol!, CHECKEQ!, calcStressPoro2
       use mElasticidade,        only: deslocamento, fDeslocamento, neqD, nalhsD
       use mElasticidade,        only: alhsD=>alhs, brhsD=>brhs
       use mElasticidade,        only: idDeslocamento, idiagD, lmD
@@ -644,10 +644,10 @@
  			call fieldSigma_BM(stressD,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx);
  			call printporo(phi_n,X_BM,NUMEL_BM,nelx_BM,nely_BM, idx)
             if (coupling_mode .eq. "twoway") then 
+!                call printsigvol(deslocamento, & 
+!                & deslocamentoAnt, solucao_BM, solucaoTmpAnt, &
+!                & X_BM,NUMEL_BM,ndof_bm,nelx_BM,nely_BM,DTEMPO,idx) 
                 call printsigvol(deslocamento, & 
-                & deslocamentoAnt, solucao_BM, solucaoTmpAnt, &
-                & X_BM,NUMEL_BM,ndof_bm,nelx_BM,nely_BM,DTEMPO,idx) 
-                call printsigvol2(deslocamento, & 
                 & deslocamentoAnt, solucao_BM, solucaoTmpAnt, &
                 & X_BM,NUMEL_BM,ndof_bm,nelx_BM,nely_BM,DTEMPO,idx) 
             endif

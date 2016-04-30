@@ -917,10 +917,10 @@
       Kbulk = (lambda + 2.0/3.0*mu)
       alpha_r = 1.0d0 - Kbulk/k_s
       !write(*,*) rho_r; write(*,*) VL; write(*,*) PL; stop
-      write(*,*) "Kbulk =", Kbulk;! stop 1 
+!      write(*,*) "Kbulk =", Kbulk;! stop 1 
 !      write(*,*) "k_s =", k_s
 !      write(*,*) "E =", celast(1), "nu =", celast(2)
-      write(*,*) "alpha_r =", alpha_r; stop
+!      write(*,*) "alpha_r =", alpha_r; stop
 
       DO 500 NEL=1,NUMEL_BM
 !

@@ -559,154 +559,12 @@
       return
       end subroutine calcCoefSistAlgTerzaghi
     
-!*** Diego (Abr/2016) ********************************************************************** 
-!   Essa rotina realiza a impressao das taxas de tensoes medias fixadas.
-
-      SUBROUTINE PRINTSIGVOL(disp,dispAnt,pressao,pressaoAnt,X,NUMEL,ndof,nelx,nely,DT,idx)
-      
-      use mGlobaisEscalares, only : dimModelo, ntype, numat_BM, npint_BM, nicode_BM, iprtin, nrowsh_BM
-      use mGlobaisArranjos,  only : celast
-      use mAlgMatricial,     only : NED_BM, ID_BM
-      use mMalha,            only : numel_BM, numnp_BM, nsd_BM, nen_BM, genfl, genel, local
-      use mMalha,            only : conecNodaisElem_BM, x_BM
-      use mFuncoesDeForma,   only : oneshl, oneshg,  shlq, SHGQ
-      use mParametros,       only : k_s
-      use mBlocoMacro,       only : nenp_bm, nesd_bm
-
-      IMPLICIT NONE
-      
-      REAL*8 :: disp(2,*), dispAnt(2,*), pressao(1,*), pressaoAnt(1,*), X(2,*), Xe(2,NUMEL)
-      REAL*8  :: sigTotal(numel), sigTotal_Ant(numel), Kbulk, alpha_r,DT, rateSigTotal(numel)
-      INTEGER  NUMEL, N, idx, idsx, idtx, nelx, nely, I, J, N2, L, NEL
-      CHARACTER*30  idsStr, sigma, tau
-      logical :: fileCheck
-
-      logical :: diag,zerodl,quad,lsym
-      INTEGER :: NDOF, NED
-      REAL*8  :: DIVU,DIVU_ANT, C1, UU, UUP
-      REAL*8  :: lambda, mu
-      
-      real*8  :: xl(nesd_BM,nen_BM)
-      real*8  :: displ(2*ned_BM,nen_BM),dispAntl(2*ned_bm,nen_BM)
-      real*8  :: pl(ned_BM,nen_BM), ppl(ned_bm,nen_BM)
-      real*8, dimension(nrowsh_BM,nenp_BM,npint_BM) :: SHLP, SHGP
-      real*8, dimension(nrowsh_BM,nen_BM, npint_BM) :: SHL, SHG
-      real*8  :: det(npint_BM), W(npint_BM)
-
-      lambda = (celast(1)*celast(2))/((1.0+celast(2))*(1.0-2.0*celast(2)))
-      mu = (celast(1))/(2.0*(1.0+celast(2)))
-      Kbulk = (lambda + 2.0/3.0*mu)
-      alpha_r = 1.0d0 - Kbulk/k_s
-
-      shl = 0.0
-      if(dimModelo=='1D') then
-          call oneshl(shl,w,npint_BM,nen_BM)
-      end if
-      if(dimModelo=='2D')  then
-          CALL SHLQ(SHL,W,NPINT_BM,NEN_BM)
-        !       CALL SHLQ(SHLP,WP,NPINT,NENP)
-      end if 	
-
-      DO 500 NEL=1,NUMEL_BM
-!
-!      LOCALIZE COORDINATES AND DIRICHLET B.C.
-!  
-      CALL LOCAL(conecNodaisElem_BM(1,NEL),X_BM,XL,NEN_BM,NSD_BM, NESD_BM)
-      call local(conecNodaisElem_BM(1,nel),disp,displ,nen_bm,2*ndof,2*ndof)
-      call local(conecNodaisElem_BM(1,nel),dispAnt,dispAntl,nen_bm,2*ndof,2*ndof)
-      call local(conecNodaisElem_BM(1,nel),pressao,pl,nen_bm,ndof,ndof)
-      call local(conecNodaisElem_BM(1,nel),pressaoAnt,ppl,nen_bm,ndof,ndof)
-      !stop 
-! 
-         shg  = 0.0
-         if(dimModelo=='1D') then 
-            call oneshg(xl,det,shl,shg,nen_BM,npint_BM,nsd_BM,1,nel,1) !BIDU
-         end if
-         if(dimModelo=='2D') then
-            QUAD = .TRUE.
-            CALL SHGQ(XL,DET,SHL,SHG,NPINT_BM,NEL,QUAD,NEN_BM)        
-         end if
-
-      DO 400 L=1,NPINT_BM
-         C1=DET(L)*W(L) 
-         DIVU=0.d0
-         DIVU_ANT=0.d0
-         UU = 0.0d0
-         UUP = 0.0d0
-         DO J=1,NEN_BM
-            UU   = UU   +SHG(3,J,L)*PL(1,J)  
-            UUP  = UUP  +SHG(3,J,L)*PPL(1,J)
-            DIVU=DIVU+SHG(1,J,L)*DISPL(1,J)+SHG(2,J,L)*DISPL(2,J)
-            DIVU_ANT=DIVU_ANT+SHG(1,J,L)*DISPANTL(1,J)+SHG(2,J,L)*DISPANTL(2,J)
-         ENDDO
-!
- 400   CONTINUE
-
-        sigTotal(NEL) = Kbulk*DIVU - alpha_r*UU 
-        sigTotal_Ant(NEL) = Kbulk*DIVU_ANT - alpha_r*UUP
-    
-        rateSigTotal(NEL) = (sigTotal(NEL)-sigTotal_Ant(NEL))/DT
-
-!        write(*,*) "K = ", Kbulk, "alpha = ", alpha_r, "sigTotal = ", &
-!            & sigTotal(NEL), "E = ", celast(1); stop
-!        write(*,*) "sigvol = ", sigTotal(NEL)
-!        write(*,*) "sigvol_ant = ", sigTotal_Ant(NEL)
-!        write(*,*) "sigvol - sigvol_ant = ", sigTotal(NEL) - &
-!&       sigTotal_Ant(NEL)
-!        write(*,*) "dsigt = ", (sigTotal(NEL)-sigTotal_Ant(NEL))/DT
-!        write(*,*) "DT = ", DT; stop
-
- 500   CONTINUE
-
-!       Abrindo os arquivos para saída
-
-      write(idsStr,'(i1)') idx
-      
-!      idsx = 19  
-      idsx = 7751
-      inquire(unit=idsx, opened=fileCheck)
-      if (fileCheck) then
-          write(*,*) "Unidade de escrita ja aberta: idsx sig taxa"; stop
-      endif
-!      call genUnit(idsx); !write(*,*) idr; stop
-      sigma = 'dsig.'//idsStr
-      OPEN(UNIT=idsx, FILE= sigma)
-      
-      ! Posicao dos Elementos (Coord Retangulares apenas!!!) Diego.
-      DO I=1,nelx
-          DO J=1,nely
-            N = I+(J-1)*(nelx)
-            N2 = I+(J-1)*(nelx+1)
-            Xe(1,N) = (X(1,N2)+X(1,N2+1))/2.0
-            Xe(2,N) = (X(2,N2)+X(2,N2+nely+1))/2.0
-          ENDDO
-      enddo
-
-      DO I=1,nelx
-          DO J=1,nely
-            N = I+(J-1)*(nelx)
-             !write(217,*) I, J, N
-		WRITE(idsx,210) N, Xe(1,N), Xe(2,N), rateSigTotal(N)
-          ENDDO
-      ENDDO
-
-!      do N=1,NUMEL
-!	WRITE(idsx,210) N, Porosidade(N)
-!      enddo
-      
- ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 1 floats 8.2 com espaco de 2 entre eles
- 210  FORMAT(4X,I5,10x,3(1PE15.8,2X))
-
-      close(idsx)
-
-      END subroutine 
-
       
 !*** Diego (Abr/2016) ********************************************************************** 
 !   Essa rotina realiza a impressao do termo de fonte advindo do
 !   acoplamento em duas vias na hidrodinamica.
 
-      SUBROUTINE PRINTSIGVOL2(disp,dispAnt,pressao,pressaoAnt,X,NUMEL,ndof,nelx,nely,DT,idx)
+      SUBROUTINE PRINTSIGVOL(disp,dispAnt,pressao,pressaoAnt,X,NUMEL,ndof,nelx,nely,DT,idx)
       
       use mGlobaisEscalares, only : dimModelo, ntype, numat_BM, npint_BM, nicode_BM, iprtin, nrowsh_BM
       use mGlobaisArranjos,  only : celast
@@ -721,7 +579,8 @@
       IMPLICIT NONE
       
       REAL*8 :: disp(2,*), dispAnt(2,*), pressao(1,*), pressaoAnt(1,*), X(2,*), Xe(2,NUMEL)
-      REAL*8  :: sigTotal(numel), sigTotal_Ant(numel), Kbulk, alpha_r,DT, rateSigTotal(numel)
+      REAL*8  :: sigTotal(numel), sigTotal_Ant(numel), Kbulk, alpha_r,DT
+      REAL*8  :: sigSource(numel), dSig(numel)
       INTEGER  NUMEL, N, idx, idsx, idtx, nelx, nely, I, J, N2, L, NEL
       CHARACTER*30  idsStr, sigma, tau
       logical :: fileCheck
@@ -741,6 +600,7 @@
 !     Clear
       sigTotal = 0.0d0
       sigTotal_Ant = 0.0d0
+      sigSource = 0.0d0
 
       lambda = (celast(1)*celast(2))/((1.0+celast(2))*(1.0-2.0*celast(2)))
       mu = (celast(1))/(2.0*(1.0+celast(2)))
@@ -764,7 +624,6 @@
       call local(conecNodaisElem_BM(1,nel),disp,displ,nen_bm,2*ndof,2*ndof)
       call local(conecNodaisElem_BM(1,nel),dispAnt,dispAntl,nen_bm,2*ndof,2*ndof)
       call local(conecNodaisElem_BM(1,nel),pressao,pl,nen_bm,ndof,ndof)
-      call local(conecNodaisElem_BM(1,nel),pressaoAnt,ppl,nen_bm,ndof,ndof)
       !stop 
 ! 
          shg  = 0.0
@@ -781,10 +640,8 @@
          DIVU=0.d0
          DIVU_ANT=0.d0
          UU = 0.0d0
-         UUP = 0.0d0
          DO J=1,NEN_BM
             UU   = UU   +SHG(3,J,L)*PL(1,J)  
-            UUP  = UUP  +SHG(3,J,L)*PPL(1,J)
             DIVU=DIVU+SHG(1,J,L)*DISPL(1,J)+SHG(2,J,L)*DISPL(2,J)
             DIVU_ANT=DIVU_ANT+SHG(1,J,L)*DISPANTL(1,J)+SHG(2,J,L)*DISPANTL(2,J)
          ENDDO
@@ -792,12 +649,11 @@
  400   CONTINUE
 
         CALL calcularZ_P(UU, Z_UU)         
-        CALL calcularZ_P(UUP,Z_UUP)
-        sigTotal(NEL) = -(UU/Z_UU)*(alpha_r/Kbulk)*(Kbulk*DIVU - alpha_r*UU)
-        sigTotal_Ant(NEL) = -(UUP/Z_UUP)*(alpha_r/Kbulk)*(Kbulk*DIVU_ANT - alpha_r*UUP)
+        sigTotal(NEL) = (Kbulk*DIVU - alpha_r*UU)
+        sigTotal_Ant(NEL) = (Kbulk*DIVU_ANT - alpha_r*UUP)
+        dSig(NEL) = (sigTotal(NEL) - sigTotal_Ant(NEL))/DT
     
-        rateSigTotal(NEL) = (sigTotal(NEL)-sigTotal_Ant(NEL))/DT
-
+        SigSource(NEL) = -(UU/Z_UU)*(alpha_r/Kbulk)*dSig(NEL)
 !        write(*,*) "K = ", Kbulk, "alpha = ", alpha_r, "sigTotal = ", &
 !            & sigTotal(NEL), "E = ", celast(1); stop
 !        write(*,*) "sigvol = ", sigTotal(NEL)
@@ -823,7 +679,7 @@
       sigma = 'sigSource.'//idsStr
       OPEN(UNIT=idsx, FILE= sigma)
       
-      ! Posicao dos Elementos (Coord Retangulares apenas!!!) Diego.
+      ! Posicao dos Elementos (Coord Retangulares regulares apenas!!!) Diego.
       DO I=1,nelx
           DO J=1,nely
             N = I+(J-1)*(nelx)
@@ -837,16 +693,13 @@
           DO J=1,nely
             N = I+(J-1)*(nelx)
              !write(217,*) I, J, N
-		WRITE(idsx,210) N, Xe(1,N), Xe(2,N), rateSigTotal(N)
+		WRITE(idsx,210) N, Xe(1,N), Xe(2,N), sigSource(N), dSig(N), &
+            & sigTotal(N) 
           ENDDO
       ENDDO
-
-!      do N=1,NUMEL
-!	WRITE(idsx,210) N, Porosidade(N)
-!      enddo
       
- ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 1 floats 8.2 com espaco de 2 entre eles
- 210  FORMAT(4X,I5,10x,3(1PE15.8,2X))
+! 4 espaços, inteiro max 5 posicoes, 10 espacos, 5 floats 8.2 com espaco de 2 entre eles
+ 210  FORMAT(4X,I5,10x,5(1PE15.8,2X))
 
       close(idsx)
 
