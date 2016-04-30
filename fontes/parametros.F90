@@ -348,6 +348,7 @@
 
       do nel = 1,numel_bm
           K_absRnd(NEL) = constK_BM*(3.0d0-phi_n(nel))/(2.0d0*phi_n(nel));
+!          K_absRnd(NEL) = constK_BM!*(3.0d0-phi_n(nel))/(2.0d0*phi_n(nel));
       enddo
           
 !         write(*,*) "K_tmp = ", K_bm; stop

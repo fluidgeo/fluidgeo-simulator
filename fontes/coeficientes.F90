@@ -368,15 +368,21 @@
 
          REAL*8 :: Z, gas_pInicial, gas_pFinal, gasRecuperavel, volBlocoMacro;
          REAL*8 :: pInicial, pFinal;
+         integer :: nel
                  
          volBlocoMacro = tamBlocoMacro*widthBlocoMacro*dimZ_FB        
          
          pInicial = p_Ref;
          pFinal   = p_Poco;
          
-         call calcularZ_P(pInicial, Z);         
-         gas_pInicial   = pInicial /(Z*R_*T) * (sum(phi_n0)/numel_bm) * M_m * Sg      ! kg/m^3
-         
+         call calcularZ_P(pInicial, Z);
+         !gas_pInicial = 0.0d0
+         !do nel=1,numel_bm         
+         !gas_pInicial   = gas_pInicial + pInicial /(Z*R_*T) * phi_n0(nel) * M_m * Sg      ! kg/m^3
+         !enddo
+         gas_pInicial   = pInicial /(Z*R_*T) * sum(phi_n0)/numel_bm * M_m * Sg      ! kg/m^3
+         !write(*,*) "gas inicial", gas_pInicial, Sg; stop
+
          call calcularZ_P(pFinal, Z);
          gas_pFinal     = pFinal/(Z*R_*T) * (sum(phi_n0)/numel_bm) * M_m * Sg         ! kg/m^3
           

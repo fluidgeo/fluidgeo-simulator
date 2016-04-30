@@ -506,7 +506,7 @@
       use mGlobaisArranjos,  only : phi_n, phi_n0, coupling_mode, trEps, trEpsTmpAnt, celast
       use mLeituraEscrita,   only : PRINTDISP, fieldSigma_BM, PRINTPORO, PRINTDISP_T
 !
-      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro, printStressPoro, printsigvol2!, CHECKEQ!, calcStressPoro2
+      use mElasticidade,        only: montarSistEqAlgElasticidade, calcStressPoro, printStressPoro, printsigvol, printsigvol2!, CHECKEQ!, calcStressPoro2
       use mElasticidade,        only: deslocamento, fDeslocamento, neqD, nalhsD
       use mElasticidade,        only: alhsD=>alhs, brhsD=>brhs
       use mElasticidade,        only: idDeslocamento, idiagD, lmD
