@@ -580,7 +580,7 @@
       
       REAL*8 :: disp(2,*), dispAnt(2,*), pressao(1,*), pressaoAnt(1,*), X(2,*), Xe(2,NUMEL)
       REAL*8  :: sigTotal(numel), sigTotal_Ant(numel), Kbulk, alpha_r,DT
-      REAL*8  :: sigSource(numel), dSig(numel)
+      REAL*8  :: sigSource(numel), dSig(numel), pTerm(numel)
       INTEGER  NUMEL, N, idx, idsx, idtx, nelx, nely, I, J, N2, L, NEL
       CHARACTER*30  idsStr, sigma, tau
       logical :: fileCheck
@@ -601,6 +601,7 @@
       sigTotal = 0.0d0
       sigTotal_Ant = 0.0d0
       sigSource = 0.0d0
+      dSig = 0.0d0
 
       lambda = (celast(1)*celast(2))/((1.0+celast(2))*(1.0-2.0*celast(2)))
       mu = (celast(1))/(2.0*(1.0+celast(2)))
@@ -624,6 +625,7 @@
       call local(conecNodaisElem_BM(1,nel),disp,displ,nen_bm,2*ndof,2*ndof)
       call local(conecNodaisElem_BM(1,nel),dispAnt,dispAntl,nen_bm,2*ndof,2*ndof)
       call local(conecNodaisElem_BM(1,nel),pressao,pl,nen_bm,ndof,ndof)
+      call local(conecNodaisElem_BM(1,nel),pressaoAnt,ppl,nen_bm,ndof,ndof)
       !stop 
 ! 
          shg  = 0.0
@@ -640,8 +642,10 @@
          DIVU=0.d0
          DIVU_ANT=0.d0
          UU = 0.0d0
+         UUP = 0.0d0
          DO J=1,NEN_BM
             UU   = UU   +SHG(3,J,L)*PL(1,J)  
+            UUP  = UUP  +SHG(3,J,L)*PPL(1,J)  
             DIVU=DIVU+SHG(1,J,L)*DISPL(1,J)+SHG(2,J,L)*DISPL(2,J)
             DIVU_ANT=DIVU_ANT+SHG(1,J,L)*DISPANTL(1,J)+SHG(2,J,L)*DISPANTL(2,J)
          ENDDO
@@ -651,9 +655,10 @@
         CALL calcularZ_P(UU, Z_UU)         
         sigTotal(NEL) = (Kbulk*DIVU - alpha_r*UU)
         sigTotal_Ant(NEL) = (Kbulk*DIVU_ANT - alpha_r*UUP)
-        dSig(NEL) = (sigTotal(NEL) - sigTotal_Ant(NEL))/DT
+        dSig(NEL) = (alpha_r/Kbulk)*(sigTotal(NEL) - sigTotal_Ant(NEL))/DT
     
-        SigSource(NEL) = -(UU/Z_UU)*(alpha_r/Kbulk)*dSig(NEL)
+        sigSource(NEL) = -(UU/Z_UU)*dSig(NEL)
+        pTerm(NEL) = (UU/Z_UU)
 !        write(*,*) "K = ", Kbulk, "alpha = ", alpha_r, "sigTotal = ", &
 !            & sigTotal(NEL), "E = ", celast(1); stop
 !        write(*,*) "sigvol = ", sigTotal(NEL)
@@ -694,12 +699,12 @@
             N = I+(J-1)*(nelx)
              !write(217,*) I, J, N
 		WRITE(idsx,210) N, Xe(1,N), Xe(2,N), sigSource(N), dSig(N), &
-            & sigTotal(N) 
+            & sigTotal(N), pTerm(N)
           ENDDO
       ENDDO
       
 ! 4 espaços, inteiro max 5 posicoes, 10 espacos, 5 floats 8.2 com espaco de 2 entre eles
- 210  FORMAT(4X,I5,10x,5(1PE15.8,2X))
+ 210  FORMAT(4X,I5,10x,6(1PE15.8,2X))
 
       close(idsx)
 

@@ -301,11 +301,11 @@
       phi_n0 = (phi_n0*(phi_range(2)-phi_range(1))) + phi_range(1)
 !      write(73,*) phi_n0; stop
       if (phi_range(2) .ne. phi_range(1)) then
-      do j = 1,nely_bm
-        N = 1 + (J-1)*(nelx_bm)
-        phi_n0(N) = 0.10
-      enddo
-      endif
+
+!      do j = 1,nely_bm
+!        N = 1 + (J-1)*(nelx_bm)
+!        phi_n0(N) = 0.10
+!      enddo
 
       rndlvl = 10   ! Número de médias na porosidade aleatória
       do k=1,rndlvl
@@ -340,6 +340,7 @@
         enddo
       enddo
       enddo
+      endif
 
       phi_n0_Num = phi_range(1)
       phi_n = phi_n0

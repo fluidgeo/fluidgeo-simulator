@@ -399,7 +399,7 @@
         use mInputReader,      only: findKeyword, file_lines
         use mParametros,       only: p_reservatorio, p_poco, tamBlocoMacro, widthBlocoMacro
         use mParametros,       only: constK_BM, k_s, Kbulk, T, VL, PL
-        use mGlobaisArranjos,  only: reservoir_case, phi_range, coupling_mode, reservoir_depth
+        use mGlobaisArranjos,  only: reservoir_case, phi_range, coupling_mode, reservoir_depth!, fluid_kind
         use mGlobaisEscalares, only: random_porosity
         
 
@@ -414,7 +414,7 @@
         call readStringKeywordValue(keyword_name, reservoir_case, default_input_value)
 !         write(*,*) reservoir_case
 
-!       Reads the reservoir basis
+!       Reads the reservoir depth
         keyword_name = "reservoir_depth"
         default_input_value = "Default"
         call readStringKeywordValue(keyword_name, reservoir_depth, default_input_value)
@@ -548,7 +548,7 @@
       real*8  :: biotM, Ku, mu, Kfluid, omega_T, p0
       
       onlydisp = .false.
-      flagTerzaghi = .false.
+      flagTerzaghi = .true.
       
       call printporo(phi_n0,X_BM,numel_bm,nelx_bm,nely_bm, 0)
      
@@ -585,8 +585,8 @@
       biotM = 1.0d0/(((alpha_r-0.25d0)/k_s) + 0.25d0/Kfluid)
       Ku = Kbulk + (alpha_r**2.0d0)*biotM
       omega_T = 1.0d0
-      p0 = (alpha_r*biotM*omega_T)/(Ku + 4.0/3.0*mu)
-      !p0 = 1.0d0
+      !p0 = (alpha_r*biotM*omega_T)/(Ku + 4.0/3.0*mu)
+      p0 = 1.0d0
       CALL     colocarCondInicial(solucao_BM, NDOF_BM, NUMNP_BM,  p0);  ! solucao_BM = 1.0d0
       else
       CALL     colocarCondInicial(solucao_BM, NDOF_BM, NUMNP_BM,  1*p_Ref);  ! solucao_BM = 1.0d0
@@ -724,7 +724,6 @@
       use mMalha,            only : NUMNP_BM, X_BM, NUMEL_BM
       use mAlgMatricial,     only : FTOD, FACTNS, BACKNS, BTOD, LOAD
       use mBlocoMacro,       only : montarSistema_BM, montarSistema_T
-      !use mArranjosGlobais,  only : trEps, trEpsTmpAnt 
 
       implicit none
 
@@ -802,7 +801,9 @@
      &                     flagConvergencia, NUSTEP)
           relax_BM = 0.5
           solucaoNaoLinearAnt_BM = solucao_BM*relax_BM + solucaoNaoLinearAnt_BM*(1-relax_BM)
-          !stop
+!          else
+!          solucaoNaoLinearAnt_BM = solucao_BM          !stop
+!          endif
           if ((coupling_mode .eq. "oneway") .or. (coupling_mode .eq. "twoway"))  then
           !
           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CALCULO DA ELASTICIDADE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

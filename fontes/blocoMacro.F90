@@ -985,7 +985,7 @@
 
             ELRESF(NED*J)=ELRESF(NED*J)+DJN*R_UUP*UUP  &
 !                &        +djn*rho_sc*rho_r*VL*PL/((PL+UU)**2.0d0)*UUP  &
-	&		+ beta_r*djn*M_m*(UU/Z_UU)*UUP/(R_*T)	! Diego, 1-way (set/2015) 
+	&		+ Sg*beta_r*djn*M_m*(UU/Z_UU)*UUP/(R_*T)	! Diego, 1-way (set/2015) 
          ENDDO        
 !
 !.... ELEMENT STIFFNESS
@@ -1006,7 +1006,7 @@
        &                            * (DIX*DJX+DIY*DJY) &
 !       &                            * (DIX*DJX+DIY*DJY)/constMu &
 !                &        +djn*rho_sc*rho_r*VL*PL/((PL+UU)**2.0d0)*din  &
-       &			    + beta_r*djn*M_m*(UU/Z_UU)*(DIN)/(R_*T)	! Diego, 1-way (set/2015)
+       &			    + Sg*beta_r*djn*M_m*(UU/Z_UU)*(DIN)/(R_*T)	! Diego, 1-way (set/2015)
        
 
        
@@ -1033,9 +1033,9 @@
         !write(*,*)  beta_r,djn,M_m,UU,Z_UU,UUP,R_*T    ! Diego, 2-way (dec/2015)
            
             ELRESF(ndof*J)=ELRESF(ndof*J)+DJN*R_UUP*UUP  &
-                  &+ beta_r*djn*M_m*(UU/Z_UU)*UUP/(R_*T) &
+                  &+ Sg*beta_r*djn*M_m*(UU/Z_UU)*UUP/(R_*T) &
 !                &        +djn*rho_sc*rho_r*VL*PL/((PL+UU)**2.0d0)*UUP  &
-       &+ alpha_r*djn*M_m*(UU/Z_UU)*((DIVU_ANT-(alpha_r/Kbulk)*UUP)-(DIVU-(alpha_r/Kbulk)*UU))/(R_*T)
+       &+ Sg*alpha_r*djn*M_m*(UU/Z_UU)*((DIVU_ANT-(alpha_r/Kbulk)*UUP)-(DIVU-(alpha_r/Kbulk)*UU))/(R_*T)
 ! 	&		+ ((alpha_r**2.0)/Kbulk)*djn*M_m*(UU/Z_UU)*(UU-UUP)/(R_*T)  
             !write(19,*) (trU(nel)-trUAnt(nel))
          ENDDO        
@@ -1058,7 +1058,7 @@
        &                            * (DIX*DJX+DIY*DJY) &
 !       &                            * (DIX*DJX+DIY*DJY)/constMu &
 !                &        +djn*rho_sc*rho_r*VL*PL/((PL+UU)**2.0d0)*din  &
-       &                            +beta_r*djn*M_m*(UU/Z_UU)*(DIN)/(R_*T)! &  ! Diego, 2-way (dec/2015)
+       &                            +Sg*beta_r*djn*M_m*(UU/Z_UU)*(DIN)/(R_*T)! &  ! Diego, 2-way (dec/2015)
 !       &                            + alpha_r*djn*M_m*(UU/Z_UU)*trU(nel)/(R_*T)
        
        !write(*,*)  "R_UU,DJN,DIN, constK_BM,DTEMPO,UU,M_m,R_,T,Z_UU,DIX,DJX,DIY,DJY,constMu "
@@ -1308,8 +1308,8 @@
        
               ELEFFM(NED*J,NED*I) = ELEFFM(NED*J,NED*I)                                  &
        &                            + DJN*DIN                                        &
-!       &                            + DTEMPO*const_a*(DIX*DJX+DIY*DJY)
-       &                            + DTEMPO*Cf*(DIX*DJX+DIY*DJY)
+       &                            + DTEMPO*const_a*(DIX*DJX+DIY*DJY)
+!       &                            + DTEMPO*Cf*(DIX*DJX+DIY*DJY)
        
 
        
